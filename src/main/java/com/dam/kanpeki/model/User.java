@@ -10,6 +10,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -46,6 +48,10 @@ public class User {
 	private static final long serialVersionUID = 5707420370591392505L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@Column(unique = true)
 	private String email;
 
 	private String password;
@@ -72,7 +78,7 @@ public class User {
 	private LocalDateTime lastPasswordChangeAt = LocalDateTime.now();
 
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "userId")
 	private Set<Result> results;
 
 //	@Override

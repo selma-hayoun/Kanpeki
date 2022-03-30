@@ -12,9 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Category implements Serializable {
 
@@ -26,25 +30,25 @@ public class Category implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(unique = true)
 	private String unitName;
-	
+
 	@Column(unique = true)
 	private String categoryName;
-	
+
 	private boolean isQuestion;
-	
+
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "word_id")
+	@JoinColumn(name = "categoryId")
 	private Set<Word> words;
-	
+
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "question_id")
+	@JoinColumn(name = "categoryId")
 	private Set<Question> questions;
-	
+
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "result_id")
+	@JoinColumn(name = "categoryId")
 	private Set<Result> results;
-	
+
 }

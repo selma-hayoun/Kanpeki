@@ -8,12 +8,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Word implements Serializable {
-	
+
 	/**
 	 * serialVersionUID
 	 */
@@ -22,19 +26,19 @@ public class Word implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(unique = true)
 	private String japanese;
-	
+
 	private String english;
-	
+
 	private String spanish;
-	
+
 	private String furigana;
-	
+
 	private String URLimage;
-	
-	//FK con categoría
-	private Long category_id;
+
+	// FK con categoría
+	private Long categoryId;
 
 }

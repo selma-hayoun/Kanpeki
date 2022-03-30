@@ -1,18 +1,26 @@
 package com.dam.kanpeki.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Question implements Serializable {
-	
+
 	/**
 	 * serialVersionUID
 	 */
@@ -21,12 +29,16 @@ public class Question implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String statement;
-	
-	private String help;//Furigana
-	
-	//FK con categoría
-	private Long category_id;
+
+	private String help;// Furigana
+
+	// FK con categoría
+	private Long categoryId;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "questionId")
+	private Set<Answer> answers;
 
 }
