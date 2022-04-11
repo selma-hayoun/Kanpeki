@@ -25,7 +25,7 @@ public class Result implements Serializable {
 	@EmbeddedId
 	private ResultId id;
 
-	private double result;
+	private double score;
 
 	// FK con categoría
 	private Long categoryId;
