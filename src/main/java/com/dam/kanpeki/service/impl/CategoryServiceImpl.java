@@ -1,4 +1,4 @@
-package com.dam.kanpeki.service;
+package com.dam.kanpeki.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.dam.kanpeki.model.Category;
 import com.dam.kanpeki.repository.CategoryRepository;
+import com.dam.kanpeki.service.CategoryServiceI;
 
 @Service
 public class CategoryServiceImpl implements CategoryServiceI {

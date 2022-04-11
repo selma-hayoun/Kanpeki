@@ -1,4 +1,4 @@
-package com.dam.kanpeki.service;
+package com.dam.kanpeki.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.dam.kanpeki.model.Word;
 import com.dam.kanpeki.repository.WordRepository;
+import com.dam.kanpeki.service.WordServiceI;
 
 @Service
 public class WordServiceImpl implements WordServiceI {

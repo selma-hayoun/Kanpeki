@@ -40,50 +40,50 @@ INSERT INTO questions(id, statement, help, category_id) VALUES(9, '_______ 、�
 
 /*Table answers*/
 /*Question 1*/
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(1, 'ゆうべ', '', 0, 1);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(2, 'きのう', '', 0, 1);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(3, 'あした', '', 1, 1);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(4, 'おととい', '', 0, 1);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(1, 'ゆうべ', '', 0, 1);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(2, 'きのう', '', 0, 1);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(3, 'あした', '', 1, 1);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(4, 'おととい', '', 0, 1);
 /*Question 2*/
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(5, 'うれしい', '', 0, 2);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(6, 'いそがしい', '', 1, 2);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(7, 'むずかしい', '', 0, 2);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(8, 'やさしい', '', 0, 2);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(5, 'うれしい', '', 0, 2);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(6, 'いそがしい', '', 1, 2);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(7, 'むずかしい', '', 0, 2);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(8, 'やさしい', '', 0, 2);
 /*Question 3*/
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(9, 'ゆうべ', '', 0, 3);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(10, 'きのう', '', 0, 3);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(11, 'あした', '', 1, 3);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(12, 'おととい', '', 0, 3);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(9, 'ゆうべ', '', 0, 3);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(10, 'きのう', '', 0, 3);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(11, 'あした', '', 1, 3);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(12, 'おととい', '', 0, 3);
 /*Question 4*/
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(13, 'ゆうべ', '', 0, 4);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(14, 'きのう', '', 0, 4);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(15, 'あした', '', 1, 4);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(16, 'おととい', '', 0, 4);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(13, 'ゆうべ', '', 0, 4);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(14, 'きのう', '', 0, 4);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(15, 'あした', '', 1, 4);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(16, 'おととい', '', 0, 4);
 /*Question 5*/
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(17, 'うれしい', '', 0,  5);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(18, 'いそがしい', '', 1, 5);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(19, 'むずかしい', '', 0, 5);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(20, 'やさしい', '', 0, 5);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(17, 'うれしい', '', 0,  5);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(18, 'いそがしい', '', 1, 5);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(19, 'むずかしい', '', 0, 5);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(20, 'やさしい', '', 0, 5);
 /*Question 6*/
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(21, 'ゆうべ', '', 0, 6);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(22, 'きのう', '', 0, 6);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(23, 'あした', '', 1, 6);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(24, 'おととい', '', 0, 6);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(21, 'ゆうべ', '', 0, 6);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(22, 'きのう', '', 0, 6);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(23, 'あした', '', 1, 6);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(24, 'おととい', '', 0, 6);
 /*Question 7*/
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(25, 'ゆうべ', '', 0, 7);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(26, 'きのう', '', 0, 7);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(27, 'あした', '', 1, 7);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(28, 'おととい', '', 0, 7);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(25, 'ゆうべ', '', 0, 7);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(26, 'きのう', '', 0, 7);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(27, 'あした', '', 1, 7);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(28, 'おととい', '', 0, 7);
 /*Question 8*/
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(29, 'ゆうべ', '', 0, 8);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(30, 'きのう', '', 0, 8);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(31, 'あした', '', 1, 8);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(32, 'おととい', '', 0, 8);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(29, 'ゆうべ', '', 0, 8);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(30, 'きのう', '', 0, 8);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(31, 'あした', '', 1, 8);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(32, 'おととい', '', 0, 8);
 /*Question 9*/
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(33, 'ゆうべ', '', 0, 9);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(34, 'きのう', '', 0, 9);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(35, 'あした', '', 1, 9);
-INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(36, 'おととい', '', 0, 9);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(33, 'ゆうべ', '', 0, 9);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(34, 'きのう', '', 0, 9);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(35, 'あした', '', 1, 9);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(36, 'おととい', '', 0, 9);
 
 /*Table Users*/
 INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(1, '', '2022-04-01', 'Kyoto', '2022-04-01', 'selma.hayoun.caballero@gmail.com', 'admin', '2022-04-01', 'admin', 'admin');
