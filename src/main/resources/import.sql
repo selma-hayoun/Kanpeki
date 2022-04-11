@@ -8,22 +8,22 @@ INSERT INTO categories(id, unit_name, category_name, is_question) VALUES(6, 'Les
 INSERT INTO categories(id, unit_name, category_name, is_question) VALUES(7, 'Lesson 3', 'Grammar', 1);
 
 /*Table words*/
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(1, '母', 'はは', 'mom', 'mamá', '', 1);
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(2, '母1', 'はは', 'mom', 'mamá', '', 1);
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(3, '母2', 'はは', 'mom', 'mamá', '', 1);
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(4, '母3', 'はは', 'mom', 'mamá', '', 1);
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(5, '母4', 'はは', 'mom', 'mamá', '', 1);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(1, '母', 'はは', 'mom', 'mamá', '', 1);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(2, '母1', 'はは', 'mom', 'mamá', '', 1);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(3, '母2', 'はは', 'mom', 'mamá', '', 1);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(4, '母3', 'はは', 'mom', 'mamá', '', 1);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(5, '母4', 'はは', 'mom', 'mamá', '', 1);
 
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(6, '犬', 'いぬ', 'dog', 'perro', '', 3);
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(7, '犬1', 'いぬ', 'dog', 'perro', '', 3);
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(8, '犬2', 'いぬ', 'dog', 'perro', '', 3);
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(9, '犬3', 'いぬ', 'dog', 'perro', '', 3);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(6, '犬', 'いぬ', 'dog', 'perro', '', 3);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(7, '犬1', 'いぬ', 'dog', 'perro', '', 3);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(8, '犬2', 'いぬ', 'dog', 'perro', '', 3);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(9, '犬3', 'いぬ', 'dog', 'perro', '', 3);
 
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(10, 'にんじん', 'にんじん', 'carrot', 'zanahoria', '', 5);
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(11, 'にんじん1', 'にんじん', 'carrot', 'zanahoria', '', 5);
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(12, 'にんじん2', 'にんじん', 'carrot', 'zanahoria', '', 5);
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(13, 'にんじん3', 'にんじん', 'carrot', 'zanahoria', '', 5);
-INSERT INTO words(id, japanese, furigana, english, spanish, urlimage, category_id) VALUES(14, 'にんじん4', 'にんじん', 'carrot', 'zanahoria', '', 5);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(10, 'にんじん', 'にんじん', 'carrot', 'zanahoria', '', 5);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(11, 'にんじん1', 'にんじん', 'carrot', 'zanahoria', '', 5);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(12, 'にんじん2', 'にんじん', 'carrot', 'zanahoria', '', 5);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(13, 'にんじん3', 'にんじん', 'carrot', 'zanahoria', '', 5);
+INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(14, 'にんじん4', 'にんじん', 'carrot', 'zanahoria', '', 5);
 
 /*Table Question*/
 INSERT INTO questions(id, statement, help, category_id) VALUES(1, '_______ 、えいがをみにいきませんか？', '', 2);
@@ -86,11 +86,11 @@ INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(35, '�
 INSERT INTO answers(id, answer, furigana, is_correct, question_id) VALUES(36, 'おととい', '', 0, 9);
 
 /*Table Users*/
-INSERT INTO users(id, urlimage, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(1, '', '2022-04-01', 'Kyoto', '2022-04-01', 'selma.hayoun.caballero@gmail.com', 'admin', '2022-04-01', 'admin', 'admin');
+INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(1, '', '2022-04-01', 'Kyoto', '2022-04-01', 'selma.hayoun.caballero@gmail.com', 'admin', '2022-04-01', 'admin', 'admin');
 
-INSERT INTO users(id, urlimage, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(2, '', '1989-12-31', 'Córdoba', '2022-04-01', 'aaaaa@gmail.com', 'Marisol Ruiz Cabrales', '2022-04-01', 'KanjiAditc', 'rucam');
-INSERT INTO users(id, urlimage, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(3, '', '1990-10-28', 'Madrid', '2022-04-01', 'bbbbb@gmail.com', 'Lucas Martinez Cuenca', '2022-04-01', 'Sakura', 'macul');
-INSERT INTO users(id, urlimage, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(4, '', '2001-05-01', 'Salamanca', '2022-04-01', 'ccccc@gmail.com', 'Paloma De la Mata Lunero', '2022-04-01', 'Hokkaido', 'delup');
+INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(2, '', '1989-12-31', 'Córdoba', '2022-04-01', 'aaaaa@gmail.com', 'Marisol Ruiz Cabrales', '2022-04-01', 'KanjiAditc', 'rucam');
+INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(3, '', '1990-10-28', 'Madrid', '2022-04-01', 'bbbbb@gmail.com', 'Lucas Martinez Cuenca', '2022-04-01', 'Sakura', 'macul');
+INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(4, '', '2001-05-01', 'Salamanca', '2022-04-01', 'ccccc@gmail.com', 'Paloma De la Mata Lunero', '2022-04-01', 'Hokkaido', 'delup');
 
 /*Table User_roles*/
 INSERT INTO user_roles(user_id, roles) VALUES(1, 'ADMIN');

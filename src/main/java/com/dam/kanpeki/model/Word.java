@@ -38,7 +38,7 @@ public class Word implements Serializable {
 
 	private String furigana;
 
-	private String URLimage;
+	private String urlImage;
 
 	// FK con categoría
 	private Long categoryId;

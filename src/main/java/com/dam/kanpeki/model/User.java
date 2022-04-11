@@ -61,7 +61,7 @@ public class User implements Serializable {
 	@Column(unique = true)
 	private String nickname;
 
-	private String URLimage;
+	private String urlImage;
 
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
