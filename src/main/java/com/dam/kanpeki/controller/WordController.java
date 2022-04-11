@@ -134,7 +134,7 @@ public class WordController {
 		}
 	}
 
-	@ApiOperation(value = "searchWords", notes = "Search words by string contained")
+	@ApiOperation(value = "searchWords", notes = "Search words by string")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = Word.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
@@ -145,7 +145,7 @@ public class WordController {
 		List<Word> wList = wService.findWordsByMatcher(wString);
 
 		if (wList != null && wList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No words registered in that category");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No words contain the string");
 		} else {
 			return ResponseEntity.ok(wList);
 		}

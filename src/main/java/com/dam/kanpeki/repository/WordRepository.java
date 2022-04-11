@@ -10,12 +10,6 @@ import com.dam.kanpeki.model.Word;
 @Repository
 public interface WordRepository extends JpaRepository<Word, Long> {
 
-	List<Word> findByJapaneseContaining(String jWord);
-
-	List<Word> findByEnglishContaining(String eWord);
-
-	List<Word> findBySpanishContaining(String sWord);
-
 	List<Word> findByCategoryId(Long id);
 
 }

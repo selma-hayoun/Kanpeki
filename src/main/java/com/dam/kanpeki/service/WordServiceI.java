@@ -9,12 +9,6 @@ public interface WordServiceI {
 
 	public List<Word> findAllWords();
 
-	public List<Word> findByJapaneseContaining(String jWord);
-
-	public List<Word> findByEnglishContaining(String eWord);
-
-	public List<Word> findBySpanishContaining(String sWord);
-
 	public List<Word> findWordsByMatcher(String wField);
 
 	public List<Word> findByCategoryId(Long id);

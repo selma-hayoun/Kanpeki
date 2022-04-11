@@ -23,21 +23,6 @@ public class WordServiceImpl implements WordServiceI {
 	}
 
 	@Override
-	public List<Word> findByJapaneseContaining(String jWord) {
-		return wRepo.findByJapaneseContaining(jWord);
-	}
-
-	@Override
-	public List<Word> findByEnglishContaining(String eWord) {
-		return wRepo.findByEnglishContaining(eWord);
-	}
-
-	@Override
-	public List<Word> findBySpanishContaining(String sWord) {
-		return wRepo.findBySpanishContaining(sWord);
-	}
-
-	@Override
 	public List<Word> findWordsByMatcher(String wField) {
 		Word w = new Word();
 		w.setJapanese(wField);
