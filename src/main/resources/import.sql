@@ -89,8 +89,8 @@ INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(36, 
 INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(1, '', '2022-04-01', 'Kyoto', '2022-04-01', 'selma.hayoun.caballero@gmail.com', 'admin', '2022-04-01', 'admin', 'admin');
 
 INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(2, '', '1989-12-31', 'Córdoba', '2000-01-01', 'aaaaa@gmail.com', 'Marisol Ruiz Cabrales', '2022-04-01', 'KanjiAditc', 'rucam');
-INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(3, '', '1990-10-28', 'Madrid', '2022-04-01', 'bbbbb@gmail.com', 'Lucas Martinez Cuenca', '2022-04-01', 'Sakura', 'macul');
-INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(4, '', '2001-05-01', 'Salamanca', '2022-04-01', 'ccccc@gmail.com', 'Paloma De la Mata Lunero', '2022-04-01', 'Hokkaido', 'delup');
+INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(3, '', '1990-10-28', 'Madrid', '2020-04-01', 'bbbbb@gmail.com', 'Lucas Martinez Cuenca', '2022-04-01', 'Sakura', 'macul');
+INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(4, '', '2001-05-01', 'Salamanca', '2020-04-01', 'ccccc@gmail.com', 'Paloma De la Mata Lunero', '2022-04-01', 'Hokkaido', 'delup');
 
 /*Table User_roles*/
 INSERT INTO user_roles(user_id, roles) VALUES(1, 'ADMIN');
@@ -98,5 +98,41 @@ INSERT INTO user_roles(user_id, roles) VALUES(1, 'USER');
 INSERT INTO user_roles(user_id, roles) VALUES(2, 'USER');
 INSERT INTO user_roles(user_id, roles) VALUES(3, 'USER');
 INSERT INTO user_roles(user_id, roles) VALUES(4, 'USER');
+
+/*Table results*/
+/*User 2*/
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-10T15:00:00', 2, 2, 5);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-10T17:00:00', 2, 4, 7);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-12T00:00:00', 2, 6, 8);
+
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-10', 2, 2, 8);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-11', 2, 4, 5);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-12', 2, 6, 6);
+
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-10', 2, 2, 10);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-11', 2, 4, 5);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-12', 2, 6, 5);
+/*User 3*/
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-10', 3, 2, 3);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-11', 3, 4, 2);
+
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-10', 3, 6, 5);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-12', 3, 2, 6);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-13', 3, 4, 6);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-16', 3, 6, 7);
+
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-15', 3, 4, 8);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-16', 3, 6, 8);
+/*User 4*/
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-15', 4, 2, 10);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-16', 4, 4, 9);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-18', 4, 6, 8);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-19', 4, 2, 10);
+
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-10', 4, 4, 1);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-12', 4, 6, 2);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-15', 4, 2, 4);
+
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-15', 4, 6, 10);
 
 
