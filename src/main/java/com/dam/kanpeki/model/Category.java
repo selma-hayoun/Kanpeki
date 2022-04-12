@@ -37,7 +37,7 @@ public class Category implements Serializable {
 
 	private String categoryName;
 
-	private boolean isQuestion;
+	private Boolean isQuestion;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "categoryId")

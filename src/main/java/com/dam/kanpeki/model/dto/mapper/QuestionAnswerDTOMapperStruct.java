@@ -12,7 +12,7 @@ import com.dam.kanpeki.model.dto.CreateQuestionDTO;
 import com.dam.kanpeki.model.dto.GetQuestionDTO;
 
 @Mapper(componentModel = "spring")
-public interface DTOMapperStruct {
+public interface QuestionAnswerDTOMapperStruct {
 
 	List<GetQuestionDTO> toQuestionDTOList(Stream<Question> stream);
 

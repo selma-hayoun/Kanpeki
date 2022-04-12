@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.dam.kanpeki.model.Category;
+import com.dam.kanpeki.model.dto.CreateCategoryDTO;
+import com.dam.kanpeki.model.dto.GetCategoryDTO;
+import com.dam.kanpeki.model.dto.mapper.CategoryDTOMapperStruct;
 import com.dam.kanpeki.service.CategoryServiceI;
 
 import io.swagger.annotations.ApiOperation;
@@ -30,60 +33,64 @@ public class CategoryController {
 	@Autowired
 	private CategoryServiceI catService;
 
+	@Autowired
+	private CategoryDTOMapperStruct mapper;
+
 	@ApiOperation(value = "getCategories", notes = "Get all categories from our database")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = Category.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/category", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<Category>> getCategories() {
+	public ResponseEntity<List<GetCategoryDTO>> getCategories() {
 		List<Category> catList = catService.findAllCategories();
 
 		if (catList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No categories registered");
 		} else {
-			return ResponseEntity.ok(catList);
+			return ResponseEntity.ok(mapper.toCategoryDTOList(catList.stream()));
 		}
 	}
 
 	@ApiOperation(value = "getCategory", notes = "Get a category by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = Category.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/category/{id}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<Category> getCategory(
+	public ResponseEntity<GetCategoryDTO> getCategory(
 			@RequestParam(name = "id") @ApiParam(name = "id", value = "category id", example = "3") Long id) {
-		Optional<Category> opWord = catService.findById(id);
+		Optional<Category> opCat = catService.findById(id);
 
-		if (!opWord.isPresent()) {
+		if (!opCat.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found");
 		} else {
-			return ResponseEntity.ok(opWord.get());
+			return ResponseEntity.ok(mapper.toCategoryDTO(opCat.get()));
 		}
 	}
 
 	@ApiOperation(value = "addNewCategory", notes = "Create a new category")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = Category.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/category", produces = { "application/json" }, method = RequestMethod.POST)
-	public ResponseEntity<Category> addNewCategory(@Valid @RequestBody Category cat) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(catService.addWord(cat));
+	public ResponseEntity<GetCategoryDTO> addNewCategory(@Valid @RequestBody CreateCategoryDTO cat) {
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(mapper.toCategoryDTO(catService.addWord(mapper.createCategoryDTOtoCategory(cat))));
 	}
 
 	@ApiOperation(value = "deleteCategory", notes = "Delete a single category by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = Category.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/category/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
-	public ResponseEntity<Category> deleteCategory(
+	public ResponseEntity<GetCategoryDTO> deleteCategory(
 			@RequestParam(name = "id") @ApiParam(name = "id", value = "category id", example = "3") Long id) {
-		Optional<Category> opWord = catService.findById(id);
+		Optional<Category> opCat = catService.findById(id);
 
-		if (!opWord.isPresent()) {
+		if (!opCat.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found");
 		} else {
 			catService.removeCategoryById(id);
@@ -93,37 +100,41 @@ public class CategoryController {
 
 	@ApiOperation(value = "updateCategory", notes = "Update the data from an existing category")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = Category.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/category/{id}", produces = { "application/json" }, method = RequestMethod.PUT)
-	public ResponseEntity<Category> updateCategory(@Valid @RequestBody Category cat,
+	public ResponseEntity<GetCategoryDTO> updateCategory(@Valid @RequestBody GetCategoryDTO cat,
 			@RequestParam(name = "id") @ApiParam(name = "id", value = "category id", example = "3") Long id) {
 
-		return catService.findById(id).map(newCat -> {
-			newCat.setUnitName(cat.getUnitName());
-			newCat.setCategoryName(cat.getCategoryName());
-			newCat.setQuestion(cat.isQuestion());
+		Category mappedCat = mapper.getCategoryDTOtoCategory(cat);
+
+		Category mappedCatUpdated = catService.findById(id).map(newCat -> {
+			newCat.setUnitName(mappedCat.getUnitName());
+			newCat.setCategoryName(mappedCat.getCategoryName());
+			newCat.setIsQuestion(mappedCat.getIsQuestion());
 			catService.updateCategory(newCat);
-			return ResponseEntity.ok(newCat);
+			return newCat;
 		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "category not found"));
+
+		return ResponseEntity.ok(mapper.toCategoryDTO(mappedCatUpdated));
 
 	}
 
 	@ApiOperation(value = "searchCategories", notes = "Search categories by string")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = Category.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/category/{catString}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<Category>> searchCategories(
+	public ResponseEntity<List<GetCategoryDTO>> searchCategories(
 			@RequestParam(name = "catString") @ApiParam(name = "catString", value = "Unit name or Category name", example = "family") String catString) {
 		List<Category> catList = catService.findCategoriesByMatcher(catString);
 
 		if (catList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No categories contain the string");
 		} else {
-			return ResponseEntity.ok(catList);
+			return ResponseEntity.ok(mapper.toCategoryDTOList(catList.stream()));
 		}
 	}
 }

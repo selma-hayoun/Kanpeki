@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import com.dam.kanpeki.model.Question;
@@ -49,6 +51,19 @@ public class QuestionServiceImpl implements QuestionServiceI {
 	@Override
 	public void updateQuestion(Question q) {
 		qRepo.save(q);
+	}
+
+	@Override
+	public List<Question> findQuestionsByMatcher(String qField) {
+		Question q = new Question();
+		q.setStatement(qField);
+
+		ExampleMatcher customExMatcher = ExampleMatcher.matchingAny().withMatcher("statement",
+				ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+
+		Example<Question> qExample = Example.of(q, customExMatcher);
+
+		return qRepo.findAll(qExample);
 	}
 
 }

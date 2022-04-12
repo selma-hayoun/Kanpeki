@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.dam.kanpeki.model.Question;
 import com.dam.kanpeki.model.dto.CreateQuestionDTO;
 import com.dam.kanpeki.model.dto.GetQuestionDTO;
-import com.dam.kanpeki.model.dto.mapper.DTOMapperStruct;
+import com.dam.kanpeki.model.dto.mapper.QuestionAnswerDTOMapperStruct;
 import com.dam.kanpeki.service.QuestionServiceI;
 
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +35,7 @@ public class QuestionAnswerController {
 	private QuestionServiceI qService;
 
 	@Autowired
-	private DTOMapperStruct mapper;
+	private QuestionAnswerDTOMapperStruct mapper;
 
 	@ApiOperation(value = "getQuestions", notes = "Get all questions from our database")
 	@ApiResponses(value = {
@@ -163,7 +163,7 @@ public class QuestionAnswerController {
 	@RequestMapping(value = "/question/{qString}", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<GetQuestionDTO>> searchWords(
 			@RequestParam(name = "qString") @ApiParam(name = "qString", value = "statement", example = "私") String qString) {
-		List<Question> qList = qService.findByStatementContaining(qString);
+		List<Question> qList = qService.findQuestionsByMatcher(qString);
 
 		if (qList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No questions contain the string");
