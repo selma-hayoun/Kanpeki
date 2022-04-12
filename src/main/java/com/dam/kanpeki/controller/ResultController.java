@@ -165,7 +165,7 @@ public class ResultController {
 		}
 
 		if (rList == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Dates format are incorrect");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dates format are incorrect");
 		} else if (rList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
 					"No results between " + startDate + " and " + endDate);

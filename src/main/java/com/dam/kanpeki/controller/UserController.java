@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.dam.kanpeki.model.User;
+import com.dam.kanpeki.model.dto.CreateUserDTO;
+import com.dam.kanpeki.model.dto.GetUserDTO;
+import com.dam.kanpeki.model.dto.UpdateUserDTO;
+import com.dam.kanpeki.model.dto.mapper.UserDTOMapperStruct;
 import com.dam.kanpeki.service.UserServiceI;
 
 import io.swagger.annotations.ApiOperation;
@@ -34,61 +38,64 @@ public class UserController {
 	@Autowired
 	private UserServiceI uService;
 
+	@Autowired
+	private UserDTOMapperStruct mapper;
+
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
 	@ApiOperation(value = "getUsers", notes = "Get all users from our database")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = User.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/user", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<User>> getUsers() {
-//		List<User> uList = uService.findAllUsers();
+	public ResponseEntity<List<GetUserDTO>> getUsers() {
 		List<User> uList = uService.findUsersOrderByDate();
 
 		if (uList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users registered");
 		} else {
-			return ResponseEntity.ok(uList);
+			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}
 	}
 
 	@ApiOperation(value = "getUser", notes = "Get a user by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = User.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/user/{id}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<User> getUser(
+	public ResponseEntity<GetUserDTO> getUser(
 			@RequestParam(name = "id") @ApiParam(name = "id", value = "User id", example = "3") Long id) {
 		Optional<User> opWord = uService.findById(id);
 
 		if (!opWord.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
 		} else {
-			return ResponseEntity.ok(opWord.get());
+			return ResponseEntity.ok(mapper.toUserDTO(opWord.get()));
 		}
 	}
 
 	@ApiOperation(value = "addNewUser", notes = "Create a new user")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = User.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/user", produces = { "application/json" }, method = RequestMethod.POST)
-	public ResponseEntity<User> addNewUser(@Valid @RequestBody User u) {
+	public ResponseEntity<GetUserDTO> addNewUser(@Valid @RequestBody CreateUserDTO u) {
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u));
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(mapper.toUserDTO(uService.addUser(mapper.createUserDTOtoUser(u))));
 
 	}
 
 	@ApiOperation(value = "deleteUser", notes = "Delete a single user by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = User.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/user/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
-	public ResponseEntity<User> deleteUser(
+	public ResponseEntity<GetUserDTO> deleteUser(
 			@RequestParam(name = "id") @ApiParam(name = "id", value = "User id", example = "3") Long id) {
 		Optional<User> opWord = uService.findById(id);
 
@@ -102,53 +109,57 @@ public class UserController {
 
 	@ApiOperation(value = "updateUser", notes = "Update the data from an existing user")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = User.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/user/{id}", produces = { "application/json" }, method = RequestMethod.PUT)
-	public ResponseEntity<User> updateUser(@Valid @RequestBody User u,
+	public ResponseEntity<GetUserDTO> updateUser(@Valid @RequestBody UpdateUserDTO u,
 			@RequestParam(name = "id") @ApiParam(name = "id", value = "User id", example = "3") Long id) {
 
-		return uService.findById(id).map(newU -> {
+		User mappedU = mapper.updateUserDTOtoUser(u);
+
+		User mappedUUpdated = uService.findById(id).map(newU -> {
 			newU.setEmail(u.getEmail());
-			newU.setPassword(u.getPassword());
-			newU.setFullName(u.getFullName());
-			newU.setNickname(u.getNickname());
-			newU.setUrlImage(u.getUrlImage());
-			newU.setBirthday(u.getBirthday());
-			newU.setCity(u.getCity());
-			newU.setRoles(u.getRoles());
+			newU.setPassword(mappedU.getPassword());
+			newU.setFullName(mappedU.getFullName());
+			newU.setNickname(mappedU.getNickname());
+			newU.setUrlImage(mappedU.getUrlImage());
+			newU.setBirthday(mappedU.getBirthday());
+			newU.setCity(mappedU.getCity());
+			newU.setRoles(mappedU.getRoles());
 			uService.updateUser(newU);
-			return ResponseEntity.ok(newU);
+			return newU;
 		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+		return ResponseEntity.ok(mapper.toUserDTO(mappedUUpdated));
 
 	}
 
 	@ApiOperation(value = "searchUsers", notes = "Search users by string")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = User.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/user/{uString}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<User>> searchUsers(
+	public ResponseEntity<List<GetUserDTO>> searchUsers(
 			@RequestParam(name = "uString") @ApiParam(name = "uString", value = "email, full_name or nickname", example = "Alice") String uString) {
 		List<User> uList = uService.findUsersByMatcher(uString);
 
 		if (uList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users contain the string");
 		} else {
-			return ResponseEntity.ok(uList);
+			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}
 	}
 
 	@ApiOperation(value = "searchUsersByBirthdate", notes = "Search users by birthdate between dates")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = User.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/user/birthdate/{startDate}{endDate}", produces = {
 			"application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<User>> searchUsersByBirthdate(
+	public ResponseEntity<List<GetUserDTO>> searchUsersByBirthdate(
 			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2000-01-01") String startDate,
 			@RequestParam(name = "endDate") @ApiParam(name = "endDate", value = "to date", example = "2010-12-31") String endDate) {
 
@@ -161,22 +172,24 @@ public class UserController {
 			LOG.error(e.getMessage());
 		}
 
-		if (uList.isEmpty()) {
+		if (uList == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dates format are incorrect");
+		} else if (uList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
 					"No birthdays between " + startDate + " and " + endDate);
 		} else {
-			return ResponseEntity.ok(uList);
+			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}
 	}
 
 	@ApiOperation(value = "searchUsersByCreatedAtDate", notes = "Search users by creation date between dates")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = User.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/user/creation/{startDate}{endDate}", produces = {
 			"application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<User>> searchUsersByCreatedAtDate(
+	public ResponseEntity<List<GetUserDTO>> searchUsersByCreatedAtDate(
 			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2000-01-01") String startDate,
 			@RequestParam(name = "endDate") @ApiParam(name = "endDate", value = "to date", example = "2010-12-31") String endDate) {
 
@@ -189,11 +202,13 @@ public class UserController {
 			LOG.error(e.getMessage());
 		}
 
-		if (uList.isEmpty()) {
+		if (uList == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dates format are incorrect");
+		} else if (uList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
 					"No users created between " + startDate + " and " + endDate);
 		} else {
-			return ResponseEntity.ok(uList);
+			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}
 	}
 
