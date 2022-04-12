@@ -1,5 +1,6 @@
 package com.dam.kanpeki.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,10 +16,14 @@ public interface ResultRepository extends JpaRepository<Result, ResultId> {
 
 	List<Result> findByCategoryId(Long id);
 
-	List<Result> findByUserId(Long id);
+	@Query(value = "SELECT * FROM results r WHERE r.user_id = :userId", nativeQuery = true)
+	List<Result> findResultsUser(Long userId);
 
-	@Query(value = "SELECT new com.dam.kanpeki.model.custom.ResultPerCategoryData(r.category_id, COUNT(r.score), AVG(r.score)) "
-			+ "FROM results AS r GROUP BY r.category_id", nativeQuery = true)
+	@Query("SELECT new com.dam.kanpeki.model.custom.ResultPerCategoryData(r.categoryId, COUNT(r), AVG(r.score)) "
+			+ "FROM Result AS r GROUP BY r.categoryId")
 	List<ResultPerCategoryData> resultsPerCategory();
+
+	@Query(value = "SELECT * FROM results r WHERE r.result_date BETWEEN :startDate AND :endDate ORDER BY r.result_date DESC", nativeQuery = true)
+	List<Result> findResultsBetweenDates(Date startDate, Date endDate);
 
 }

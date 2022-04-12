@@ -1,5 +1,6 @@
 package com.dam.kanpeki.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,8 +55,18 @@ public class ResultServiceImpl implements ResultServiceI {
 	}
 
 	@Override
-	public List<Result> findByUserId(Long id) {
-		return rRepo.findByUserId(id);
+	public void removeResult(Result r) {
+		rRepo.delete(r);
+	}
+
+	@Override
+	public List<Result> findResultsBetweenDates(Date startDate, Date endDate) {
+		return rRepo.findResultsBetweenDates(startDate, endDate);
+	}
+
+	@Override
+	public List<Result> findResultsUser(Long userId) {
+		return rRepo.findResultsUser(userId);
 	}
 
 }

@@ -40,7 +40,7 @@ public class WordController {
 	public ResponseEntity<List<Word>> getWords() {
 		List<Word> wList = wService.findAllWords();
 
-		if (wList != null && wList.isEmpty()) {
+		if (wList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No words registered");
 		} else {
 			return ResponseEntity.ok(wList);
@@ -127,7 +127,7 @@ public class WordController {
 		List<Word> wList = wService.findByCategoryId(id);
 		Collections.shuffle(wList);
 
-		if (wList != null && wList.isEmpty()) {
+		if (wList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No words registered in that category");
 		} else {
 			return ResponseEntity.ok(wList);
@@ -144,7 +144,7 @@ public class WordController {
 			@RequestParam(name = "wString") @ApiParam(name = "wString", value = "japanese, english or spanish", example = "dog") String wString) {
 		List<Word> wList = wService.findWordsByMatcher(wString);
 
-		if (wList != null && wList.isEmpty()) {
+		if (wList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No words contain the string");
 		} else {
 			return ResponseEntity.ok(wList);

@@ -39,7 +39,7 @@ public class CategoryController {
 	public ResponseEntity<List<Category>> getCategories() {
 		List<Category> catList = catService.findAllCategories();
 
-		if (catList != null && catList.isEmpty()) {
+		if (catList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No categories registered");
 		} else {
 			return ResponseEntity.ok(catList);
@@ -120,7 +120,7 @@ public class CategoryController {
 			@RequestParam(name = "catString") @ApiParam(name = "catString", value = "Unit name or Category name", example = "family") String catString) {
 		List<Category> catList = catService.findCategoriesByMatcher(catString);
 
-		if (catList != null && catList.isEmpty()) {
+		if (catList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No categories contain the string");
 		} else {
 			return ResponseEntity.ok(catList);

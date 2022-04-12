@@ -18,7 +18,7 @@ public class ResultPerCategoryData implements Serializable {
 
 	private Long categoryId;
 
-	private double numResults;
+	private Long numResults;
 
 	private double avgResults;
 

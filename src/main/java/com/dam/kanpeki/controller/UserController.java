@@ -46,7 +46,7 @@ public class UserController {
 //		List<User> uList = uService.findAllUsers();
 		List<User> uList = uService.findUsersOrderByDate();
 
-		if (uList != null && uList.isEmpty()) {
+		if (uList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users registered");
 		} else {
 			return ResponseEntity.ok(uList);
@@ -134,7 +134,7 @@ public class UserController {
 			@RequestParam(name = "uString") @ApiParam(name = "uString", value = "email, full_name or nickname", example = "Alice") String uString) {
 		List<User> uList = uService.findUsersByMatcher(uString);
 
-		if (uList != null && uList.isEmpty()) {
+		if (uList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users contain the string");
 		} else {
 			return ResponseEntity.ok(uList);
@@ -146,7 +146,8 @@ public class UserController {
 			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = User.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/user/{startDate}{endDate}", produces = { "application/json" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/user/birthdate/{startDate}{endDate}", produces = {
+			"application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<User>> searchUsersByBirthdate(
 			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2000-01-01") String startDate,
 			@RequestParam(name = "endDate") @ApiParam(name = "endDate", value = "to date", example = "2010-12-31") String endDate) {
@@ -160,8 +161,9 @@ public class UserController {
 			LOG.error(e.getMessage());
 		}
 
-		if (uList != null && uList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users contain the string");
+		if (uList.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+					"No birthdays between " + startDate + " and " + endDate);
 		} else {
 			return ResponseEntity.ok(uList);
 		}
@@ -187,8 +189,9 @@ public class UserController {
 			LOG.error(e.getMessage());
 		}
 
-		if (uList != null && uList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users contain the string");
+		if (uList.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+					"No users created between " + startDate + " and " + endDate);
 		} else {
 			return ResponseEntity.ok(uList);
 		}

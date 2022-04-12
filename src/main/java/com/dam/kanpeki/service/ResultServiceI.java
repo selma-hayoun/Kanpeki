@@ -1,5 +1,6 @@
 package com.dam.kanpeki.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,15 +14,19 @@ public interface ResultServiceI {
 
 	public List<Result> findByCategoryId(Long id);
 
+	public List<Result> findResultsUser(Long userId);
+
 	public List<ResultPerCategoryData> resultsPerCategory();
 
 	public Optional<Result> findById(ResultId id);
 
-	public List<Result> findByUserId(Long id);
+	public List<Result> findResultsBetweenDates(Date startDate, Date endDate);
 
 	public Result addResult(Result r);
 
 	public void removeResultById(ResultId id);
+
+	public void removeResult(Result r);
 
 	public void updateResult(Result r);
 

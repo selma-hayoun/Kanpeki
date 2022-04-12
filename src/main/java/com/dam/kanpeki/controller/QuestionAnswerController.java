@@ -40,7 +40,7 @@ public class QuestionAnswerController {
 	public ResponseEntity<List<Question>> getQuestions() {
 		List<Question> qList = qService.findAllQuestions();
 
-		if (qList != null && qList.isEmpty()) {
+		if (qList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No questions registered");
 		} else {
 			return ResponseEntity.ok(qList);
@@ -126,7 +126,7 @@ public class QuestionAnswerController {
 		List<Question> qList = qService.findByCategoryId(id);
 		Collections.shuffle(qList);
 
-		if (qList != null && qList.isEmpty()) {
+		if (qList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No questions registered in that category");
 		} else {
 			return ResponseEntity.ok(qList);
@@ -143,7 +143,7 @@ public class QuestionAnswerController {
 			@RequestParam(name = "qString") @ApiParam(name = "qString", value = "statement", example = "私") String qString) {
 		List<Question> qList = qService.findByStatementContaining(qString);
 
-		if (qList != null && qList.isEmpty()) {
+		if (qList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No questions contain the string");
 		} else {
 			return ResponseEntity.ok(qList);
