@@ -26,7 +26,7 @@ public class FilesController {
 
 	private final FileSystemStorageServiceI storageService;
 
-	@GetMapping(value = "/files/{filename:.+}")
+	@GetMapping(value = "kanpeki/files/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@PathVariable String filename, HttpServletRequest request) {
 		Resource file = storageService.loadAsResource(filename);

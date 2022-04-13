@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("categories")
+@RequestMapping("kanpeki/categories")
 public class CategoryController {
 
 	@Autowired

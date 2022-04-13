@@ -36,7 +36,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 
 @RestController
-@RequestMapping("words")
+@RequestMapping("kanpeki/words")
 public class WordController {
 
 	@Autowired

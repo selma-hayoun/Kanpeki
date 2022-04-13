@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("results")
+@RequestMapping("kanpeki/results")
 public class ResultController {
 
 	@Autowired

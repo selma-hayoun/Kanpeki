@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("questions")
+@RequestMapping("kanpeki/questions")
 public class QuestionAnswerController {
 
 	@Autowired
