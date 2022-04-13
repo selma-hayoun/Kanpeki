@@ -2,6 +2,10 @@ package com.dam.kanpeki.model.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,10 +19,15 @@ public class RequestCategoryDTO implements Serializable {
 	*/
 	private static final long serialVersionUID = 6554241705298199254L;
 
+	@NotBlank(message = "UnitName may not be null or empty")
+	@Size(max = 40, message = "UnitName must be less than 40 characters long")
 	private String unitName;
 
+	@NotBlank(message = "CategoryName may not be null or empty")
+	@Size(max = 40, message = "CategoryName must be less than 40 characters long")
 	private String categoryName;
 
+	@NotNull(message = "IsQuestion may not be null")
 	private Boolean isQuestion;
 
 }

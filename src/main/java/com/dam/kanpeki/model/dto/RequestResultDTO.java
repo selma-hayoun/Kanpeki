@@ -2,6 +2,9 @@ package com.dam.kanpeki.model.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +20,8 @@ public class RequestResultDTO implements Serializable {
 
 	private Long userId;
 
+	@Min(0)
+	@Max(10)
 	private double score;
 
 	private Long categoryId;
