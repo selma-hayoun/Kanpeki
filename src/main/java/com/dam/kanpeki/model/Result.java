@@ -31,23 +31,3 @@ public class Result implements Serializable {
 	private Long categoryId;
 
 }
-
-////Composite ID
-//@Embeddable
-//public class ResultId implements Serializable {
-//
-//	/**
-//	 * serialVersionUID
-//	 */
-//	private static final long serialVersionUID = -1843659334823963068L;
-//
-//	// FK con User
-//	protected Long userId;
-//
-////	@CreatedDate
-////	private LocalDateTime createdAt;//dateResult
-//
-//	@Temporal(TemporalType.TIMESTAMP)
-//	private Date resultDate;
-//
-//}

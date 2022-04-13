@@ -43,6 +43,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 @RequestMapping("kanpeki/users")
 public class UserController {
 
+	private static final String SERVE_FILE = "serveFile";
+
+	private static final String DATE_FORMAT = "yyyy-MM-dd";
+
 	@Autowired
 	private UserServiceI uService;
 
@@ -99,19 +103,15 @@ public class UserController {
 
 		String urlImg = "";
 
-		if (file != null) {
+		if (file != null && !file.isEmpty()) {
 			// Almacenamos el fichero y obtenemos su URL
-
-			if (!file.isEmpty()) {
-				String img = storeService.store(file);
-				urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, "serveFile", img, null).build()
-						.toUriString();
-			}
-			// Seteamos la URL donde está almacenada
-//			u.setUrlImage(urlImg);
+			String img = storeService.store(file);
+			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
+					.toUriString();
 		}
 
 		User uTemp = mapper.requestUserDTOtoUser(u);
+		// Seteamos la URL donde está almacenada
 		uTemp.setUrlImage(urlImg);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toUserDTO(uService.addUser(uTemp)));
@@ -131,19 +131,15 @@ public class UserController {
 
 		String urlImg = "";
 
-		if (file != null) {
+		if (file != null && !file.isEmpty()) {
 			// Almacenamos el fichero y obtenemos su URL
-
-			if (!file.isEmpty()) {
-				String img = storeService.store(file);
-				urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, "serveFile", img, null).build()
-						.toUriString();
-			}
-			// Seteamos la URL donde está almacenada
-//			u.setUrlImage(urlImg);
+			String img = storeService.store(file);
+			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
+					.toUriString();
 		}
 
 		User uTemp = mapper.requestUserDTOtoUser(u);
+		// Seteamos la URL donde está almacenada
 		uTemp.setUrlImage(urlImg);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toUserDTO(uService.addUser(uTemp)));
@@ -194,17 +190,14 @@ public class UserController {
 				// Almacenamos el fichero y obtenemos su URL
 				if (!file.isEmpty()) {
 					String img = storeService.store(file);
-					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, "serveFile", img, null)
+					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
 							.build().toUriString();
 				}
-				// Seteamos la URL donde está almacenada
-//				u.setUrlImage(urlImg);
 			}
 
 			User mappedU = mapper.requestUserDTOtoUser(u);
+			// Seteamos la URL donde está almacenada
 			mappedU.setUrlImage(urlImg);
-
-//			User mappedU = mapper.updateUserDTOtoUser(u);
 
 			User mappedUUpdated = opUser.map(newU -> {
 				newU.setEmail(u.getEmail());
@@ -252,17 +245,14 @@ public class UserController {
 				// Almacenamos el fichero y obtenemos su URL
 				if (!file.isEmpty()) {
 					String img = storeService.store(file);
-					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, "serveFile", img, null)
+					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
 							.build().toUriString();
 				}
-				// Seteamos la URL donde está almacenada
-//				u.setUrlImage(urlImg);
 			}
 
 			User mappedU = mapper.requestUserDTOtoUser(u);
+			// Seteamos la URL donde está almacenada
 			mappedU.setUrlImage(urlImg);
-
-//			User mappedU = mapper.updateUserDTOtoUser(u);
 
 			User mappedUUpdated = opUser.map(newU -> {
 				newU.setEmail(u.getEmail());
@@ -315,8 +305,8 @@ public class UserController {
 		List<User> uList = null;
 
 		try {
-			uList = uService.findUsersBirthdayBetweenDates(new SimpleDateFormat("yyyy-MM-dd").parse(startDate),
-					new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+			uList = uService.findUsersBirthdayBetweenDates(new SimpleDateFormat(DATE_FORMAT).parse(startDate),
+					new SimpleDateFormat(DATE_FORMAT).parse(endDate));
 		} catch (ParseException e) {
 			LOG.error(e.getMessage());
 		}
@@ -343,8 +333,8 @@ public class UserController {
 		List<User> uList = null;
 
 		try {
-			uList = uService.findUsersCreatedAtBetweenDates(new SimpleDateFormat("yyyy-MM-dd").parse(startDate),
-					new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+			uList = uService.findUsersCreatedAtBetweenDates(new SimpleDateFormat(DATE_FORMAT).parse(startDate),
+					new SimpleDateFormat(DATE_FORMAT).parse(endDate));
 		} catch (ParseException e) {
 			LOG.error(e.getMessage());
 		}

@@ -47,7 +47,6 @@ public class CategoryController {
 		List<Category> catList = catService.findAllCategories();
 
 		if (catList.isEmpty()) {
-//			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No categories registered");
 			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(mapper.toCategoryDTOList(catList.stream()));

@@ -23,7 +23,6 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
-//		return super.handleExceptionInternal(ex, body, headers, status, request);
 		ApiError apiError = new ApiError(status, ex.toString());
 		return ResponseEntity.status(status).headers(headers).body(apiError);
 	}
@@ -78,7 +77,6 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-//		return super.handleMethodArgumentNotValid(ex, headers, status, request);
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, getDefaultMsg(ex.getMessage()));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
 	}
@@ -87,7 +85,6 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
 			WebRequest request) {
-//		return super.handleBindException(ex, headers, status, request);
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, getDefaultMsg(ex.getMessage()));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
 	}

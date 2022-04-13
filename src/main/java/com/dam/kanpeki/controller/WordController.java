@@ -39,6 +39,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 @RequestMapping("kanpeki/words")
 public class WordController {
 
+	private static final String SERVE_FILE = "serveFile";
+
 	@Autowired
 	private WordServiceI wService;
 
@@ -93,18 +95,15 @@ public class WordController {
 
 		String urlImg = "";
 
-		if (file != null) {
+		if (file != null && !file.isEmpty()) {
 			// Almacenamos el fichero y obtenemos su URL
-			if (!file.isEmpty()) {
-				String img = storeService.store(file);
-				urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, "serveFile", img, null).build()
-						.toUriString();
-			}
-			// Seteamos la URL donde está almacenada
-//			w.setUrlImage(urlImg);
+			String img = storeService.store(file);
+			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
+					.toUriString();
 		}
 
 		Word wTemp = mapper.requestWordDTOtoWord(w);
+		// Seteamos la URL donde está almacenada
 		wTemp.setUrlImage(urlImg);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toWordDTO(wService.addWord(wTemp)));
@@ -124,18 +123,14 @@ public class WordController {
 
 		String urlImg = "";
 
-		if (file != null) {
-			// Almacenamos el fichero y obtenemos su URL
-			if (!file.isEmpty()) {
-				String img = storeService.store(file);
-				urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, "serveFile", img, null).build()
-						.toUriString();
-			}
-			// Seteamos la URL donde está almacenada
-//			w.setUrlImage(urlImg);
+		if (file != null && !file.isEmpty()) {
+			String img = storeService.store(file);
+			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
+					.toUriString();
 		}
 
 		Word wTemp = mapper.requestWordDTOtoWord(w);
+		// Seteamos la URL donde está almacenada
 		wTemp.setUrlImage(urlImg);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toWordDTO(wService.addWord(wTemp)));
@@ -186,17 +181,14 @@ public class WordController {
 				// Almacenamos el fichero y obtenemos su URL
 				if (!file.isEmpty()) {
 					String img = storeService.store(file);
-					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, "serveFile", img, null)
+					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
 							.build().toUriString();
 				}
-				// Seteamos la URL donde está almacenada
-//				w.setUrlImage(urlImg);
 			}
 
 			Word mappedW = mapper.requestWordDTOtoWord(w);
+			// Seteamos la URL donde está almacenada
 			mappedW.setUrlImage(urlImg);
-
-//			Word mappedW = mapper.getWordDTOtoWord(w);
 
 			Word mappedWUpdated = opWord.map(newW -> {
 				newW.setJapanese(mappedW.getJapanese());
@@ -241,17 +233,14 @@ public class WordController {
 				// Almacenamos el fichero y obtenemos su URL
 				if (!file.isEmpty()) {
 					String img = storeService.store(file);
-					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, "serveFile", img, null)
+					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
 							.build().toUriString();
 				}
-				// Seteamos la URL donde está almacenada
-//				w.setUrlImage(urlImg);
 			}
 
 			Word mappedW = mapper.requestWordDTOtoWord(w);
+			// Seteamos la URL donde está almacenada
 			mappedW.setUrlImage(urlImg);
-
-//			Word mappedW = mapper.getWordDTOtoWord(w);
 
 			Word mappedWUpdated = opWord.map(newW -> {
 				newW.setJapanese(mappedW.getJapanese());

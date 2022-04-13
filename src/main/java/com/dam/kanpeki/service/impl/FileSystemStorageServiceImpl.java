@@ -44,6 +44,7 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageServiceI {
 	 */
 	@Override
 	public String store(MultipartFile file) {
+
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
 		String extension = StringUtils.getFilenameExtension(filename);
 		String justFilename = filename.replace("." + extension, "");
