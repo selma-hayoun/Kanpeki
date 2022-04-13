@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
+import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.model.Question;
 import com.dam.kanpeki.model.dto.RequestQuestionDTO;
 import com.dam.kanpeki.model.dto.ResponseQuestionDTO;
@@ -50,7 +50,7 @@ public class QuestionAnswerController {
 		List<ResponseQuestionDTO> qDtoList = mapper.toQuestionDTOList(qList.stream());
 
 		if (qList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No questions registered");
+			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(qDtoList);
 		}
@@ -67,7 +67,7 @@ public class QuestionAnswerController {
 		Optional<Question> opQuestion = qService.findById(id);
 
 		if (!opQuestion.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found");
+			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(mapper.toQuestionDTO(opQuestion.get()));
 		}
@@ -97,7 +97,7 @@ public class QuestionAnswerController {
 		Optional<Question> opWord = qService.findById(id);
 
 		if (!opWord.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found");
+			throw new DataNotFoundException("");
 		} else {
 			qService.removeQuestionById(id);
 			return ResponseEntity.noContent().build();
@@ -122,7 +122,7 @@ public class QuestionAnswerController {
 			newQ.setAnswers(mappedQ.getAnswers());
 			qService.updateQuestion(newQ);
 			return newQ;
-		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found"));
+		}).orElseThrow(() -> new DataNotFoundException(""));
 
 		return ResponseEntity.ok(mapper.toQuestionDTO(mappedQUpdated));
 
@@ -140,7 +140,7 @@ public class QuestionAnswerController {
 		Collections.shuffle(qList);
 
 		if (qList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No questions registered in that category");
+			throw new DataNotFoundException("No questions registered in that category");
 		} else {
 			return ResponseEntity.ok(mapper.toQuestionDTOList(qList.stream()));
 		}
@@ -157,7 +157,7 @@ public class QuestionAnswerController {
 		List<Question> qList = qService.findQuestionsByMatcher(qString);
 
 		if (qList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No questions contain the string");
+			throw new DataNotFoundException("No questions contain the string");
 		} else {
 			return ResponseEntity.ok(mapper.toQuestionDTOList(qList.stream()));
 		}

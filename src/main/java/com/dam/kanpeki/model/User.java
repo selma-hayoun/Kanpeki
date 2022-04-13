@@ -23,6 +23,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -76,8 +77,8 @@ public class User implements Serializable {
 	@CreatedDate
 	private LocalDateTime createdAt;
 
-	@Builder.Default
-	private LocalDateTime lastPasswordChangeAt = LocalDateTime.now();
+	@LastModifiedDate
+	private LocalDateTime lastPasswordChangeAt;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "userId")

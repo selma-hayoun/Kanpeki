@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
+import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.model.Category;
 import com.dam.kanpeki.model.dto.RequestCategoryDTO;
 import com.dam.kanpeki.model.dto.ResponseCategoryDTO;
@@ -47,7 +47,8 @@ public class CategoryController {
 		List<Category> catList = catService.findAllCategories();
 
 		if (catList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No categories registered");
+//			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No categories registered");
+			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(mapper.toCategoryDTOList(catList.stream()));
 		}
@@ -64,7 +65,7 @@ public class CategoryController {
 		Optional<Category> opCat = catService.findById(id);
 
 		if (!opCat.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found");
+			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(mapper.toCategoryDTO(opCat.get()));
 		}
@@ -92,7 +93,7 @@ public class CategoryController {
 		Optional<Category> opCat = catService.findById(id);
 
 		if (!opCat.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found");
+			throw new DataNotFoundException("");
 		} else {
 			catService.removeCategoryById(id);
 			return ResponseEntity.noContent().build();
@@ -116,7 +117,7 @@ public class CategoryController {
 			newCat.setIsQuestion(mappedCat.getIsQuestion());
 			catService.updateCategory(newCat);
 			return newCat;
-		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "category not found"));
+		}).orElseThrow(() -> new DataNotFoundException(""));
 
 		return ResponseEntity.ok(mapper.toCategoryDTO(mappedCatUpdated));
 
@@ -133,7 +134,7 @@ public class CategoryController {
 		List<Category> catList = catService.findCategoriesByMatcher(catString);
 
 		if (catList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No categories contain the string");
+			throw new DataNotFoundException("No categories contain the string");
 		} else {
 			return ResponseEntity.ok(mapper.toCategoryDTOList(catList.stream()));
 		}

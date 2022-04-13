@@ -21,9 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import com.dam.kanpeki.exception.DataNotFoundException;
+import com.dam.kanpeki.exception.ParameterIncorrectFormatException;
 import com.dam.kanpeki.model.User;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
@@ -63,7 +64,7 @@ public class UserController {
 		List<User> uList = uService.findUsersOrderByDate();
 
 		if (uList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users registered");
+			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}
@@ -80,7 +81,7 @@ public class UserController {
 		Optional<User> opUser = uService.findById(id);
 
 		if (!opUser.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(mapper.toUserDTO(opUser.get()));
 		}
@@ -160,7 +161,7 @@ public class UserController {
 		Optional<User> opUser = uService.findById(id);
 
 		if (!opUser.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+			throw new DataNotFoundException("");
 		} else {
 			// Eliminamos la imagen del almacenamiento
 			storeService.delete(opUser.get().getUrlImage());
@@ -216,12 +217,12 @@ public class UserController {
 				newU.setRoles(mappedU.getRoles());
 				uService.updateUser(newU);
 				return newU;
-			}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+			}).orElseThrow(() -> new DataNotFoundException(""));
 
 			return ResponseEntity.ok(mapper.toUserDTO(mappedUUpdated));
 
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+			throw new DataNotFoundException("");
 		}
 
 	}
@@ -274,12 +275,12 @@ public class UserController {
 				newU.setRoles(mappedU.getRoles());
 				uService.updateUser(newU);
 				return newU;
-			}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+			}).orElseThrow(() -> new DataNotFoundException(""));
 
 			return ResponseEntity.ok(mapper.toUserDTO(mappedUUpdated));
 
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+			throw new DataNotFoundException("");
 		}
 
 	}
@@ -295,7 +296,7 @@ public class UserController {
 		List<User> uList = uService.findUsersByMatcher(uString);
 
 		if (uList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users contain the string");
+			throw new DataNotFoundException("No users contain the string");
 		} else {
 			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}
@@ -321,10 +322,9 @@ public class UserController {
 		}
 
 		if (uList == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dates format are incorrect");
+			throw new ParameterIncorrectFormatException("Dates format are incorrect. Correct pattern: yyyy-MM-dd");
 		} else if (uList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-					"No birthdays between " + startDate + " and " + endDate);
+			throw new DataNotFoundException("No birthdays between " + startDate + " and " + endDate);
 		} else {
 			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}
@@ -350,10 +350,9 @@ public class UserController {
 		}
 
 		if (uList == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dates format are incorrect");
+			throw new ParameterIncorrectFormatException("Dates format are incorrect. Correct pattern: yyyy-MM-dd");
 		} else if (uList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-					"No users created between " + startDate + " and " + endDate);
+			throw new DataNotFoundException("No users created between " + startDate + " and " + endDate);
 		} else {
 			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}

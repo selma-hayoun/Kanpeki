@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.model.Word;
 import com.dam.kanpeki.model.dto.RequestWordDTO;
 import com.dam.kanpeki.model.dto.ResponseWordDTO;
@@ -58,7 +58,7 @@ public class WordController {
 		List<Word> wList = wService.findAllWords();
 
 		if (wList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No words registered");
+			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(mapper.toWordDTOList(wList.stream()));
 		}
@@ -75,7 +75,7 @@ public class WordController {
 		Optional<Word> opWord = wService.findById(id);
 
 		if (!opWord.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Word not found");
+			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(mapper.toWordDTO(opWord.get()));
 		}
@@ -153,7 +153,7 @@ public class WordController {
 		Optional<Word> opWord = wService.findById(id);
 
 		if (!opWord.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Word not found");
+			throw new DataNotFoundException("");
 		} else {
 			// Eliminamos la imagen del almacenamiento
 			storeService.delete(opWord.get().getUrlImage());
@@ -207,11 +207,11 @@ public class WordController {
 				newW.setCategoryId(mappedW.getCategoryId());
 				wService.updateWord(newW);
 				return newW;
-			}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Word not found"));
+			}).orElseThrow(() -> new DataNotFoundException(""));
 
 			return ResponseEntity.ok(mapper.toWordDTO(mappedWUpdated));
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Word not found");
+			throw new DataNotFoundException("");
 		}
 
 	}
@@ -262,11 +262,11 @@ public class WordController {
 				newW.setCategoryId(mappedW.getCategoryId());
 				wService.updateWord(newW);
 				return newW;
-			}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Word not found"));
+			}).orElseThrow(() -> new DataNotFoundException(""));
 
 			return ResponseEntity.ok(mapper.toWordDTO(mappedWUpdated));
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Word not found");
+			throw new DataNotFoundException("");
 		}
 
 	}
@@ -283,7 +283,7 @@ public class WordController {
 		Collections.shuffle(wList);
 
 		if (wList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No words registered in that category");
+			throw new DataNotFoundException("No words registered in that category");
 		} else {
 			return ResponseEntity.ok(mapper.toWordDTOList(wList.stream()));
 		}
@@ -300,7 +300,7 @@ public class WordController {
 		List<Word> wList = wService.findWordsByMatcher(wString);
 
 		if (wList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No words contain the string");
+			throw new DataNotFoundException("No words contain the string");
 		} else {
 			return ResponseEntity.ok(mapper.toWordDTOList(wList.stream()));
 		}

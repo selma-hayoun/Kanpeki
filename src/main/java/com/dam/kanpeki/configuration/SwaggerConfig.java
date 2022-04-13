@@ -22,9 +22,10 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfo("GSFP DAM Project - KANPEKI", "Project definition", "API 1.0", "#",
-				new Contact("Selma Hayoun Caballero", "https://es.linkedin.com/in/selma-problem-solving-lover",
-						"selma.hayoun.caballero@gmail.com"),
+		return new ApiInfo("GSFP DAM Project - KANPEKI",
+				"Project application for helping the revision of terms, vocabulary and other requirements of the Noken 5 level of Japanese",
+				"API 1.0", "#", new Contact("Selma Hayoun Caballero",
+						"https://es.linkedin.com/in/selma-problem-solving-lover", "selma.hayoun.caballero@gmail.com"),
 				"License", "#", Collections.emptyList());
 	}
 

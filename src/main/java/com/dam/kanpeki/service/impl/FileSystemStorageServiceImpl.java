@@ -111,12 +111,15 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageServiceI {
 	 */
 	@Override
 	public void delete(String filename) {
-		String justFilename = StringUtils.getFilename(filename);
-		try {
-			Path file = load(justFilename);
-			Files.deleteIfExists(file);
-		} catch (IOException e) {
-			throw new StorageException("Error deleting a file", e);
+
+		if (filename != null && !filename.isEmpty()) {
+			String justFilename = StringUtils.getFilename(filename);
+			try {
+				Path file = load(justFilename);
+				Files.deleteIfExists(file);
+			} catch (IOException e) {
+				throw new StorageException("Error deleting a file", e);
+			}
 		}
 
 	}

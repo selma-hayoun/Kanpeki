@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
+import com.dam.kanpeki.exception.DataNotFoundException;
+import com.dam.kanpeki.exception.ParameterIncorrectFormatException;
 import com.dam.kanpeki.model.Result;
 import com.dam.kanpeki.model.ResultId;
 import com.dam.kanpeki.model.custom.ResultPerCategoryData;
@@ -55,7 +56,7 @@ public class ResultController {
 		List<Result> rList = rService.findAllResults();
 
 		if (rList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results registered");
+			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(mapper.toResultDTOList(rList.stream()));
 		}
@@ -71,7 +72,7 @@ public class ResultController {
 		List<ResultPerCategoryData> rDataList = rService.resultsPerCategory();
 
 		if (rDataList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results data registered");
+			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(rDataList);
 		}
@@ -89,7 +90,7 @@ public class ResultController {
 		List<Result> rList = rService.findResultsUser(id);
 
 		if (rList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results registered");
+			throw new DataNotFoundException("");
 		} else {
 			return ResponseEntity.ok(mapper.toResultDTOList(rList.stream()));
 		}
@@ -119,7 +120,7 @@ public class ResultController {
 		List<Result> rList = rService.findResultsUser(userId);
 
 		if (rList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Results from user " + userId + " not found");
+			throw new DataNotFoundException("Results from user " + userId + " not found");
 		} else {
 			rList.stream().forEach(r -> rService.removeResult(r));
 			return ResponseEntity.noContent().build();
@@ -138,7 +139,7 @@ public class ResultController {
 		Optional<Result> opResult = rService.findById(resId);
 
 		if (!opResult.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found");
+			throw new DataNotFoundException("");
 		} else {
 			rService.removeResultById(resId);
 			return ResponseEntity.noContent().build();
@@ -165,10 +166,9 @@ public class ResultController {
 		}
 
 		if (rList == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dates format are incorrect");
+			throw new ParameterIncorrectFormatException("Dates format are incorrect. Correct pattern: yyyy-MM-dd");
 		} else if (rList.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-					"No results between " + startDate + " and " + endDate);
+			throw new DataNotFoundException("No results between " + startDate + " and " + endDate);
 		} else {
 			return ResponseEntity.ok(mapper.toResultDTOList(rList.stream()));
 		}
