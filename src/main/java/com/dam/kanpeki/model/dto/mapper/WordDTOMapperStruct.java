@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import com.dam.kanpeki.model.Word;
 import com.dam.kanpeki.model.dto.CreateWordDTO;
 import com.dam.kanpeki.model.dto.GetWordDTO;
+import com.dam.kanpeki.model.dto.UpdateWordDTO;
 
 @Mapper(componentModel = "spring")
 public interface WordDTOMapperStruct {
@@ -21,5 +22,7 @@ public interface WordDTOMapperStruct {
 	Word createWordDTOtoWord(CreateWordDTO cat);
 
 	Word getWordDTOtoWord(GetWordDTO cat);
+
+	Word updateWordDTOtoWord(UpdateWordDTO cat);
 
 }

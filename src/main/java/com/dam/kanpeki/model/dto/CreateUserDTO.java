@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.dam.kanpeki.model.UserRole;
 
 import lombok.AllArgsConstructor;
@@ -27,8 +30,9 @@ public class CreateUserDTO implements Serializable {
 
 	private String nickname;
 
-	private String urlImage;
+	private MultipartFile file;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 
 	private String city;

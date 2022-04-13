@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -105,7 +106,7 @@ public class CategoryController {
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/category/{id}", produces = { "application/json" }, method = RequestMethod.PUT)
 	public ResponseEntity<GetCategoryDTO> updateCategory(@Valid @RequestBody GetCategoryDTO cat,
-			@RequestParam(name = "id") @ApiParam(name = "id", value = "category id", example = "3") Long id) {
+			@PathVariable(name = "id") @ApiParam(name = "id", value = "category id", example = "3") Long id) {
 
 		Category mappedCat = mapper.getCategoryDTOtoCategory(cat);
 

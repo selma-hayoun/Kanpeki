@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.dam.kanpeki.model.UserRole;
 
 import lombok.AllArgsConstructor;
@@ -27,7 +29,7 @@ public class UpdateUserDTO implements Serializable {
 
 	private String nickname;
 
-	private String urlImage;
+	private MultipartFile file;
 
 	private Date birthday;
 

@@ -19,6 +19,6 @@ public class CreateCategoryDTO implements Serializable {
 
 	private String categoryName;
 
-	private boolean isQuestion;
+	private Boolean isQuestion;
 
 }

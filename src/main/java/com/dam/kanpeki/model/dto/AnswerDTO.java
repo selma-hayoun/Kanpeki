@@ -19,6 +19,6 @@ public class AnswerDTO implements Serializable {
 
 	private String furigana;
 
-	private boolean isCorrect;
+	private Boolean isCorrect;
 
 }

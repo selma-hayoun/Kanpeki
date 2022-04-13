@@ -32,7 +32,7 @@ public class Answer implements Serializable {
 
 	private String furigana;
 
-	private boolean isCorrect;
+	private Boolean isCorrect;
 
 	// FK con question
 	private Long questionId;
