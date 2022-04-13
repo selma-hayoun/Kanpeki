@@ -9,13 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetCategoryDTO implements Serializable {
+public class RequestCategoryDTO implements Serializable {
 	/**
 	* 
 	*/
-	private static final long serialVersionUID = -1782849004587666808L;
-
-	private Long id;
+	private static final long serialVersionUID = 6554241705298199254L;
 
 	private String unitName;
 

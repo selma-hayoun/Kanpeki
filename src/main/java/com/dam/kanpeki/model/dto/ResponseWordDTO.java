@@ -2,8 +2,6 @@ package com.dam.kanpeki.model.dto;
 
 import java.io.Serializable;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateWordDTO implements Serializable {
+public class ResponseWordDTO implements Serializable {
 	/**
 	* 
 	*/
-	private static final long serialVersionUID = 2218386476425136746L;
+	private static final long serialVersionUID = 677198719677676418L;
+
+	private Long id;
 
 	private String japanese;
 
@@ -25,8 +25,6 @@ public class CreateWordDTO implements Serializable {
 
 	private String furigana;
 
-	private Long categoryId;
-
-	private MultipartFile file;
+	private String urlImage;
 
 }

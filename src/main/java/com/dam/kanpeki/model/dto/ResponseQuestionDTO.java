@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateQuestionDTO implements Serializable {
+public class ResponseQuestionDTO implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2501991143334633077L;
+	private static final long serialVersionUID = -8900633378166476455L;
+
+	private Long id;
 
 	private String statement;
 

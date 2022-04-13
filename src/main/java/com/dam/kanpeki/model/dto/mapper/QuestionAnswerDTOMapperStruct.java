@@ -8,21 +8,21 @@ import org.mapstruct.Mapper;
 import com.dam.kanpeki.model.Answer;
 import com.dam.kanpeki.model.Question;
 import com.dam.kanpeki.model.dto.AnswerDTO;
-import com.dam.kanpeki.model.dto.CreateQuestionDTO;
-import com.dam.kanpeki.model.dto.GetQuestionDTO;
+import com.dam.kanpeki.model.dto.RequestQuestionDTO;
+import com.dam.kanpeki.model.dto.ResponseQuestionDTO;
 
 @Mapper(componentModel = "spring")
 public interface QuestionAnswerDTOMapperStruct {
 
-	List<GetQuestionDTO> toQuestionDTOList(Stream<Question> stream);
+	List<ResponseQuestionDTO> toQuestionDTOList(Stream<Question> stream);
 
-	List<Question> toQuestionList(Stream<CreateQuestionDTO> stream);
+	List<Question> toQuestionList(Stream<RequestQuestionDTO> stream);
 
-	GetQuestionDTO toQuestionDTO(Question q);
+	ResponseQuestionDTO toQuestionDTO(Question q);
 
-	Question createQuestionDTOtoQuestion(CreateQuestionDTO q);
+	Question requestQuestionDTOtoQuestion(RequestQuestionDTO q);
 
-	Question getQuestionDTOtoQuestion(GetQuestionDTO q);
+	Question responseQuestionDTOtoQuestion(ResponseQuestionDTO q);
 
 	List<AnswerDTO> toAnswerDTOList(Stream<Answer> stream);
 

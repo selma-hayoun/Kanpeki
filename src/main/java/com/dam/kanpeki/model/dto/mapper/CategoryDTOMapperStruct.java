@@ -6,20 +6,20 @@ import java.util.stream.Stream;
 import org.mapstruct.Mapper;
 
 import com.dam.kanpeki.model.Category;
-import com.dam.kanpeki.model.dto.CreateCategoryDTO;
-import com.dam.kanpeki.model.dto.GetCategoryDTO;
+import com.dam.kanpeki.model.dto.RequestCategoryDTO;
+import com.dam.kanpeki.model.dto.ResponseCategoryDTO;
 
 @Mapper(componentModel = "spring")
 public interface CategoryDTOMapperStruct {
 
-	List<GetCategoryDTO> toCategoryDTOList(Stream<Category> stream);
+	List<ResponseCategoryDTO> toCategoryDTOList(Stream<Category> stream);
 
-	List<Category> toCategoryList(Stream<CreateCategoryDTO> stream);
+	List<Category> toCategoryList(Stream<RequestCategoryDTO> stream);
 
-	GetCategoryDTO toCategoryDTO(Category cat);
+	ResponseCategoryDTO toCategoryDTO(Category cat);
 
-	Category createCategoryDTOtoCategory(CreateCategoryDTO cat);
+	Category requestCategoryDTOtoCategory(RequestCategoryDTO cat);
 
-	Category getCategoryDTOtoCategory(GetCategoryDTO cat);
+	Category responseCategoryDTOtoCategory(ResponseCategoryDTO cat);
 
 }

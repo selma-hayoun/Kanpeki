@@ -22,8 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import com.dam.kanpeki.model.Word;
-import com.dam.kanpeki.model.dto.CreateWordDTO;
-import com.dam.kanpeki.model.dto.GetWordDTO;
+import com.dam.kanpeki.model.dto.RequestWordDTO;
+import com.dam.kanpeki.model.dto.ResponseWordDTO;
 import com.dam.kanpeki.model.dto.mapper.WordDTOMapperStruct;
 import com.dam.kanpeki.service.FileSystemStorageServiceI;
 import com.dam.kanpeki.service.WordServiceI;
@@ -50,11 +50,11 @@ public class WordController {
 
 	@ApiOperation(value = "getWords", notes = "Get all words from our database")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetWordDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseWordDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/word", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<GetWordDTO>> getWords() {
+	@RequestMapping(value = "", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseWordDTO>> getWords() {
 		List<Word> wList = wService.findAllWords();
 
 		if (wList.isEmpty()) {
@@ -66,12 +66,12 @@ public class WordController {
 
 	@ApiOperation(value = "getWord", notes = "Get a word by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetWordDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseWordDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/word/{id}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<GetWordDTO> getWord(
-			@RequestParam(name = "id") @ApiParam(name = "id", value = "Word id", example = "4") Long id) {
+	public ResponseEntity<ResponseWordDTO> getWord(
+			@PathVariable(name = "id") @ApiParam(name = "id", value = "Word id", example = "1") Long id) {
 		Optional<Word> opWord = wService.findById(id);
 
 		if (!opWord.isPresent()) {
@@ -83,12 +83,12 @@ public class WordController {
 
 	@ApiOperation(value = "addNewWord", notes = "Create a new word")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetWordDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseWordDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/word/v1", produces = {
 			"application/json" }, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, method = RequestMethod.POST)
-	public ResponseEntity<GetWordDTO> addNewWordV1(@Valid @RequestPart(value = "w") CreateWordDTO w,
+	public ResponseEntity<ResponseWordDTO> addNewWordV1(@Valid @RequestPart(value = "w") RequestWordDTO w,
 			@RequestPart(value = "file", required = false) MultipartFile file) {
 
 		String urlImg = "";
@@ -104,7 +104,7 @@ public class WordController {
 //			w.setUrlImage(urlImg);
 		}
 
-		Word wTemp = mapper.createWordDTOtoWord(w);
+		Word wTemp = mapper.requestWordDTOtoWord(w);
 		wTemp.setUrlImage(urlImg);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toWordDTO(wService.addWord(wTemp)));
@@ -113,13 +113,13 @@ public class WordController {
 
 	@ApiOperation(value = "addNewWord", notes = "Create a new word")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetWordDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseWordDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/word/v2", produces = { "application/json" }, consumes = {
 			MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE }, method = RequestMethod.POST)
-	public ResponseEntity<GetWordDTO> addNewWordV2(
-			@Valid @Parameter(description = "Word attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute CreateWordDTO w,
+	public ResponseEntity<ResponseWordDTO> addNewWordV2(
+			@Valid @Parameter(description = "Word attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestWordDTO w,
 			@Parameter(description = "Word image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file) {
 
 		String urlImg = "";
@@ -135,7 +135,7 @@ public class WordController {
 //			w.setUrlImage(urlImg);
 		}
 
-		Word wTemp = mapper.createWordDTOtoWord(w);
+		Word wTemp = mapper.requestWordDTOtoWord(w);
 		wTemp.setUrlImage(urlImg);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toWordDTO(wService.addWord(wTemp)));
@@ -144,12 +144,12 @@ public class WordController {
 
 	@ApiOperation(value = "deleteWord", notes = "Delete a single word by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetWordDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseWordDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/word/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
-	public ResponseEntity<GetWordDTO> deleteWord(
-			@RequestParam(name = "id") @ApiParam(name = "id", value = "Word id", example = "4") Long id) {
+	public ResponseEntity<ResponseWordDTO> deleteWord(
+			@PathVariable("id") @ApiParam(name = "id", value = "Word id", example = "1") Long id) {
 		Optional<Word> opWord = wService.findById(id);
 
 		if (!opWord.isPresent()) {
@@ -164,14 +164,14 @@ public class WordController {
 
 	@ApiOperation(value = "updateWord", notes = "Update the data from an existing word")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetWordDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseWordDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/word/v1/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = {
 			"application/json" }, method = RequestMethod.PUT)
-	public ResponseEntity<GetWordDTO> updateWordV1(@Valid @RequestPart(value = "w") CreateWordDTO w,
+	public ResponseEntity<ResponseWordDTO> updateWordV1(@Valid @RequestPart(value = "w") RequestWordDTO w,
 			@RequestPart(value = "file", required = false) MultipartFile file,
-			@PathVariable(name = "id") @ApiParam(name = "id", value = "Word id", example = "4") Long id) {
+			@PathVariable("id") @ApiParam(name = "id", value = "Word id", example = "1") Long id) {
 
 		Optional<Word> opWord = wService.findById(id);
 
@@ -193,7 +193,7 @@ public class WordController {
 //				w.setUrlImage(urlImg);
 			}
 
-			Word mappedW = mapper.createWordDTOtoWord(w);
+			Word mappedW = mapper.requestWordDTOtoWord(w);
 			mappedW.setUrlImage(urlImg);
 
 //			Word mappedW = mapper.getWordDTOtoWord(w);
@@ -218,15 +218,15 @@ public class WordController {
 
 	@ApiOperation(value = "updateWord", notes = "Update the data from an existing word")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetWordDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseWordDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/word/v2/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { "application/json" }, method = RequestMethod.PUT)
-	public ResponseEntity<GetWordDTO> updateWordV2(
-			@Valid @Parameter(description = "Word attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute CreateWordDTO w,
+	public ResponseEntity<ResponseWordDTO> updateWordV2(
+			@Valid @Parameter(description = "Word attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestWordDTO w,
 			@Parameter(description = "Word image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file,
-			@PathVariable(name = "id") @ApiParam(name = "id", value = "Word id", example = "4") Long id) {
+			@PathVariable("id") @ApiParam(name = "id", value = "Word id", example = "1") Long id) {
 
 		Optional<Word> opWord = wService.findById(id);
 
@@ -248,7 +248,7 @@ public class WordController {
 //				w.setUrlImage(urlImg);
 			}
 
-			Word mappedW = mapper.createWordDTOtoWord(w);
+			Word mappedW = mapper.requestWordDTOtoWord(w);
 			mappedW.setUrlImage(urlImg);
 
 //			Word mappedW = mapper.getWordDTOtoWord(w);
@@ -273,12 +273,12 @@ public class WordController {
 
 	@ApiOperation(value = "getShuffledWordsByCategory", notes = "Get all words shuffled from a Category by category ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetWordDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseWordDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/word/shuffle/{categoryId}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<GetWordDTO>> getShuffledWordsByCategory(
-			@RequestParam(name = "categoryId") @ApiParam(name = "categoryId", value = "Category id", example = "3") Long id) {
+	@RequestMapping(value = "/word/shuffle", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseWordDTO>> getShuffledWordsByCategory(
+			@RequestParam(name = "categoryId") @ApiParam(name = "categoryId", value = "Category id", example = "1") Long id) {
 		List<Word> wList = wService.findByCategoryId(id);
 		Collections.shuffle(wList);
 
@@ -291,11 +291,11 @@ public class WordController {
 
 	@ApiOperation(value = "searchWords", notes = "Search words by string")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetWordDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseWordDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/word/{wString}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<GetWordDTO>> searchWords(
+	@RequestMapping(value = "/word/search", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseWordDTO>> searchWords(
 			@RequestParam(name = "wString") @ApiParam(name = "wString", value = "japanese, english or spanish", example = "dog") String wString) {
 		List<Word> wList = wService.findWordsByMatcher(wString);
 

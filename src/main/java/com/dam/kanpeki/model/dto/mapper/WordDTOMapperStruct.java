@@ -6,23 +6,20 @@ import java.util.stream.Stream;
 import org.mapstruct.Mapper;
 
 import com.dam.kanpeki.model.Word;
-import com.dam.kanpeki.model.dto.CreateWordDTO;
-import com.dam.kanpeki.model.dto.GetWordDTO;
-import com.dam.kanpeki.model.dto.UpdateWordDTO;
+import com.dam.kanpeki.model.dto.RequestWordDTO;
+import com.dam.kanpeki.model.dto.ResponseWordDTO;
 
 @Mapper(componentModel = "spring")
 public interface WordDTOMapperStruct {
 
-	List<GetWordDTO> toWordDTOList(Stream<Word> stream);
+	List<ResponseWordDTO> toWordDTOList(Stream<Word> stream);
 
-	List<Word> toWordList(Stream<CreateWordDTO> stream);
+	List<Word> toWordList(Stream<RequestWordDTO> stream);
 
-	GetWordDTO toWordDTO(Word cat);
+	ResponseWordDTO toWordDTO(Word cat);
 
-	Word createWordDTOtoWord(CreateWordDTO cat);
+	Word requestWordDTOtoWord(RequestWordDTO cat);
 
-	Word getWordDTOtoWord(GetWordDTO cat);
-
-	Word updateWordDTOtoWord(UpdateWordDTO cat);
+	Word responseWordDTOtoWord(ResponseWordDTO cat);
 
 }

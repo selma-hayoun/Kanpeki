@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.dam.kanpeki.model.Question;
-import com.dam.kanpeki.model.dto.CreateQuestionDTO;
-import com.dam.kanpeki.model.dto.GetQuestionDTO;
+import com.dam.kanpeki.model.dto.RequestQuestionDTO;
+import com.dam.kanpeki.model.dto.ResponseQuestionDTO;
 import com.dam.kanpeki.model.dto.mapper.QuestionAnswerDTOMapperStruct;
 import com.dam.kanpeki.service.QuestionServiceI;
 
@@ -39,14 +40,14 @@ public class QuestionAnswerController {
 
 	@ApiOperation(value = "getQuestions", notes = "Get all questions from our database")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetQuestionDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseQuestionDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/question", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<GetQuestionDTO>> getQuestions() {
+	@RequestMapping(value = "", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseQuestionDTO>> getQuestions() {
 		List<Question> qList = qService.findAllQuestions();
 
-		List<GetQuestionDTO> qDtoList = mapper.toQuestionDTOList(qList.stream());
+		List<ResponseQuestionDTO> qDtoList = mapper.toQuestionDTOList(qList.stream());
 
 		if (qList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No questions registered");
@@ -57,12 +58,12 @@ public class QuestionAnswerController {
 
 	@ApiOperation(value = "getQuestion", notes = "Get a question by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetQuestionDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseQuestionDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/question/{id}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<GetQuestionDTO> getQuestion(
-			@RequestParam(name = "id") @ApiParam(name = "id", value = "Question id", example = "6") Long id) {
+	@RequestMapping(value = "/question", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<ResponseQuestionDTO> getQuestion(
+			@RequestParam(name = "id") @ApiParam(name = "id", value = "Question id", example = "1") Long id) {
 		Optional<Question> opQuestion = qService.findById(id);
 
 		if (!opQuestion.isPresent()) {
@@ -74,25 +75,25 @@ public class QuestionAnswerController {
 
 	@ApiOperation(value = "addNewQuestion", notes = "Create a new question")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetQuestionDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseQuestionDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/question", produces = { "application/json" }, method = RequestMethod.POST)
-	public ResponseEntity<GetQuestionDTO> addNewQuestion(@Valid @RequestBody CreateQuestionDTO q) {
+	public ResponseEntity<ResponseQuestionDTO> addNewQuestion(@Valid @RequestBody RequestQuestionDTO q) {
 
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(mapper.toQuestionDTO(qService.addQuestion(mapper.createQuestionDTOtoQuestion(q))));
+				.body(mapper.toQuestionDTO(qService.addQuestion(mapper.requestQuestionDTOtoQuestion(q))));
 
 	}
 
 	@ApiOperation(value = "deleteQuestion", notes = "Delete a single question by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetQuestionDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseQuestionDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/question/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
-	public ResponseEntity<GetQuestionDTO> deleteQuestion(
-			@RequestParam(name = "id") @ApiParam(name = "id", value = "Question id", example = "6") Long id) {
+	public ResponseEntity<ResponseQuestionDTO> deleteQuestion(
+			@PathVariable("id") @ApiParam(name = "id", value = "Question id", example = "1") Long id) {
 		Optional<Question> opWord = qService.findById(id);
 
 		if (!opWord.isPresent()) {
@@ -105,23 +106,14 @@ public class QuestionAnswerController {
 
 	@ApiOperation(value = "updateQuestion", notes = "Update the data from an existing question")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetQuestionDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseQuestionDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/question/{id}", produces = { "application/json" }, method = RequestMethod.PUT)
-	public ResponseEntity<GetQuestionDTO> updateQuestion(@Valid @RequestBody GetQuestionDTO q,
-			@RequestParam(name = "id") @ApiParam(name = "id", value = "Question id", example = "6") Long id) {
+	public ResponseEntity<ResponseQuestionDTO> updateQuestion(@Valid @RequestBody RequestQuestionDTO q,
+			@PathVariable("id") @ApiParam(name = "id", value = "Question id", example = "1") Long id) {
 
-//		return qService.findById(id).map(newQ -> {
-//			newQ.setStatement(q.getStatement());
-//			newQ.setHelp(q.getHelp());
-//			newQ.setCategoryId(q.getCategoryId());
-//			newQ.setAnswers(q.getAnswers());
-//			qService.updateQuestion(newQ);
-//			return ResponseEntity.ok(newQ);
-//		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found"));
-
-		Question mappedQ = mapper.getQuestionDTOtoQuestion(q);
+		Question mappedQ = mapper.requestQuestionDTOtoQuestion(q);
 
 		Question mappedQUpdated = qService.findById(id).map(newQ -> {
 			newQ.setStatement(mappedQ.getStatement());
@@ -138,13 +130,12 @@ public class QuestionAnswerController {
 
 	@ApiOperation(value = "getShuffledQuestionsByCategory", notes = "Get all questions shuffled from a Category by category ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetQuestionDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseQuestionDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/question/shuffle/{categoryId}", produces = {
-			"application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<GetQuestionDTO>> getShuffledQuestionsByCategory(
-			@RequestParam(name = "categoryId") @ApiParam(name = "categoryId", value = "Category id", example = "3") Long id) {
+	@RequestMapping(value = "/question/shuffle", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseQuestionDTO>> getShuffledQuestionsByCategory(
+			@RequestParam(name = "categoryId") @ApiParam(name = "categoryId", value = "Category id", example = "1") Long id) {
 		List<Question> qList = qService.findByCategoryId(id);
 		Collections.shuffle(qList);
 
@@ -157,12 +148,12 @@ public class QuestionAnswerController {
 
 	@ApiOperation(value = "searchQuestions", notes = "Search questions by string")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetQuestionDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseQuestionDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/question/{qString}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<GetQuestionDTO>> searchWords(
-			@RequestParam(name = "qString") @ApiParam(name = "qString", value = "statement", example = "私") String qString) {
+	@RequestMapping(value = "/question/search", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseQuestionDTO>> searchWords(
+			@RequestParam(name = "qString") @ApiParam(name = "qString", value = "statement", example = "です") String qString) {
 		List<Question> qList = qService.findQuestionsByMatcher(qString);
 
 		if (qList.isEmpty()) {

@@ -1,11 +1,9 @@
 package com.dam.kanpeki.model.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.dam.kanpeki.model.UserRole;
 
@@ -16,11 +14,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUserDTO implements Serializable {
+public class ResponseUserDTO implements Serializable {
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6514883880087110520L;
+	* 
+	*/
+	private static final long serialVersionUID = 5568049776356202763L;
+
+	private Long id;
 
 	private String email;
 
@@ -30,13 +30,16 @@ public class CreateUserDTO implements Serializable {
 
 	private String nickname;
 
-	private MultipartFile file;
+	private String urlImage;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 
 	private String city;
 
 	private Set<UserRole> roles;
+
+	private LocalDateTime createdAt;
+
+	private LocalDateTime lastPasswordChangeAt;
 
 }

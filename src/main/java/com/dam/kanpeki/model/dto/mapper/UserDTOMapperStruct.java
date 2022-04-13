@@ -6,23 +6,20 @@ import java.util.stream.Stream;
 import org.mapstruct.Mapper;
 
 import com.dam.kanpeki.model.User;
-import com.dam.kanpeki.model.dto.CreateUserDTO;
-import com.dam.kanpeki.model.dto.GetUserDTO;
-import com.dam.kanpeki.model.dto.UpdateUserDTO;
+import com.dam.kanpeki.model.dto.RequestUserDTO;
+import com.dam.kanpeki.model.dto.ResponseUserDTO;
 
 @Mapper(componentModel = "spring")
 public interface UserDTOMapperStruct {
 
-	List<GetUserDTO> toUserDTOList(Stream<User> stream);
+	List<ResponseUserDTO> toUserDTOList(Stream<User> stream);
 
-	List<User> toUserList(Stream<CreateUserDTO> stream);
+	List<User> toUserList(Stream<RequestUserDTO> stream);
 
-	GetUserDTO toUserDTO(User u);
+	ResponseUserDTO toUserDTO(User u);
 
-	User createUserDTOtoUser(CreateUserDTO u);
+	User requestUserDTOtoUser(RequestUserDTO u);
 
-	User getUserDTOtoUser(GetUserDTO u);
-
-	User updateUserDTOtoUser(UpdateUserDTO u);
+	User responseUserDTOtoUser(ResponseUserDTO u);
 
 }

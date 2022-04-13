@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateWordDTO implements Serializable {
+public class RequestWordDTO implements Serializable {
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7082509432808365937L;
+	* 
+	*/
+	private static final long serialVersionUID = 2218386476425136746L;
 
 	private String japanese;
 
@@ -24,6 +24,8 @@ public class UpdateWordDTO implements Serializable {
 	private String spanish;
 
 	private String furigana;
+
+	private Long categoryId;
 
 	private MultipartFile file;
 

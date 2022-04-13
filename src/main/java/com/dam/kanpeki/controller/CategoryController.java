@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.dam.kanpeki.model.Category;
-import com.dam.kanpeki.model.dto.CreateCategoryDTO;
-import com.dam.kanpeki.model.dto.GetCategoryDTO;
+import com.dam.kanpeki.model.dto.RequestCategoryDTO;
+import com.dam.kanpeki.model.dto.ResponseCategoryDTO;
 import com.dam.kanpeki.model.dto.mapper.CategoryDTOMapperStruct;
 import com.dam.kanpeki.service.CategoryServiceI;
 
@@ -39,11 +39,11 @@ public class CategoryController {
 
 	@ApiOperation(value = "getCategories", notes = "Get all categories from our database")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseCategoryDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/category", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<GetCategoryDTO>> getCategories() {
+	@RequestMapping(value = "", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseCategoryDTO>> getCategories() {
 		List<Category> catList = catService.findAllCategories();
 
 		if (catList.isEmpty()) {
@@ -55,12 +55,12 @@ public class CategoryController {
 
 	@ApiOperation(value = "getCategory", notes = "Get a category by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseCategoryDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/category/{id}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<GetCategoryDTO> getCategory(
-			@RequestParam(name = "id") @ApiParam(name = "id", value = "category id", example = "3") Long id) {
+	@RequestMapping(value = "/category", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<ResponseCategoryDTO> getCategory(
+			@RequestParam(name = "id") @ApiParam(name = "id", value = "category id", example = "1") Long id) {
 		Optional<Category> opCat = catService.findById(id);
 
 		if (!opCat.isPresent()) {
@@ -72,23 +72,23 @@ public class CategoryController {
 
 	@ApiOperation(value = "addNewCategory", notes = "Create a new category")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseCategoryDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/category", produces = { "application/json" }, method = RequestMethod.POST)
-	public ResponseEntity<GetCategoryDTO> addNewCategory(@Valid @RequestBody CreateCategoryDTO cat) {
+	public ResponseEntity<ResponseCategoryDTO> addNewCategory(@Valid @RequestBody RequestCategoryDTO cat) {
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(mapper.toCategoryDTO(catService.addWord(mapper.createCategoryDTOtoCategory(cat))));
+				.body(mapper.toCategoryDTO(catService.addWord(mapper.requestCategoryDTOtoCategory(cat))));
 	}
 
 	@ApiOperation(value = "deleteCategory", notes = "Delete a single category by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseCategoryDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/category/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
-	public ResponseEntity<GetCategoryDTO> deleteCategory(
-			@RequestParam(name = "id") @ApiParam(name = "id", value = "category id", example = "3") Long id) {
+	public ResponseEntity<ResponseCategoryDTO> deleteCategory(
+			@PathVariable("id") @ApiParam(name = "id", value = "category id", example = "1") Long id) {
 		Optional<Category> opCat = catService.findById(id);
 
 		if (!opCat.isPresent()) {
@@ -101,14 +101,14 @@ public class CategoryController {
 
 	@ApiOperation(value = "updateCategory", notes = "Update the data from an existing category")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseCategoryDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/category/{id}", produces = { "application/json" }, method = RequestMethod.PUT)
-	public ResponseEntity<GetCategoryDTO> updateCategory(@Valid @RequestBody GetCategoryDTO cat,
-			@PathVariable(name = "id") @ApiParam(name = "id", value = "category id", example = "3") Long id) {
+	public ResponseEntity<ResponseCategoryDTO> updateCategory(@Valid @RequestBody RequestCategoryDTO cat,
+			@PathVariable("id") @ApiParam(name = "id", value = "category id", example = "1") Long id) {
 
-		Category mappedCat = mapper.getCategoryDTOtoCategory(cat);
+		Category mappedCat = mapper.requestCategoryDTOtoCategory(cat);
 
 		Category mappedCatUpdated = catService.findById(id).map(newCat -> {
 			newCat.setUnitName(mappedCat.getUnitName());
@@ -124,11 +124,11 @@ public class CategoryController {
 
 	@ApiOperation(value = "searchCategories", notes = "Search categories by string")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetCategoryDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseCategoryDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/category/{catString}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<GetCategoryDTO>> searchCategories(
+	@RequestMapping(value = "/category/search", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseCategoryDTO>> searchCategories(
 			@RequestParam(name = "catString") @ApiParam(name = "catString", value = "Unit name or Category name", example = "family") String catString) {
 		List<Category> catList = catService.findCategoriesByMatcher(catString);
 

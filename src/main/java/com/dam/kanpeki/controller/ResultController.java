@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,8 +23,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.dam.kanpeki.model.Result;
 import com.dam.kanpeki.model.ResultId;
 import com.dam.kanpeki.model.custom.ResultPerCategoryData;
-import com.dam.kanpeki.model.dto.CreateResultDTO;
-import com.dam.kanpeki.model.dto.GetResultDTO;
+import com.dam.kanpeki.model.dto.RequestResultDTO;
+import com.dam.kanpeki.model.dto.ResponseResultDTO;
 import com.dam.kanpeki.model.dto.mapper.ResultDTOMapperStruct;
 import com.dam.kanpeki.service.ResultServiceI;
 
@@ -46,11 +47,11 @@ public class ResultController {
 
 	@ApiOperation(value = "getResults", notes = "Get all results from our database")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetResultDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/result", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<GetResultDTO>> getResults() {
+	@RequestMapping(value = "", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseResultDTO>> getResults() {
 		List<Result> rList = rService.findAllResults();
 
 		if (rList.isEmpty()) {
@@ -65,7 +66,7 @@ public class ResultController {
 			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResultPerCategoryData.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/result/custom", produces = { "application/json" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/custom", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResultPerCategoryData>> getResultsCustomData() {
 		List<ResultPerCategoryData> rDataList = rService.resultsPerCategory();
 
@@ -78,14 +79,14 @@ public class ResultController {
 
 	@ApiOperation(value = "getResultsByUser", notes = "Get all results from a user ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetResultDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/result/user/{userId}", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<GetResultDTO>> getResultsByUser(
-			@RequestParam(name = "userId") @ApiParam(name = "userId", value = "User id", example = "3") Long userId) {
+	@RequestMapping(value = "/result/user", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseResultDTO>> getResultsByUser(
+			@RequestParam(name = "id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
 
-		List<Result> rList = rService.findResultsUser(userId);
+		List<Result> rList = rService.findResultsUser(id);
 
 		if (rList.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results registered");
@@ -96,25 +97,25 @@ public class ResultController {
 
 	@ApiOperation(value = "addNewResult", notes = "Create a new result")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetResultDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/result", produces = { "application/json" }, method = RequestMethod.POST)
-	public ResponseEntity<GetResultDTO> addNewResult(@Valid @RequestBody CreateResultDTO r) {
+	public ResponseEntity<ResponseResultDTO> addNewResult(@Valid @RequestBody RequestResultDTO r) {
 
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(mapper.toResultDTO(rService.addResult(mapper.createResultDTOtoResult(r))));
+				.body(mapper.toResultDTO(rService.addResult(mapper.requestResultDTOtoResult(r))));
 
 	}
 
 	@ApiOperation(value = "deleteResultsFromUser", notes = "Delete a single result by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetResultDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/result/user/{userId}", produces = { "application/json" }, method = RequestMethod.DELETE)
-	public ResponseEntity<GetResultDTO> deleteResultsFromUser(
-			@RequestParam(name = "userId") @ApiParam(name = "userId", value = "User id", example = "3") Long userId) {
+	public ResponseEntity<ResponseResultDTO> deleteResultsFromUser(
+			@PathVariable("userId") @ApiParam(name = "userId", value = "User id", example = "1") Long userId) {
 		List<Result> rList = rService.findResultsUser(userId);
 
 		if (rList.isEmpty()) {
@@ -127,11 +128,11 @@ public class ResultController {
 
 	@ApiOperation(value = "deleteResult", notes = "Delete a single result by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetResultDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/result", produces = { "application/json" }, method = RequestMethod.DELETE)
-	public ResponseEntity<GetResultDTO> deleteResult(@Valid @RequestBody GetResultDTO r) {
+	public ResponseEntity<ResponseResultDTO> deleteResult(@Valid @RequestBody ResponseResultDTO r) {
 		// Requiero el objeto completo para acceder a su objeto id
 		ResultId resId = new ResultId(r.getUserId(), r.getResultDate());
 		Optional<Result> opResult = rService.findById(resId);
@@ -146,12 +147,11 @@ public class ResultController {
 
 	@ApiOperation(value = "searchResultsBetweenDates", notes = "Search results by resultDate between dates")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = GetResultDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "/result/search{startDate}{endDate}", produces = {
-			"application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<List<GetResultDTO>> searchResultsBetweenDates(
+	@RequestMapping(value = "/result/search", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseResultDTO>> searchResultsBetweenDates(
 			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2000-01-01") String startDate,
 			@RequestParam(name = "endDate") @ApiParam(name = "endDate", value = "to date", example = "2010-12-31") String endDate) {
 
