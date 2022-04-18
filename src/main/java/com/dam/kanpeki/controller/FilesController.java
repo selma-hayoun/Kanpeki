@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dam.kanpeki.service.FileSystemStorageServiceI;
+import com.dam.kanpeki.utils.KanpekiConstants;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,11 +36,11 @@ public class FilesController {
 		try {
 			contentType = request.getServletContext().getMimeType(file.getFile().getAbsolutePath());
 		} catch (IOException ex) {
-			logger.info("Could not determine file type.");
+			logger.info(KanpekiConstants.FILES_CONTROLLER_INFO_FILE_TYPE);
 		}
 
 		if (contentType == null) {
-			contentType = "application/octet-stream";
+			contentType = KanpekiConstants.FILES_CONTENT_TYPE;
 		}
 
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(file);

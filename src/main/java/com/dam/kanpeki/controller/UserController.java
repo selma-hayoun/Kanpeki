@@ -32,6 +32,7 @@ import com.dam.kanpeki.service.FileSystemStorageServiceI;
 import com.dam.kanpeki.service.ResultServiceI;
 import com.dam.kanpeki.service.UserServiceI;
 import com.dam.kanpeki.utils.FileUtils;
+import com.dam.kanpeki.utils.KanpekiConstants;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -45,8 +46,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 public class UserController {
 
 //	private static final String SERVE_FILE = "serveFile";
-
-	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
 	@Autowired
 	private UserServiceI uService;
@@ -64,15 +63,17 @@ public class UserController {
 
 	@ApiOperation(value = "getUsers", notes = "Get all users from our database")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseUserDTO.class, responseContainer = "List"),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "", produces = { "application/json" }, method = RequestMethod.GET)
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
+	@RequestMapping(value = KanpekiConstants.EMPTY_STRING, produces = {
+			"application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseUserDTO>> getUsers() {
 		List<User> uList = uService.findUsersOrderByDate();
 
 		if (uList.isEmpty()) {
-			throw new DataNotFoundException("");
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
 			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}
@@ -80,16 +81,17 @@ public class UserController {
 
 	@ApiOperation(value = "getUser", notes = "Get a user by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseUserDTO.class),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<ResponseUserDTO> getUser(
 			@RequestParam(name = "id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
 		Optional<User> opUser = uService.findById(id);
 
 		if (!opUser.isPresent()) {
-			throw new DataNotFoundException("");
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
 			return ResponseEntity.ok(mapper.toUserDTO(opUser.get()));
 		}
@@ -97,15 +99,16 @@ public class UserController {
 
 	@ApiOperation(value = "addNewUser", notes = "Create a new user")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseUserDTO.class),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/v1", produces = {
 			"application/json" }, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, method = RequestMethod.POST)
 	public ResponseEntity<ResponseUserDTO> addNewUserV1(@Valid @RequestPart(value = "u") RequestUserDTO u,
 			@RequestPart(value = "file", required = false) MultipartFile file) {
 
-//		String urlImg = "";
+//		String urlImg = KanpekiConstants.EMPTY_STRING;
 //
 //		if (file != null && !file.isEmpty()) {
 //			// Almacenamos el fichero y obtenemos su URL
@@ -125,16 +128,17 @@ public class UserController {
 
 	@ApiOperation(value = "addNewUser", notes = "Create a new user")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseUserDTO.class),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/v2", produces = { "application/json" }, consumes = {
 			MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE }, method = RequestMethod.POST)
 	public ResponseEntity<ResponseUserDTO> addNewUserV2(
 			@Valid @Parameter(description = "User attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestUserDTO u,
 			@Parameter(description = "Word image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file) {
 
-//		String urlImg = "";
+//		String urlImg = KanpekiConstants.EMPTY_STRING;
 //
 //		if (file != null && !file.isEmpty()) {
 //			// Almacenamos el fichero y obtenemos su URL
@@ -154,16 +158,17 @@ public class UserController {
 
 	@ApiOperation(value = "deleteUser", notes = "Delete a single user by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseUserDTO.class),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseUserDTO> deleteUser(
 			@PathVariable("id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
 		Optional<User> opUser = uService.findById(id);
 
 		if (!opUser.isPresent()) {
-			throw new DataNotFoundException("");
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
 			// Eliminamos la imagen del almacenamiento
 			storeService.delete(opUser.get().getUrlImage());
@@ -180,9 +185,10 @@ public class UserController {
 
 	@ApiOperation(value = "updateUser", notes = "Update the data from an existing user")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseUserDTO.class),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/v1/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = {
 			"application/json" }, method = RequestMethod.PUT)
 	public ResponseEntity<ResponseUserDTO> updateUserV1(@Valid @RequestPart(value = "u") RequestUserDTO u,
@@ -193,7 +199,7 @@ public class UserController {
 
 		if (opUser.isPresent()) {
 
-//			String urlImg = "";
+//			String urlImg = KanpekiConstants.EMPTY_STRING;
 
 			if (file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
@@ -223,21 +229,22 @@ public class UserController {
 				newU.setRoles(mappedU.getRoles());
 				uService.updateUser(newU);
 				return newU;
-			}).orElseThrow(() -> new DataNotFoundException(""));
+			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
 
 			return ResponseEntity.ok(mapper.toUserDTO(mappedUUpdated));
 
 		} else {
-			throw new DataNotFoundException("");
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		}
 
 	}
 
 	@ApiOperation(value = "updateUser", notes = "Update the data from an existing user")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseUserDTO.class),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/v2/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { "application/json" }, method = RequestMethod.PUT)
 	public ResponseEntity<ResponseUserDTO> updateUserV2(
@@ -249,7 +256,7 @@ public class UserController {
 
 		if (opUser.isPresent()) {
 
-//			String urlImg = "";
+//			String urlImg = KanpekiConstants.EMPTY_STRING;
 
 			if (file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
@@ -279,28 +286,29 @@ public class UserController {
 				newU.setRoles(mappedU.getRoles());
 				uService.updateUser(newU);
 				return newU;
-			}).orElseThrow(() -> new DataNotFoundException(""));
+			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
 
 			return ResponseEntity.ok(mapper.toUserDTO(mappedUUpdated));
 
 		} else {
-			throw new DataNotFoundException("");
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		}
 
 	}
 
 	@ApiOperation(value = "searchUsers", notes = "Search users by string")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseUserDTO.class, responseContainer = "List"),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/search", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseUserDTO>> searchUsers(
 			@RequestParam(name = "uString") @ApiParam(name = "uString", value = "email, full_name or nickname", example = "Alice") String uString) {
 		List<User> uList = uService.findUsersByMatcher(uString);
 
 		if (uList.isEmpty()) {
-			throw new DataNotFoundException("No users contain the string");
+			throw new DataNotFoundException(KanpekiConstants.DATA_NOT_FOUND_EX_USER_BY_STRING);
 		} else {
 			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}
@@ -308,9 +316,10 @@ public class UserController {
 
 	@ApiOperation(value = "searchUsersByBirthdate", notes = "Search users by birthdate between dates")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseUserDTO.class, responseContainer = "List"),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/birthdate", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseUserDTO>> searchUsersByBirthdate(
 			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2000-01-01") String startDate,
@@ -319,16 +328,18 @@ public class UserController {
 		List<User> uList = null;
 
 		try {
-			uList = uService.findUsersBirthdayBetweenDates(new SimpleDateFormat(DATE_FORMAT).parse(startDate),
-					new SimpleDateFormat(DATE_FORMAT).parse(endDate));
+			uList = uService.findUsersBirthdayBetweenDates(
+					new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
+					new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate));
 		} catch (ParseException e) {
 			LOG.error(e.getMessage());
 		}
 
 		if (uList == null) {
-			throw new ParameterIncorrectFormatException("Dates format are incorrect. Correct pattern: yyyy-MM-dd");
+			throw new ParameterIncorrectFormatException(KanpekiConstants.PARAMETER_INCORRECT_FORMAT_EX_DATES);
 		} else if (uList.isEmpty()) {
-			throw new DataNotFoundException("No birthdays between " + startDate + " and " + endDate);
+			throw new DataNotFoundException(
+					String.format(KanpekiConstants.DATA_NOT_FOUND_EX_USERS_BIRTHDAY_BY_DATES, startDate, endDate));
 		} else {
 			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}
@@ -336,9 +347,10 @@ public class UserController {
 
 	@ApiOperation(value = "searchUsersByCreatedAtDate", notes = "Search users by creation date between dates")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseUserDTO.class, responseContainer = "List"),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/creation", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseUserDTO>> searchUsersByCreatedAtDate(
 			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2000-01-01") String startDate,
@@ -347,16 +359,18 @@ public class UserController {
 		List<User> uList = null;
 
 		try {
-			uList = uService.findUsersCreatedAtBetweenDates(new SimpleDateFormat(DATE_FORMAT).parse(startDate),
-					new SimpleDateFormat(DATE_FORMAT).parse(endDate));
+			uList = uService.findUsersCreatedAtBetweenDates(
+					new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
+					new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate));
 		} catch (ParseException e) {
 			LOG.error(e.getMessage());
 		}
 
 		if (uList == null) {
-			throw new ParameterIncorrectFormatException("Dates format are incorrect. Correct pattern: yyyy-MM-dd");
+			throw new ParameterIncorrectFormatException(KanpekiConstants.PARAMETER_INCORRECT_FORMAT_EX_DATES);
 		} else if (uList.isEmpty()) {
-			throw new DataNotFoundException("No users created between " + startDate + " and " + endDate);
+			throw new DataNotFoundException(
+					String.format(KanpekiConstants.DATA_NOT_FOUND_EX_USERS_CREATED_BY_DATES, startDate, endDate));
 		} else {
 			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
 		}

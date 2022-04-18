@@ -28,6 +28,7 @@ import com.dam.kanpeki.model.dto.RequestResultDTO;
 import com.dam.kanpeki.model.dto.ResponseResultDTO;
 import com.dam.kanpeki.model.dto.mapper.ResultDTOMapperStruct;
 import com.dam.kanpeki.service.ResultServiceI;
+import com.dam.kanpeki.utils.KanpekiConstants;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -48,15 +49,17 @@ public class ResultController {
 
 	@ApiOperation(value = "getResults", notes = "Get all results from our database")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class, responseContainer = "List"),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
-	@RequestMapping(value = "", produces = { "application/json" }, method = RequestMethod.GET)
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseResultDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
+	@RequestMapping(value = KanpekiConstants.EMPTY_STRING, produces = {
+			"application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseResultDTO>> getResults() {
 		List<Result> rList = rService.findAllResults();
 
 		if (rList.isEmpty()) {
-			throw new DataNotFoundException("");
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
 			return ResponseEntity.ok(mapper.toResultDTOList(rList.stream()));
 		}
@@ -64,15 +67,16 @@ public class ResultController {
 
 	@ApiOperation(value = "getResultsCustomData", notes = "Get custom data from all results from our database")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResultPerCategoryData.class, responseContainer = "List"),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResultPerCategoryData.class, responseContainer = "List"),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/custom", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResultPerCategoryData>> getResultsCustomData() {
 		List<ResultPerCategoryData> rDataList = rService.resultsPerCategory();
 
 		if (rDataList.isEmpty()) {
-			throw new DataNotFoundException("");
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
 			return ResponseEntity.ok(rDataList);
 		}
@@ -80,9 +84,10 @@ public class ResultController {
 
 	@ApiOperation(value = "getResultsByUser", notes = "Get all results from a user ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class, responseContainer = "List"),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseResultDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/result/user", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseResultDTO>> getResultsByUser(
 			@RequestParam(name = "id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
@@ -90,7 +95,7 @@ public class ResultController {
 		List<Result> rList = rService.findResultsUser(id);
 
 		if (rList.isEmpty()) {
-			throw new DataNotFoundException("");
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
 			return ResponseEntity.ok(mapper.toResultDTOList(rList.stream()));
 		}
@@ -98,9 +103,10 @@ public class ResultController {
 
 	@ApiOperation(value = "addNewResult", notes = "Create a new result")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseResultDTO.class),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/result", produces = { "application/json" }, method = RequestMethod.POST)
 	public ResponseEntity<ResponseResultDTO> addNewResult(@Valid @RequestBody RequestResultDTO r) {
 
@@ -111,16 +117,17 @@ public class ResultController {
 
 	@ApiOperation(value = "deleteResultsFromUser", notes = "Delete a single result by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseResultDTO.class),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/result/user/{userId}", produces = { "application/json" }, method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseResultDTO> deleteResultsFromUser(
 			@PathVariable("userId") @ApiParam(name = "userId", value = "User id", example = "1") Long userId) {
 		List<Result> rList = rService.findResultsUser(userId);
 
 		if (rList.isEmpty()) {
-			throw new DataNotFoundException("Results from user " + userId + " not found");
+			throw new DataNotFoundException(KanpekiConstants.DATA_NOT_FOUND_EX_USER_RESULTS + userId);
 		} else {
 			rList.stream().forEach(r -> rService.removeResult(r));
 			return ResponseEntity.noContent().build();
@@ -129,9 +136,10 @@ public class ResultController {
 
 	@ApiOperation(value = "deleteResult", notes = "Delete a single result by ID")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseResultDTO.class),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/result", produces = { "application/json" }, method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseResultDTO> deleteResult(@Valid @RequestBody ResponseResultDTO r) {
 		// Requiero el objeto completo para acceder a su objeto id
@@ -139,7 +147,7 @@ public class ResultController {
 		Optional<Result> opResult = rService.findById(resId);
 
 		if (!opResult.isPresent()) {
-			throw new DataNotFoundException("");
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
 			rService.removeResultById(resId);
 			return ResponseEntity.noContent().build();
@@ -148,9 +156,10 @@ public class ResultController {
 
 	@ApiOperation(value = "searchResultsBetweenDates", notes = "Search results by resultDate between dates")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseResultDTO.class, responseContainer = "List"),
-			@ApiResponse(code = 400, message = "Bad request"), @ApiResponse(code = 404, message = "Not found"),
-			@ApiResponse(code = 500, message = "Unexpected error") })
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseResultDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/result/search", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseResultDTO>> searchResultsBetweenDates(
 			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2000-01-01") String startDate,
@@ -159,16 +168,18 @@ public class ResultController {
 		List<Result> rList = null;
 
 		try {
-			rList = rService.findResultsBetweenDates(new SimpleDateFormat("yyyy-MM-dd").parse(startDate),
-					new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+			rList = rService.findResultsBetweenDates(
+					new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
+					new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate));
 		} catch (ParseException e) {
 			LOG.error(e.getMessage());
 		}
 
 		if (rList == null) {
-			throw new ParameterIncorrectFormatException("Dates format are incorrect. Correct pattern: yyyy-MM-dd");
+			throw new ParameterIncorrectFormatException(KanpekiConstants.PARAMETER_INCORRECT_FORMAT_EX_DATES);
 		} else if (rList.isEmpty()) {
-			throw new DataNotFoundException("No results between " + startDate + " and " + endDate);
+			throw new DataNotFoundException(
+					String.format(KanpekiConstants.DATA_NOT_FOUND_EX_RESULTS_BY_DATES, startDate, endDate));
 		} else {
 			return ResponseEntity.ok(mapper.toResultDTOList(rList.stream()));
 		}
