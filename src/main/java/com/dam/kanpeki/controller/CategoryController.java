@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dam.kanpeki.exception.DataNotFoundException;
-import com.dam.kanpeki.model.Category;
 import com.dam.kanpeki.model.dto.RequestCategoryDTO;
 import com.dam.kanpeki.model.dto.ResponseCategoryDTO;
-import com.dam.kanpeki.model.dto.mapper.CategoryDTOMapperStruct;
 import com.dam.kanpeki.service.CategoryServiceI;
 
 import io.swagger.annotations.ApiOperation;
@@ -34,9 +32,6 @@ public class CategoryController {
 	@Autowired
 	private CategoryServiceI catService;
 
-	@Autowired
-	private CategoryDTOMapperStruct mapper;
-
 	@ApiOperation(value = "getCategories", notes = "Get all categories from our database")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK. Resources obtained correctly", response = ResponseCategoryDTO.class, responseContainer = "List"),
@@ -44,12 +39,12 @@ public class CategoryController {
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseCategoryDTO>> getCategories() {
-		List<Category> catList = catService.findAllCategories();
+		List<ResponseCategoryDTO> catList = catService.findAllCategories();
 
 		if (catList.isEmpty()) {
 			throw new DataNotFoundException("");
 		} else {
-			return ResponseEntity.ok(mapper.toCategoryDTOList(catList.stream()));
+			return ResponseEntity.ok(catList);
 		}
 	}
 
@@ -61,12 +56,12 @@ public class CategoryController {
 	@RequestMapping(value = "/category", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<ResponseCategoryDTO> getCategory(
 			@RequestParam(name = "id") @ApiParam(name = "id", value = "category id", example = "1") Long id) {
-		Optional<Category> opCat = catService.findById(id);
+		Optional<ResponseCategoryDTO> opCat = catService.findById(id);
 
 		if (!opCat.isPresent()) {
 			throw new DataNotFoundException("");
 		} else {
-			return ResponseEntity.ok(mapper.toCategoryDTO(opCat.get()));
+			return ResponseEntity.ok(opCat.get());
 		}
 	}
 
@@ -77,8 +72,7 @@ public class CategoryController {
 			@ApiResponse(code = 500, message = "Unexpected error") })
 	@RequestMapping(value = "/category", produces = { "application/json" }, method = RequestMethod.POST)
 	public ResponseEntity<ResponseCategoryDTO> addNewCategory(@Valid @RequestBody RequestCategoryDTO cat) {
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(mapper.toCategoryDTO(catService.addWord(mapper.requestCategoryDTOtoCategory(cat))));
+		return ResponseEntity.status(HttpStatus.CREATED).body(catService.addWord(cat));
 	}
 
 	@ApiOperation(value = "deleteCategory", notes = "Delete a single category by ID")
@@ -89,7 +83,7 @@ public class CategoryController {
 	@RequestMapping(value = "/category/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseCategoryDTO> deleteCategory(
 			@PathVariable("id") @ApiParam(name = "id", value = "category id", example = "1") Long id) {
-		Optional<Category> opCat = catService.findById(id);
+		Optional<ResponseCategoryDTO> opCat = catService.findById(id);
 
 		if (!opCat.isPresent()) {
 			throw new DataNotFoundException("");
@@ -108,17 +102,7 @@ public class CategoryController {
 	public ResponseEntity<ResponseCategoryDTO> updateCategory(@Valid @RequestBody RequestCategoryDTO cat,
 			@PathVariable("id") @ApiParam(name = "id", value = "category id", example = "1") Long id) {
 
-		Category mappedCat = mapper.requestCategoryDTOtoCategory(cat);
-
-		Category mappedCatUpdated = catService.findById(id).map(newCat -> {
-			newCat.setUnitName(mappedCat.getUnitName());
-			newCat.setCategoryName(mappedCat.getCategoryName());
-			newCat.setIsQuestion(mappedCat.getIsQuestion());
-			catService.updateCategory(newCat);
-			return newCat;
-		}).orElseThrow(() -> new DataNotFoundException(""));
-
-		return ResponseEntity.ok(mapper.toCategoryDTO(mappedCatUpdated));
+		return ResponseEntity.ok(catService.updateCategory(cat, id));
 
 	}
 
@@ -130,12 +114,12 @@ public class CategoryController {
 	@RequestMapping(value = "/category/search", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseCategoryDTO>> searchCategories(
 			@RequestParam(name = "catString") @ApiParam(name = "catString", value = "Unit name or Category name", example = "family") String catString) {
-		List<Category> catList = catService.findCategoriesByMatcher(catString);
+		List<ResponseCategoryDTO> catList = catService.findCategoriesByMatcher(catString);
 
 		if (catList.isEmpty()) {
 			throw new DataNotFoundException("No categories contain the string");
 		} else {
-			return ResponseEntity.ok(mapper.toCategoryDTOList(catList.stream()));
+			return ResponseEntity.ok(catList);
 		}
 	}
 }

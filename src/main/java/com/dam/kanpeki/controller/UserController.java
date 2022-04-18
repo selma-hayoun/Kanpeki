@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.exception.ParameterIncorrectFormatException;
@@ -30,7 +29,9 @@ import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
 import com.dam.kanpeki.model.dto.mapper.UserDTOMapperStruct;
 import com.dam.kanpeki.service.FileSystemStorageServiceI;
+import com.dam.kanpeki.service.ResultServiceI;
 import com.dam.kanpeki.service.UserServiceI;
+import com.dam.kanpeki.utils.FileUtils;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -43,7 +44,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 @RequestMapping("kanpeki/users")
 public class UserController {
 
-	private static final String SERVE_FILE = "serveFile";
+//	private static final String SERVE_FILE = "serveFile";
 
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
@@ -52,6 +53,9 @@ public class UserController {
 
 	@Autowired
 	private FileSystemStorageServiceI storeService;
+
+	@Autowired
+	private ResultServiceI rService;
 
 	@Autowired
 	private UserDTOMapperStruct mapper;
@@ -101,18 +105,19 @@ public class UserController {
 	public ResponseEntity<ResponseUserDTO> addNewUserV1(@Valid @RequestPart(value = "u") RequestUserDTO u,
 			@RequestPart(value = "file", required = false) MultipartFile file) {
 
-		String urlImg = "";
-
-		if (file != null && !file.isEmpty()) {
-			// Almacenamos el fichero y obtenemos su URL
-			String img = storeService.store(file);
-			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
-					.toUriString();
-		}
+//		String urlImg = "";
+//
+//		if (file != null && !file.isEmpty()) {
+//			// Almacenamos el fichero y obtenemos su URL
+//			String img = storeService.store(file);
+//			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
+//					.toUriString();
+//		}
 
 		User uTemp = mapper.requestUserDTOtoUser(u);
 		// Seteamos la URL donde está almacenada
-		uTemp.setUrlImage(urlImg);
+//		uTemp.setUrlImage(urlImg);
+		uTemp.setUrlImage(FileUtils.saveFileRequest(file));
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toUserDTO(uService.addUser(uTemp)));
 
@@ -129,18 +134,19 @@ public class UserController {
 			@Valid @Parameter(description = "User attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestUserDTO u,
 			@Parameter(description = "Word image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file) {
 
-		String urlImg = "";
-
-		if (file != null && !file.isEmpty()) {
-			// Almacenamos el fichero y obtenemos su URL
-			String img = storeService.store(file);
-			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
-					.toUriString();
-		}
+//		String urlImg = "";
+//
+//		if (file != null && !file.isEmpty()) {
+//			// Almacenamos el fichero y obtenemos su URL
+//			String img = storeService.store(file);
+//			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
+//					.toUriString();
+//		}
 
 		User uTemp = mapper.requestUserDTOtoUser(u);
 		// Seteamos la URL donde está almacenada
-		uTemp.setUrlImage(urlImg);
+//		uTemp.setUrlImage(urlImg);
+		uTemp.setUrlImage(FileUtils.saveFileRequest(file));
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toUserDTO(uService.addUser(uTemp)));
 
@@ -161,6 +167,12 @@ public class UserController {
 		} else {
 			// Eliminamos la imagen del almacenamiento
 			storeService.delete(opUser.get().getUrlImage());
+
+			if (!opUser.get().getResults().isEmpty()) {
+				// Eliminamos sus resultados
+				rService.deleteResultsByUserId(id);
+			}
+
 			uService.removeUserById(id);
 			return ResponseEntity.noContent().build();
 		}
@@ -181,23 +193,24 @@ public class UserController {
 
 		if (opUser.isPresent()) {
 
-			String urlImg = "";
+//			String urlImg = "";
 
 			if (file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
 				storeService.delete(opUser.get().getUrlImage());
 
-				// Almacenamos el fichero y obtenemos su URL
-				if (!file.isEmpty()) {
-					String img = storeService.store(file);
-					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
-							.build().toUriString();
-				}
+//				// Almacenamos el fichero y obtenemos su URL
+//				if (!file.isEmpty()) {
+//					String img = storeService.store(file);
+//					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
+//							.build().toUriString();
+//				}
 			}
 
 			User mappedU = mapper.requestUserDTOtoUser(u);
 			// Seteamos la URL donde está almacenada
-			mappedU.setUrlImage(urlImg);
+//			mappedU.setUrlImage(urlImg);
+			mappedU.setUrlImage(FileUtils.saveFileRequest(file));
 
 			User mappedUUpdated = opUser.map(newU -> {
 				newU.setEmail(u.getEmail());
@@ -236,23 +249,24 @@ public class UserController {
 
 		if (opUser.isPresent()) {
 
-			String urlImg = "";
+//			String urlImg = "";
 
 			if (file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
 				storeService.delete(opUser.get().getUrlImage());
 
-				// Almacenamos el fichero y obtenemos su URL
-				if (!file.isEmpty()) {
-					String img = storeService.store(file);
-					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
-							.build().toUriString();
-				}
+//				// Almacenamos el fichero y obtenemos su URL
+//				if (!file.isEmpty()) {
+//					String img = storeService.store(file);
+//					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
+//							.build().toUriString();
+//				}
 			}
 
 			User mappedU = mapper.requestUserDTOtoUser(u);
 			// Seteamos la URL donde está almacenada
-			mappedU.setUrlImage(urlImg);
+//			mappedU.setUrlImage(urlImg);
+			mappedU.setUrlImage(FileUtils.saveFileRequest(file));
 
 			User mappedUUpdated = opUser.map(newU -> {
 				newU.setEmail(u.getEmail());

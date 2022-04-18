@@ -50,6 +50,18 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	}
 
 	/**
+	 * Excepción para controlar la no eliminación de una categoría con datos
+	 * vinculados
+	 *
+	 */
+	@ExceptionHandler(InvalidOperationOnCategoryException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public ResponseEntity<ApiError> handleInvalidOperationOnCategoryException(InvalidOperationOnCategoryException ex) {
+		ApiError apiError = new ApiError(HttpStatus.FORBIDDEN, ex.getMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(apiError);
+	}
+
+	/**
 	 * Excepción cuando se envían parámetros incorrectos que no se han podido
 	 * parsear
 	 *
@@ -73,6 +85,10 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
 	}
 
+	/**
+	 * Excepción sobreescrita para el control de valores no permitidos en la base de
+	 * datos
+	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -81,6 +97,10 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
 	}
 
+	/**
+	 * Excepción sobreescrita para el control de valores no permitidos en la base de
+	 * datos
+	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@Override
 	protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
@@ -90,6 +110,7 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	}
 
 	/**
+	 * Método auxiliar para el tratamiento del texto de las excepciones
 	 * 
 	 * @param ex
 	 * @return

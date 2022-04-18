@@ -4,23 +4,25 @@ import java.util.List;
 import java.util.Optional;
 
 import com.dam.kanpeki.model.Category;
+import com.dam.kanpeki.model.dto.RequestCategoryDTO;
+import com.dam.kanpeki.model.dto.ResponseCategoryDTO;
 
 public interface CategoryServiceI {
 
-	public List<Category> findAllCategories();
+	public List<ResponseCategoryDTO> findAllCategories();
 
 	public List<Category> findByIsQuestionTrue();
 
 	public List<Category> findByIsQuestionFalse();
 
-	public List<Category> findCategoriesByMatcher(String wField);
+	public List<ResponseCategoryDTO> findCategoriesByMatcher(String wField);
 
-	public Optional<Category> findById(Long id);
+	public Optional<ResponseCategoryDTO> findById(Long id);
 
-	public Category addWord(Category cat);
+	public ResponseCategoryDTO addWord(RequestCategoryDTO cat);
 
 	public void removeCategoryById(Long id);
 
-	public void updateCategory(Category cat);
+	public ResponseCategoryDTO updateCategory(RequestCategoryDTO cat, Long id);
 
 }

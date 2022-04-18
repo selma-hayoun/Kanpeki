@@ -40,7 +40,7 @@ public class Question implements Serializable {
 	// FK con categoría
 	private Long categoryId;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	@JoinColumn(name = "questionId")
 	private Set<Answer> answers;
 

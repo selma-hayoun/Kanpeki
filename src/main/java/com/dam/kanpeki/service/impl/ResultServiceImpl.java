@@ -69,4 +69,9 @@ public class ResultServiceImpl implements ResultServiceI {
 		return rRepo.findResultsUser(userId);
 	}
 
+	@Override
+	public void deleteResultsByUserId(Long id) {
+		rRepo.deleteResultsByUserId(id);
+	}
+
 }

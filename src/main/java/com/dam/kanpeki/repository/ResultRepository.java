@@ -3,8 +3,12 @@ package com.dam.kanpeki.repository;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.dam.kanpeki.model.Result;
@@ -25,5 +29,10 @@ public interface ResultRepository extends JpaRepository<Result, ResultId> {
 
 	@Query(value = "SELECT * FROM results r WHERE r.result_date BETWEEN :startDate AND :endDate ORDER BY r.result_date DESC", nativeQuery = true)
 	List<Result> findResultsBetweenDates(Date startDate, Date endDate);
+
+	@Modifying
+	@Query(value = "DELETE FROM results WHERE user_id = :id", nativeQuery = true)
+	@Transactional
+	void deleteResultsByUserId(@Param("id") Long id);
 
 }

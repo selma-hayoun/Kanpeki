@@ -30,4 +30,6 @@ public interface ResultServiceI {
 
 	public void updateResult(Result r);
 
+	public void deleteResultsByUserId(Long id);
+
 }
