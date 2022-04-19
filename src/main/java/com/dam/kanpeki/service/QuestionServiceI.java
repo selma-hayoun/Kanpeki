@@ -4,23 +4,24 @@ import java.util.List;
 import java.util.Optional;
 
 import com.dam.kanpeki.model.Question;
+import com.dam.kanpeki.model.dto.RequestQuestionDTO;
+import com.dam.kanpeki.model.dto.ResponseQuestionDTO;
 
 public interface QuestionServiceI {
 
-	public List<Question> findAllQuestions();
+	public List<ResponseQuestionDTO> findAllQuestions();
 
-	public List<Question> findByCategoryId(Long id);
+	public List<ResponseQuestionDTO> findByCategoryId(Long id);
 
 	public List<Question> findByStatementContaining(String qSate);
 
-	public List<Question> findQuestionsByMatcher(String qField);
+	public List<ResponseQuestionDTO> findQuestionsByMatcher(String qField);
 
-	public Optional<Question> findById(Long id);
+	public Optional<ResponseQuestionDTO> findById(Long id);
 
-	public Question addQuestion(Question q);
+	public ResponseQuestionDTO addQuestion(RequestQuestionDTO q);
 
 	public void removeQuestionById(Long id);
-
-	public void updateQuestion(Question q);
+	public ResponseQuestionDTO updateQuestion(RequestQuestionDTO q, Long id);
 
 }

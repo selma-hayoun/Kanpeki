@@ -38,7 +38,7 @@ public class RequestQuestionDTO implements Serializable {
 
 	@ApiModelProperty(notes = "Answers to the question", required = true)
 	@NotNull
-	@Size(min = 4, max = 4, message = "Must be four options mandatorily")
+	@Size(min = 4, max = 4, message = "Must be four different options mandatory")
 	private Set<@NotNull @Valid AnswerDTO> answers;
 
 }

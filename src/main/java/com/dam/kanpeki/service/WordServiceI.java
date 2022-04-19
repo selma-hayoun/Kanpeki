@@ -4,21 +4,24 @@ import java.util.List;
 import java.util.Optional;
 
 import com.dam.kanpeki.model.Word;
+import com.dam.kanpeki.model.dto.RequestWordDTO;
+import com.dam.kanpeki.model.dto.ResponseWordDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface WordServiceI {
 
-	public List<Word> findAllWords();
+	public List<ResponseWordDTO> findAllWords();
 
-	public List<Word> findWordsByMatcher(String wField);
+	public List<ResponseWordDTO> findWordsByMatcher(String wField);
 
-	public List<Word> findByCategoryId(Long id);
+	public List<ResponseWordDTO> findByCategoryId(Long id);
 
-	public Optional<Word> findById(Long id);
+	public Optional<ResponseWordDTO> findById(Long id);
 
-	public Word addWord(Word w);
+	public ResponseWordDTO addWord(RequestWordDTO w, MultipartFile file);
 
 	public void removeWordById(Long id);
 
-	public void updateWord(Word w);
+	public ResponseWordDTO updateWord(RequestWordDTO w, MultipartFile file, Long id);
 
 }

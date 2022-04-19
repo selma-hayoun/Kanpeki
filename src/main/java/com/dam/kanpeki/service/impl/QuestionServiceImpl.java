@@ -3,6 +3,11 @@ package com.dam.kanpeki.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.dam.kanpeki.exception.DataNotFoundException;
+import com.dam.kanpeki.model.dto.RequestQuestionDTO;
+import com.dam.kanpeki.model.dto.ResponseQuestionDTO;
+import com.dam.kanpeki.model.dto.mapper.QuestionAnswerDTOMapperStruct;
+import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -18,14 +23,18 @@ public class QuestionServiceImpl implements QuestionServiceI {
 	@Autowired
 	private QuestionRepository qRepo;
 
+	@Autowired
+	private QuestionAnswerDTOMapperStruct mapper;
+
 	@Override
-	public List<Question> findAllQuestions() {
-		return qRepo.findAll();
+	public List<ResponseQuestionDTO> findAllQuestions() {
+		List<Question> qList = qRepo.findAll();
+		return mapper.toQuestionDTOList(qList.stream());
 	}
 
 	@Override
-	public List<Question> findByCategoryId(Long id) {
-		return qRepo.findByCategoryId(id);
+	public List<ResponseQuestionDTO> findByCategoryId(Long id) {
+		return mapper.toQuestionDTOList(qRepo.findByCategoryId(id).stream());
 	}
 
 	@Override
@@ -34,13 +43,18 @@ public class QuestionServiceImpl implements QuestionServiceI {
 	}
 
 	@Override
-	public Optional<Question> findById(Long id) {
-		return qRepo.findById(id);
+	public Optional<ResponseQuestionDTO> findById(Long id) {
+		Optional<Question> opQuestion = qRepo.findById(id);
+		if(!opQuestion.isPresent()){
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
+		} else {
+			return Optional.of(mapper.toQuestionDTO(opQuestion.get()));
+		}
 	}
 
 	@Override
-	public Question addQuestion(Question q) {
-		return qRepo.save(q);
+	public ResponseQuestionDTO addQuestion(RequestQuestionDTO q) {
+		return mapper.toQuestionDTO(qRepo.save(mapper.requestQuestionDTOtoQuestion(q)));
 	}
 
 	@Override
@@ -49,12 +63,24 @@ public class QuestionServiceImpl implements QuestionServiceI {
 	}
 
 	@Override
-	public void updateQuestion(Question q) {
-		qRepo.save(q);
+	public ResponseQuestionDTO updateQuestion(RequestQuestionDTO q, Long id) {
+
+		Question mappedQ = mapper.requestQuestionDTOtoQuestion(q);
+
+		Question mappedQUpdated = qRepo.findById(id).map(newQ -> {
+			newQ.setStatement(mappedQ.getStatement());
+			newQ.setHelp(mappedQ.getHelp());
+			newQ.setCategoryId(mappedQ.getCategoryId());
+			newQ.setAnswers(mappedQ.getAnswers());
+			qRepo.save(newQ);
+			return newQ;
+		}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
+
+		return mapper.toQuestionDTO(mappedQUpdated);
 	}
 
 	@Override
-	public List<Question> findQuestionsByMatcher(String qField) {
+	public List<ResponseQuestionDTO> findQuestionsByMatcher(String qField) {
 		Question q = new Question();
 		q.setStatement(qField);
 
@@ -63,7 +89,7 @@ public class QuestionServiceImpl implements QuestionServiceI {
 
 		Example<Question> qExample = Example.of(q, customExMatcher);
 
-		return qRepo.findAll(qExample);
+		return mapper.toQuestionDTOList(qRepo.findAll(qExample).stream());
 	}
 
 }

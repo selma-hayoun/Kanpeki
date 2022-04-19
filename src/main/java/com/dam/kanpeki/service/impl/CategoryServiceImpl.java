@@ -3,6 +3,7 @@ package com.dam.kanpeki.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -60,7 +61,12 @@ public class CategoryServiceImpl implements CategoryServiceI {
 	@Override
 	public Optional<ResponseCategoryDTO> findById(Long id) {
 		Optional<Category> opCat = catRepo.findById(id);
-		return Optional.of(mapper.toCategoryDTO(opCat.get()));
+
+		if(!opCat.isPresent()){
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
+		} else {
+			return Optional.of(mapper.toCategoryDTO(opCat.get()));
+		}
 	}
 
 	@Override

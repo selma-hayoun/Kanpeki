@@ -42,8 +42,7 @@ public class ResultController {
 	@Autowired
 	private ResultServiceI rService;
 
-	@Autowired
-	private ResultDTOMapperStruct mapper;
+
 
 	private static final Logger LOG = LoggerFactory.getLogger(ResultController.class);
 
@@ -56,12 +55,12 @@ public class ResultController {
 	@RequestMapping(value = KanpekiConstants.EMPTY_STRING, produces = {
 			"application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseResultDTO>> getResults() {
-		List<Result> rList = rService.findAllResults();
+		List<ResponseResultDTO> rList = rService.findAllResults();
 
 		if (rList.isEmpty()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
-			return ResponseEntity.ok(mapper.toResultDTOList(rList.stream()));
+			return ResponseEntity.ok(rList);
 		}
 	}
 
@@ -92,12 +91,12 @@ public class ResultController {
 	public ResponseEntity<List<ResponseResultDTO>> getResultsByUser(
 			@RequestParam(name = "id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
 
-		List<Result> rList = rService.findResultsUser(id);
+		List<ResponseResultDTO> rList = rService.findResultsUser(id);
 
 		if (rList.isEmpty()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
-			return ResponseEntity.ok(mapper.toResultDTOList(rList.stream()));
+			return ResponseEntity.ok(rList);
 		}
 	}
 
@@ -111,7 +110,7 @@ public class ResultController {
 	public ResponseEntity<ResponseResultDTO> addNewResult(@Valid @RequestBody RequestResultDTO r) {
 
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(mapper.toResultDTO(rService.addResult(mapper.requestResultDTOtoResult(r))));
+				.body(rService.addResult(r));
 
 	}
 
@@ -124,7 +123,7 @@ public class ResultController {
 	@RequestMapping(value = "/result/user/{userId}", produces = { "application/json" }, method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseResultDTO> deleteResultsFromUser(
 			@PathVariable("userId") @ApiParam(name = "userId", value = "User id", example = "1") Long userId) {
-		List<Result> rList = rService.findResultsUser(userId);
+		List<ResponseResultDTO> rList = rService.findResultsUser(userId);
 
 		if (rList.isEmpty()) {
 			throw new DataNotFoundException(KanpekiConstants.DATA_NOT_FOUND_EX_USER_RESULTS + userId);
@@ -149,7 +148,7 @@ public class ResultController {
 		if (!opResult.isPresent()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
-			rService.removeResultById(resId);
+			rService.removeResultById(r);
 			return ResponseEntity.noContent().build();
 		}
 	}
@@ -165,7 +164,7 @@ public class ResultController {
 			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2000-01-01") String startDate,
 			@RequestParam(name = "endDate") @ApiParam(name = "endDate", value = "to date", example = "2010-12-31") String endDate) {
 
-		List<Result> rList = null;
+		List<ResponseResultDTO> rList = null;
 
 		try {
 			rList = rService.findResultsBetweenDates(
@@ -181,7 +180,7 @@ public class ResultController {
 			throw new DataNotFoundException(
 					String.format(KanpekiConstants.DATA_NOT_FOUND_EX_RESULTS_BY_DATES, startDate, endDate));
 		} else {
-			return ResponseEntity.ok(mapper.toResultDTOList(rList.stream()));
+			return ResponseEntity.ok(rList);
 		}
 	}
 

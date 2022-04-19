@@ -56,9 +56,6 @@ public class UserController {
 	@Autowired
 	private ResultServiceI rService;
 
-	@Autowired
-	private UserDTOMapperStruct mapper;
-
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
 	@ApiOperation(value = "getUsers", notes = "Get all users from our database")
@@ -70,12 +67,12 @@ public class UserController {
 	@RequestMapping(value = KanpekiConstants.EMPTY_STRING, produces = {
 			"application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseUserDTO>> getUsers() {
-		List<User> uList = uService.findUsersOrderByDate();
+		List<ResponseUserDTO> uList = uService.findUsersOrderByDate();
 
 		if (uList.isEmpty()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
-			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
+			return ResponseEntity.ok(uList);
 		}
 	}
 
@@ -88,12 +85,12 @@ public class UserController {
 	@RequestMapping(value = "/user", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<ResponseUserDTO> getUser(
 			@RequestParam(name = "id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
-		Optional<User> opUser = uService.findById(id);
+		Optional<ResponseUserDTO> opUser = uService.findById(id);
 
 		if (!opUser.isPresent()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
-			return ResponseEntity.ok(mapper.toUserDTO(opUser.get()));
+			return ResponseEntity.ok(opUser.get());
 		}
 	}
 
@@ -117,12 +114,13 @@ public class UserController {
 //					.toUriString();
 //		}
 
-		User uTemp = mapper.requestUserDTOtoUser(u);
+//		User uTemp = mapper.requestUserDTOtoUser(u);
 		// Seteamos la URL donde está almacenada
 //		uTemp.setUrlImage(urlImg);
-		uTemp.setUrlImage(FileUtils.saveFileRequest(file));
+//		uTemp.setUrlImage(FileUtils.saveFileRequest(file));
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toUserDTO(uService.addUser(uTemp)));
+//		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toUserDTO(uService.addUser(uTemp)));
+		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
 
 	}
 
@@ -147,12 +145,13 @@ public class UserController {
 //					.toUriString();
 //		}
 
-		User uTemp = mapper.requestUserDTOtoUser(u);
+//		User uTemp = mapper.requestUserDTOtoUser(u);
 		// Seteamos la URL donde está almacenada
 //		uTemp.setUrlImage(urlImg);
-		uTemp.setUrlImage(FileUtils.saveFileRequest(file));
+//		uTemp.setUrlImage(FileUtils.saveFileRequest(file));
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toUserDTO(uService.addUser(uTemp)));
+//		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toUserDTO(uService.addUser(uTemp)));
+		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
 
 	}
 
@@ -165,19 +164,18 @@ public class UserController {
 	@RequestMapping(value = "/user/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseUserDTO> deleteUser(
 			@PathVariable("id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
-		Optional<User> opUser = uService.findById(id);
+		Optional<ResponseUserDTO> opUser = uService.findById(id);
 
 		if (!opUser.isPresent()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
-			// Eliminamos la imagen del almacenamiento
-			storeService.delete(opUser.get().getUrlImage());
-
-			if (!opUser.get().getResults().isEmpty()) {
-				// Eliminamos sus resultados
-				rService.deleteResultsByUserId(id);
-			}
-
+//			// Eliminamos la imagen del almacenamiento
+//			storeService.delete(opUser.get().getUrlImage());
+//
+//			if (!opUser.get().getResults().isEmpty()) {
+//				// Eliminamos sus resultados
+//				rService.deleteResultsByUserId(id);
+//			}
 			uService.removeUserById(id);
 			return ResponseEntity.noContent().build();
 		}
@@ -195,7 +193,7 @@ public class UserController {
 			@RequestPart(value = "file", required = false) MultipartFile file,
 			@PathVariable("id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
 
-		Optional<User> opUser = uService.findById(id);
+		Optional<ResponseUserDTO> opUser = uService.findById(id);
 
 		if (opUser.isPresent()) {
 
@@ -213,25 +211,26 @@ public class UserController {
 //				}
 			}
 
-			User mappedU = mapper.requestUserDTOtoUser(u);
+//			User mappedU = mapper.requestUserDTOtoUser(u);
 			// Seteamos la URL donde está almacenada
 //			mappedU.setUrlImage(urlImg);
-			mappedU.setUrlImage(FileUtils.saveFileRequest(file));
+//			mappedU.setUrlImage(FileUtils.saveFileRequest(file));
+//
+//			User mappedUUpdated = opUser.map(newU -> {
+//				newU.setEmail(u.getEmail());
+//				newU.setPassword(mappedU.getPassword());
+//				newU.setFullName(mappedU.getFullName());
+//				newU.setNickname(mappedU.getNickname());
+//				newU.setUrlImage(mappedU.getUrlImage());
+//				newU.setBirthday(mappedU.getBirthday());
+//				newU.setCity(mappedU.getCity());
+//				newU.setRoles(mappedU.getRoles());
+//				uService.updateUser(newU);
+//				return newU;
+//			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
 
-			User mappedUUpdated = opUser.map(newU -> {
-				newU.setEmail(u.getEmail());
-				newU.setPassword(mappedU.getPassword());
-				newU.setFullName(mappedU.getFullName());
-				newU.setNickname(mappedU.getNickname());
-				newU.setUrlImage(mappedU.getUrlImage());
-				newU.setBirthday(mappedU.getBirthday());
-				newU.setCity(mappedU.getCity());
-				newU.setRoles(mappedU.getRoles());
-				uService.updateUser(newU);
-				return newU;
-			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
-
-			return ResponseEntity.ok(mapper.toUserDTO(mappedUUpdated));
+//			return ResponseEntity.ok(mapper.toUserDTO(mappedUUpdated));
+			return ResponseEntity.ok(uService.updateUser(u, file, id));
 
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
@@ -252,7 +251,7 @@ public class UserController {
 			@Parameter(description = "User image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file,
 			@PathVariable("id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
 
-		Optional<User> opUser = uService.findById(id);
+		Optional<ResponseUserDTO> opUser = uService.findById(id);
 
 		if (opUser.isPresent()) {
 
@@ -269,26 +268,27 @@ public class UserController {
 //							.build().toUriString();
 //				}
 			}
-
-			User mappedU = mapper.requestUserDTOtoUser(u);
-			// Seteamos la URL donde está almacenada
-//			mappedU.setUrlImage(urlImg);
-			mappedU.setUrlImage(FileUtils.saveFileRequest(file));
-
-			User mappedUUpdated = opUser.map(newU -> {
-				newU.setEmail(u.getEmail());
-				newU.setPassword(mappedU.getPassword());
-				newU.setFullName(mappedU.getFullName());
-				newU.setNickname(mappedU.getNickname());
-				newU.setUrlImage(mappedU.getUrlImage());
-				newU.setBirthday(mappedU.getBirthday());
-				newU.setCity(mappedU.getCity());
-				newU.setRoles(mappedU.getRoles());
-				uService.updateUser(newU);
-				return newU;
-			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
-
-			return ResponseEntity.ok(mapper.toUserDTO(mappedUUpdated));
+//
+//			User mappedU = mapper.requestUserDTOtoUser(u);
+//			// Seteamos la URL donde está almacenada
+////			mappedU.setUrlImage(urlImg);
+//			mappedU.setUrlImage(FileUtils.saveFileRequest(file));
+//
+//			User mappedUUpdated = opUser.map(newU -> {
+//				newU.setEmail(u.getEmail());
+//				newU.setPassword(mappedU.getPassword());
+//				newU.setFullName(mappedU.getFullName());
+//				newU.setNickname(mappedU.getNickname());
+//				newU.setUrlImage(mappedU.getUrlImage());
+//				newU.setBirthday(mappedU.getBirthday());
+//				newU.setCity(mappedU.getCity());
+//				newU.setRoles(mappedU.getRoles());
+//				uService.updateUser(newU);
+//				return newU;
+//			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
+//
+//			return ResponseEntity.ok(mapper.toUserDTO(mappedUUpdated));
+			return ResponseEntity.ok(uService.updateUser(u, file, id));
 
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
@@ -305,12 +305,12 @@ public class UserController {
 	@RequestMapping(value = "/user/search", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseUserDTO>> searchUsers(
 			@RequestParam(name = "uString") @ApiParam(name = "uString", value = "email, full_name or nickname", example = "Alice") String uString) {
-		List<User> uList = uService.findUsersByMatcher(uString);
+		List<ResponseUserDTO> uList = uService.findUsersByMatcher(uString);
 
 		if (uList.isEmpty()) {
 			throw new DataNotFoundException(KanpekiConstants.DATA_NOT_FOUND_EX_USER_BY_STRING);
 		} else {
-			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
+			return ResponseEntity.ok(uList);
 		}
 	}
 
@@ -325,7 +325,7 @@ public class UserController {
 			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2000-01-01") String startDate,
 			@RequestParam(name = "endDate") @ApiParam(name = "endDate", value = "to date", example = "2010-12-31") String endDate) {
 
-		List<User> uList = null;
+		List<ResponseUserDTO> uList = null;
 
 		try {
 			uList = uService.findUsersBirthdayBetweenDates(
@@ -341,7 +341,7 @@ public class UserController {
 			throw new DataNotFoundException(
 					String.format(KanpekiConstants.DATA_NOT_FOUND_EX_USERS_BIRTHDAY_BY_DATES, startDate, endDate));
 		} else {
-			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
+			return ResponseEntity.ok(uList);
 		}
 	}
 
@@ -356,7 +356,7 @@ public class UserController {
 			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2000-01-01") String startDate,
 			@RequestParam(name = "endDate") @ApiParam(name = "endDate", value = "to date", example = "2010-12-31") String endDate) {
 
-		List<User> uList = null;
+		List<ResponseUserDTO> uList = null;
 
 		try {
 			uList = uService.findUsersCreatedAtBetweenDates(
@@ -372,7 +372,7 @@ public class UserController {
 			throw new DataNotFoundException(
 					String.format(KanpekiConstants.DATA_NOT_FOUND_EX_USERS_CREATED_BY_DATES, startDate, endDate));
 		} else {
-			return ResponseEntity.ok(mapper.toUserDTOList(uList.stream()));
+			return ResponseEntity.ok(uList);
 		}
 	}
 

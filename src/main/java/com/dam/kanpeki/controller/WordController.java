@@ -48,8 +48,6 @@ public class WordController {
 	@Autowired
 	private FileSystemStorageServiceI storeService;
 
-	@Autowired
-	private WordDTOMapperStruct mapper;
 
 	@ApiOperation(value = "getWords", notes = "Get all words from our database")
 	@ApiResponses(value = {
@@ -60,12 +58,12 @@ public class WordController {
 	@RequestMapping(value = KanpekiConstants.EMPTY_STRING, produces = {
 			"application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseWordDTO>> getWords() {
-		List<Word> wList = wService.findAllWords();
+		List<ResponseWordDTO> wList = wService.findAllWords();
 
 		if (wList.isEmpty()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
-			return ResponseEntity.ok(mapper.toWordDTOList(wList.stream()));
+			return ResponseEntity.ok(wList);
 		}
 	}
 
@@ -78,12 +76,12 @@ public class WordController {
 	@RequestMapping(value = "/word/{id}", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<ResponseWordDTO> getWord(
 			@PathVariable(name = "id") @ApiParam(name = "id", value = "Word id", example = "1") Long id) {
-		Optional<Word> opWord = wService.findById(id);
+		Optional<ResponseWordDTO> opWord = wService.findById(id);
 
 		if (!opWord.isPresent()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
-			return ResponseEntity.ok(mapper.toWordDTO(opWord.get()));
+			return ResponseEntity.ok(opWord.get());
 		}
 	}
 
@@ -107,12 +105,13 @@ public class WordController {
 //					.toUriString();
 //		}
 
-		Word wTemp = mapper.requestWordDTOtoWord(w);
+//		Word wTemp = mapper.requestWordDTOtoWord(w);
 		// Seteamos la URL donde está almacenada
 //		wTemp.setUrlImage(urlImg);
-		wTemp.setUrlImage(FileUtils.saveFileRequest(file));
+//		wTemp.setUrlImage(FileUtils.saveFileRequest(file));
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toWordDTO(wService.addWord(wTemp)));
+//		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toWordDTO(wService.addWord(wTemp)));
+		return ResponseEntity.status(HttpStatus.CREATED).body(wService.addWord(w, file));
 
 	}
 
@@ -136,13 +135,13 @@ public class WordController {
 //					.toUriString();
 //		}
 
-		Word wTemp = mapper.requestWordDTOtoWord(w);
+//		Word wTemp = mapper.requestWordDTOtoWord(w);
 		// Seteamos la URL donde está almacenada
 //		wTemp.setUrlImage(urlImg);
-		wTemp.setUrlImage(FileUtils.saveFileRequest(file));
+//		wTemp.setUrlImage(FileUtils.saveFileRequest(file));
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toWordDTO(wService.addWord(wTemp)));
-
+//		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toWordDTO(wService.addWord(wTemp)));
+		return ResponseEntity.status(HttpStatus.CREATED).body(wService.addWord(w, file));
 	}
 
 	@ApiOperation(value = "deleteWord", notes = "Delete a single word by ID")
@@ -154,13 +153,11 @@ public class WordController {
 	@RequestMapping(value = "/word/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseWordDTO> deleteWord(
 			@PathVariable("id") @ApiParam(name = "id", value = "Word id", example = "1") Long id) {
-		Optional<Word> opWord = wService.findById(id);
+		Optional<ResponseWordDTO> opWord = wService.findById(id);
 
 		if (!opWord.isPresent()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
-			// Eliminamos la imagen del almacenamiento
-			storeService.delete(opWord.get().getUrlImage());
 			wService.removeWordById(id);
 			return ResponseEntity.noContent().build();
 		}
@@ -178,7 +175,7 @@ public class WordController {
 			@RequestPart(value = "file", required = false) MultipartFile file,
 			@PathVariable("id") @ApiParam(name = "id", value = "Word id", example = "1") Long id) {
 
-		Optional<Word> opWord = wService.findById(id);
+		Optional<ResponseWordDTO> opWord = wService.findById(id);
 
 		if (opWord.isPresent()) {
 
@@ -196,23 +193,25 @@ public class WordController {
 //				}
 			}
 
-			Word mappedW = mapper.requestWordDTOtoWord(w);
+//			Word mappedW = mapper.requestWordDTOtoWord(w);
 			// Seteamos la URL donde está almacenada
 //			mappedW.setUrlImage(urlImg);
-			mappedW.setUrlImage(FileUtils.saveFileRequest(file));
+//			mappedW.setUrlImage(FileUtils.saveFileRequest(file));
+//
+//			Word mappedWUpdated = opWord.map(newW -> {
+//				newW.setJapanese(mappedW.getJapanese());
+//				newW.setEnglish(mappedW.getEnglish());
+//				newW.setSpanish(mappedW.getSpanish());
+//				newW.setFurigana(mappedW.getFurigana());
+//				newW.setUrlImage(mappedW.getUrlImage());
+//				newW.setCategoryId(mappedW.getCategoryId());
+//				wService.updateWord(newW);
+//				return newW;
+//			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
 
-			Word mappedWUpdated = opWord.map(newW -> {
-				newW.setJapanese(mappedW.getJapanese());
-				newW.setEnglish(mappedW.getEnglish());
-				newW.setSpanish(mappedW.getSpanish());
-				newW.setFurigana(mappedW.getFurigana());
-				newW.setUrlImage(mappedW.getUrlImage());
-				newW.setCategoryId(mappedW.getCategoryId());
-				wService.updateWord(newW);
-				return newW;
-			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
+//			return ResponseEntity.ok(mapper.toWordDTO(mappedWUpdated));
 
-			return ResponseEntity.ok(mapper.toWordDTO(mappedWUpdated));
+			return ResponseEntity.ok(wService.updateWord(w, file, id));
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		}
@@ -232,7 +231,7 @@ public class WordController {
 			@Parameter(description = "Word image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file,
 			@PathVariable("id") @ApiParam(name = "id", value = "Word id", example = "1") Long id) {
 
-		Optional<Word> opWord = wService.findById(id);
+		Optional<ResponseWordDTO> opWord = wService.findById(id);
 
 		if (opWord.isPresent()) {
 
@@ -250,23 +249,25 @@ public class WordController {
 //				}
 			}
 
-			Word mappedW = mapper.requestWordDTOtoWord(w);
+//			Word mappedW = mapper.requestWordDTOtoWord(w);
 			// Seteamos la URL donde está almacenada
 //			mappedW.setUrlImage(urlImg);
-			mappedW.setUrlImage(FileUtils.saveFileRequest(file));
+//			mappedW.setUrlImage(FileUtils.saveFileRequest(file));
+//
+//			Word mappedWUpdated = opWord.map(newW -> {
+//				newW.setJapanese(mappedW.getJapanese());
+//				newW.setEnglish(mappedW.getEnglish());
+//				newW.setSpanish(mappedW.getSpanish());
+//				newW.setFurigana(mappedW.getFurigana());
+//				newW.setUrlImage(mappedW.getUrlImage());
+//				newW.setCategoryId(mappedW.getCategoryId());
+//				wService.updateWord(newW);
+//				return newW;
+//			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
+//
+//			return ResponseEntity.ok(mapper.toWordDTO(mappedWUpdated));
 
-			Word mappedWUpdated = opWord.map(newW -> {
-				newW.setJapanese(mappedW.getJapanese());
-				newW.setEnglish(mappedW.getEnglish());
-				newW.setSpanish(mappedW.getSpanish());
-				newW.setFurigana(mappedW.getFurigana());
-				newW.setUrlImage(mappedW.getUrlImage());
-				newW.setCategoryId(mappedW.getCategoryId());
-				wService.updateWord(newW);
-				return newW;
-			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
-
-			return ResponseEntity.ok(mapper.toWordDTO(mappedWUpdated));
+			return ResponseEntity.ok(wService.updateWord(w, file, id));
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		}
@@ -282,13 +283,13 @@ public class WordController {
 	@RequestMapping(value = "/word/shuffle", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseWordDTO>> getShuffledWordsByCategory(
 			@RequestParam(name = "categoryId") @ApiParam(name = "categoryId", value = "Category id", example = "1") Long id) {
-		List<Word> wList = wService.findByCategoryId(id);
+		List<ResponseWordDTO> wList = wService.findByCategoryId(id);
 		Collections.shuffle(wList);
 
 		if (wList.isEmpty()) {
 			throw new DataNotFoundException(KanpekiConstants.DATA_NOT_FOUND_EX_WORDS_BY_CATEGORY);
 		} else {
-			return ResponseEntity.ok(mapper.toWordDTOList(wList.stream()));
+			return ResponseEntity.ok(wList);
 		}
 	}
 
@@ -301,12 +302,12 @@ public class WordController {
 	@RequestMapping(value = "/word/search", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseWordDTO>> searchWords(
 			@RequestParam(name = "wString") @ApiParam(name = "wString", value = "japanese, english or spanish", example = "dog") String wString) {
-		List<Word> wList = wService.findWordsByMatcher(wString);
+		List<ResponseWordDTO> wList = wService.findWordsByMatcher(wString);
 
 		if (wList.isEmpty()) {
 			throw new DataNotFoundException(KanpekiConstants.DATA_NOT_FOUND_EX_WORDS_BY_STRING);
 		} else {
-			return ResponseEntity.ok(mapper.toWordDTOList(wList.stream()));
+			return ResponseEntity.ok(wList);
 		}
 	}
 

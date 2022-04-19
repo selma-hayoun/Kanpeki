@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.dam.kanpeki.model.dto.RequestResultDTO;
+import com.dam.kanpeki.model.dto.ResponseResultDTO;
+import com.dam.kanpeki.model.dto.mapper.ResultDTOMapperStruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +22,12 @@ public class ResultServiceImpl implements ResultServiceI {
 	@Autowired
 	private ResultRepository rRepo;
 
+	@Autowired
+	private ResultDTOMapperStruct mapper;
+
 	@Override
-	public List<Result> findAllResults() {
-		return rRepo.findAll();
+	public List<ResponseResultDTO> findAllResults() {
+		return mapper.toResultDTOList(rRepo.findAll().stream());
 	}
 
 	@Override
@@ -40,13 +46,15 @@ public class ResultServiceImpl implements ResultServiceI {
 	}
 
 	@Override
-	public Result addResult(Result r) {
-		return rRepo.save(r);
+	public ResponseResultDTO addResult(RequestResultDTO r) {
+		return mapper.toResultDTO(rRepo.save(mapper.requestResultDTOtoResult(r)));
 	}
 
 	@Override
-	public void removeResultById(ResultId id) {
-		rRepo.deleteById(id);
+	public void removeResultById(ResponseResultDTO r) {
+		ResultId resId = new ResultId(r.getUserId(), r.getResultDate());
+		Optional<Result> opResult = rRepo.findById(resId);
+		rRepo.deleteById(resId);
 	}
 
 	@Override
@@ -55,18 +63,19 @@ public class ResultServiceImpl implements ResultServiceI {
 	}
 
 	@Override
-	public void removeResult(Result r) {
-		rRepo.delete(r);
+	public void removeResult(ResponseResultDTO r) {
+		rRepo.delete(mapper.responseResultDTOtoResult(r));
 	}
 
 	@Override
-	public List<Result> findResultsBetweenDates(Date startDate, Date endDate) {
-		return rRepo.findResultsBetweenDates(startDate, endDate);
+	public List<ResponseResultDTO> findResultsBetweenDates(Date startDate, Date endDate) {
+		return mapper.toResultDTOList(rRepo.findResultsBetweenDates(startDate, endDate).stream());
 	}
 
 	@Override
-	public List<Result> findResultsUser(Long userId) {
-		return rRepo.findResultsUser(userId);
+	public List<ResponseResultDTO> findResultsUser(Long userId) {
+
+		return mapper.toResultDTOList(rRepo.findResultsUser(userId).stream());
 	}
 
 	@Override

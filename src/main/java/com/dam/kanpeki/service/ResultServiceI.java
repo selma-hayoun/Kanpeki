@@ -7,26 +7,28 @@ import java.util.Optional;
 import com.dam.kanpeki.model.Result;
 import com.dam.kanpeki.model.ResultId;
 import com.dam.kanpeki.model.custom.ResultPerCategoryData;
+import com.dam.kanpeki.model.dto.RequestResultDTO;
+import com.dam.kanpeki.model.dto.ResponseResultDTO;
 
 public interface ResultServiceI {
 
-	public List<Result> findAllResults();
+	public List<ResponseResultDTO> findAllResults();
 
 	public List<Result> findByCategoryId(Long id);
 
-	public List<Result> findResultsUser(Long userId);
+	public List<ResponseResultDTO> findResultsUser(Long userId);
 
 	public List<ResultPerCategoryData> resultsPerCategory();
 
 	public Optional<Result> findById(ResultId id);
 
-	public List<Result> findResultsBetweenDates(Date startDate, Date endDate);
+	public List<ResponseResultDTO> findResultsBetweenDates(Date startDate, Date endDate);
 
-	public Result addResult(Result r);
+	public ResponseResultDTO addResult(RequestResultDTO r);
 
-	public void removeResultById(ResultId id);
+	public void removeResultById(ResponseResultDTO r);
 
-	public void removeResult(Result r);
+	public void removeResult(ResponseResultDTO r);
 
 	public void updateResult(Result r);
 
