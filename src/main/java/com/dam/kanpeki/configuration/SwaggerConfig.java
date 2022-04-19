@@ -2,6 +2,7 @@ package com.dam.kanpeki.configuration;
 
 import java.util.Collections;
 
+import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,11 +23,11 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfo("GSFP DAM Project - KANPEKI",
-				"Project application for helping the revision of terms, vocabulary and other requirements of the Noken 5 level of Japanese",
-				"API 1.0", "#", new Contact("Selma Hayoun Caballero",
-						"https://es.linkedin.com/in/selma-problem-solving-lover", "selma.hayoun.caballero@gmail.com"),
-				"License", "#", Collections.emptyList());
+		return new ApiInfo(KanpekiConstants.API_INFO_TITLE,
+				KanpekiConstants.API_INFO_DESCRIPTION,
+				KanpekiConstants.API_INFO_VERSION, KanpekiConstants.API_INFO_WILD_CARD, new Contact(KanpekiConstants.API_INFO_CONTACT_NAME,
+						KanpekiConstants.API_INFO_CONTACT_URL, KanpekiConstants.API_INFO_CONTACT_EMAIL),
+				KanpekiConstants.API_INFO_LICENSE_NAME, KanpekiConstants.API_INFO_WILD_CARD, Collections.emptyList());
 	}
 
 }

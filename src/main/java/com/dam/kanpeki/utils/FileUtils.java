@@ -13,8 +13,6 @@ public class FileUtils {
 
 	private static FileSystemStorageServiceI storeService;
 
-	private static final String SERVE_FILE = "serveFile";
-
 	@Autowired
 	private FileUtils(FileSystemStorageServiceI sService) {
 		FileUtils.storeService = sService;
@@ -22,12 +20,12 @@ public class FileUtils {
 
 	public static String saveFileRequest(MultipartFile file) {
 
-		String urlImg = "";
+		String urlImg = KanpekiConstants.EMPTY_STRING;
 
 		if (file != null && !file.isEmpty()) {
 			// Almacenamos el fichero y obtenemos su URL
 			String img = storeService.store(file);
-			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
+			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, KanpekiConstants.FILES_SERVE_FILE, img, null).build()
 					.toUriString();
 		}
 

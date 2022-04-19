@@ -50,8 +50,8 @@ public class CategoryServiceImpl implements CategoryServiceI {
 		cat.setCategoryName(wField);
 
 		ExampleMatcher customExMatcher = ExampleMatcher.matchingAny()
-				.withMatcher("unitName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				.withMatcher("categoryName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+				.withMatcher(KanpekiConstants.CATEGORY_UNIT_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				.withMatcher(KanpekiConstants.CATEGORY_CAT_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
 		Example<Category> catExample = Example.of(cat, customExMatcher);
 
@@ -83,14 +83,14 @@ public class CategoryServiceImpl implements CategoryServiceI {
 				|| (!opCat.get().getResults().isEmpty())) {
 
 			throw new InvalidOperationOnCategoryException(
-					(!opCat.get().getWords().isEmpty() ? " Words ".concat(String.valueOf(opCat.get().getWords().size()))
-							: "")
+					(!opCat.get().getWords().isEmpty() ? KanpekiConstants.TABLE_WORDS_NAME.concat(String.valueOf(opCat.get().getWords().size()))
+							: KanpekiConstants.EMPTY_STRING)
 							+ (!opCat.get().getWords().isEmpty()
-									? " Questions ".concat(String.valueOf(opCat.get().getWords().size()))
-									: "")
+									? KanpekiConstants.TABLE_QUESTIONS_NAME.concat(String.valueOf(opCat.get().getWords().size()))
+									: KanpekiConstants.EMPTY_STRING)
 							+ (!opCat.get().getWords().isEmpty()
-									? " Results ".concat(String.valueOf(opCat.get().getWords().size()))
-									: ""));
+									? KanpekiConstants.TABLE_RESULTS_NAME.concat(String.valueOf(opCat.get().getWords().size()))
+									: KanpekiConstants.EMPTY_STRING));
 		}
 
 		catRepo.deleteById(id);

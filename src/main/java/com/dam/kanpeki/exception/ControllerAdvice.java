@@ -2,6 +2,7 @@ package com.dam.kanpeki.exception;
 
 import javax.validation.ConstraintViolationException;
 
+import com.dam.kanpeki.utils.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -93,7 +94,7 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, getDefaultMsg(ex.getMessage()));
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ExceptionUtils.getDefaultMsg(ex.getMessage()));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
 	}
 
@@ -105,35 +106,35 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
 			WebRequest request) {
-		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, getDefaultMsg(ex.getMessage()));
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ExceptionUtils.getDefaultMsg(ex.getMessage()));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
 	}
 
-	/**
-	 * Método auxiliar para el tratamiento del texto de las excepciones
-	 * 
-	 * @param ex
-	 * @return
-	 */
-	private String getDefaultMsg(String ex) {
-
-		String delimeterStr = " default message ";
-		String defaultMsg = "";
-
-		if (ex.lastIndexOf(delimeterStr) != -1) {
-			try {
-				String temp = ex;
-				defaultMsg = temp
-						.substring(temp.indexOf(delimeterStr, temp.indexOf(delimeterStr) + 1) + 18, temp.length() - 3)
-						.trim();
-			} catch (Exception e) {
-				defaultMsg = ex;
-			}
-			return defaultMsg;
-		} else {
-			return ex;
-		}
-
-	}
+//	/**
+//	 * Método auxiliar para el tratamiento del texto de las excepciones
+//	 *
+//	 * @param ex
+//	 * @return
+//	 */
+//	private String getDefaultMsg(String ex) {
+//
+//		String delimeterStr = " default message ";
+//		String defaultMsg = "";
+//
+//		if (ex.lastIndexOf(delimeterStr) != -1) {
+//			try {
+//				String temp = ex;
+//				defaultMsg = temp
+//						.substring(temp.indexOf(delimeterStr, temp.indexOf(delimeterStr) + 1) + 18, temp.length() - 3)
+//						.trim();
+//			} catch (Exception e) {
+//				defaultMsg = ex;
+//			}
+//			return defaultMsg;
+//		} else {
+//			return ex;
+//		}
+//
+//	}
 
 }

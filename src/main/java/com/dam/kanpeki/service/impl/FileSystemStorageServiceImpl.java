@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
+import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -34,7 +35,7 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageServiceI {
 		try {
 			Files.createDirectories(rootLocation);
 		} catch (IOException e) {
-			throw new StorageException("Could not initialize storage", e);
+			throw new StorageException(KanpekiConstants.EX_STORAGE_EXCEPTION_NOT_INIT, e);
 		}
 	}
 
@@ -51,19 +52,19 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageServiceI {
 		String storedFilename = System.currentTimeMillis() + "_" + justFilename + "." + extension;
 		try {
 			if (file.isEmpty()) {
-				throw new StorageException("Failed to store empty file " + filename);
+				throw new StorageException(KanpekiConstants.EX_STORAGE_EXCEPTION_EMPTY_FILE + filename);
 			}
 			if (filename.contains("..")) {
 				// Security check
 				throw new StorageException(
-						"Cannot store file with relative path outside current directory " + filename);
+						KanpekiConstants.EX_STORAGE_EXCEPTION_SECURITY_CHECK + filename);
 			}
 			try (InputStream inputStream = file.getInputStream()) {
 				Files.copy(inputStream, this.rootLocation.resolve(storedFilename), StandardCopyOption.REPLACE_EXISTING);
 				return storedFilename;
 			}
 		} catch (IOException e) {
-			throw new StorageException("Failed to store file " + filename, e);
+			throw new StorageException(KanpekiConstants.EX_STORAGE_EXCEPTION_IOEX_STORE + filename, e);
 		}
 	}
 
@@ -76,7 +77,7 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageServiceI {
 			return Files.walk(this.rootLocation, 1).filter(path -> !path.equals(this.rootLocation))
 					.map(this.rootLocation::relativize);
 		} catch (IOException e) {
-			throw new StorageException("Failed to read stored files", e);
+			throw new StorageException(KanpekiConstants.EX_STORAGE_EXCEPTION_IOEX_READ, e);
 		}
 	}
 
@@ -99,11 +100,11 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageServiceI {
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {
-				throw new StorageFileNotFoundException("Could not read file: " + filename);
+				throw new StorageFileNotFoundException(KanpekiConstants.EX_STORAGE_FILE_NOT_FOUND_READ + filename);
 
 			}
 		} catch (MalformedURLException e) {
-			throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+			throw new StorageFileNotFoundException(KanpekiConstants.EX_STORAGE_FILE_NOT_FOUND_READ + filename, e);
 		}
 	}
 
@@ -119,7 +120,7 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageServiceI {
 				Path file = load(justFilename);
 				Files.deleteIfExists(file);
 			} catch (IOException e) {
-				throw new StorageException("Error deleting a file", e);
+				throw new StorageException(KanpekiConstants.EX_STORAGE_EXCEPTION_IOEX_DELETE, e);
 			}
 		}
 

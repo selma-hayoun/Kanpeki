@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,41 +31,41 @@ public class RequestUserDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 6514883880087110520L;
 
-	@ApiModelProperty(notes = "User email", example = "kanjilovers@kanpeki.com", required = true)
-	@NotBlank(message = "Email may not be null or empty")
-	@Email(message = "Wrong email format")
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_EMAIL_NOTES, example = KanpekiConstants.API_USER_EMAIL_EXAMPLE, required = true)
+	@NotBlank(message = KanpekiConstants.USER_EMAIL_NOT_BLANK_MSG)
+	@Email(message = KanpekiConstants.USER_EMAIL_NOT_CORRECT_MSG)
 	private String email;
 
-	@ApiModelProperty(notes = "User password", example = "C4c4hu3t3!!", required = true)
-	@NotBlank(message = "Password may not be null or empty")
-	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$")
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_PASSWORD_NOTES, example = KanpekiConstants.API_USER_PASSWORD_EXAMPLE, required = true)
+	@NotBlank(message = KanpekiConstants.USER_PASSWORD_NOT_BLANK_MSG)
+	@Pattern(regexp = KanpekiConstants.USER_PASSWORD_PATTERN, message = KanpekiConstants.USER_PASSWORD_PATTERN_MSG)
 	private String password;
 
-	@ApiModelProperty(notes = "User full name", example = "John Doe", required = true)
-	@NotBlank(message = "FullName may not be null or empty")
-	@Size(max = 40, message = "FullName must be less than 40 characters long")
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_FULLNAME_NOTES, example = KanpekiConstants.API_USER_FULLNAME_EXAMPLE, required = true)
+	@NotBlank(message = KanpekiConstants.USER_NAME_NOT_BLANK_MSG)
+	@Size(max = KanpekiConstants.MAX_STRING_LENGTH_VALUE, message = KanpekiConstants.USER_NAME_SIZE_MSG)
 	private String fullName;
 
-	@ApiModelProperty(notes = "User nickname", example = "Kanji-Lover", required = false)
-	@Size(max = 40, message = "NickName must be less than 40 characters long")
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_NICKNAME_NOTES, example = KanpekiConstants.API_USER_NICKNAME_EXAMPLE)
+	@Size(max = KanpekiConstants.MAX_STRING_LENGTH_VALUE, message = KanpekiConstants.USER_NICKNAME_SIZE_MSG)
 	private String nickname;
 
-	@ApiModelProperty(notes = "Image file field for uploadling", required = false)
+	@ApiModelProperty(notes = KanpekiConstants.API_FILE_NOTES)
 	@Nullable
 	private MultipartFile file;
 
-	@ApiModelProperty(notes = "User birthday", example = "1989-12-31", required = false)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_BIRTHDAY_NOTES, example = KanpekiConstants.API_USER_BIRTHDAY_EXAMPLE)
+	@DateTimeFormat(pattern = KanpekiConstants.DATE_FORMAT)
 	private Date birthday;
 
-	@ApiModelProperty(notes = "User city or town", example = "Kyoto", required = true)
-	@NotBlank(message = "City may not be null or empty")
-	@Size(max = 40, message = "City must be less than 40 characters long")
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_CITY_NOTES, example = KanpekiConstants.API_USER_CITY_EXAMPLE, required = true)
+	@NotBlank(message = KanpekiConstants.USER_CITY_NOT_BLANK_MSG)
+	@Size(max = KanpekiConstants.MAX_STRING_LENGTH_VALUE, message = KanpekiConstants.USER_CITY_SIZE_MSG)
 	private String city;
 
-	@ApiModelProperty(notes = "User roles", example = "[\"USER\"]", required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_ROLES_NOTES, example = KanpekiConstants.API_USER_ROLES_EXAMPLE, required = true)
 	@NotNull
-	@Size(min = 1, message = "Must be at least one role assigned mandatorily")
+	@Size(min = KanpekiConstants.MIN_ROLES_VALUE, message = KanpekiConstants.USER_ROLES_SIZE_MSG)
 	private Set<UserRole> roles;
 
 }

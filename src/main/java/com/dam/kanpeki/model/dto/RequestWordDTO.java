@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -22,30 +23,30 @@ public class RequestWordDTO implements Serializable {
 	*/
 	private static final long serialVersionUID = 2218386476425136746L;
 
-	@ApiModelProperty(notes = "Word in japanese", example = "母", required = true)
-	@NotBlank(message = "Japanese may not be null or empty")
-	@Size(max = 40, message = "Japanese must be less than 40 characters long")
+	@ApiModelProperty(notes = KanpekiConstants.API_WORD_JAPANESE_NOTES, example = KanpekiConstants.API_WORD_JAPANESE_EXAMPLE, required = true)
+	@NotBlank(message = KanpekiConstants.WORD_JAPANESE_NOT_BLANK_MSG)
+	@Size(max = KanpekiConstants.MAX_STRING_LENGTH_VALUE, message = KanpekiConstants.WORD_JAPANESE_SIZE_MSG)
 	private String japanese;
 
-	@ApiModelProperty(notes = "Word in english", example = "my mom", required = true)
-	@NotBlank(message = "English may not be null or empty")
-	@Size(max = 40, message = "English must be less than 40 characters long")
+	@ApiModelProperty(notes = KanpekiConstants.API_WORD_ENGLISH_NOTES, example = KanpekiConstants.API_WORD_ENGLISH_EXAMPLE, required = true)
+	@NotBlank(message = KanpekiConstants.WORD_ENGLISH_NOT_BLANK_MSG)
+	@Size(max = KanpekiConstants.MAX_STRING_LENGTH_VALUE, message = KanpekiConstants.WORD_ENGLISH_SIZE_MSG)
 	private String english;
 
-	@ApiModelProperty(notes = "Word in spanish", example = "mi mamá", required = true)
-	@NotBlank(message = "Spanish may not be null or empty")
-	@Size(max = 40, message = "Spanish must be less than 40 characters long")
+	@ApiModelProperty(notes = KanpekiConstants.API_WORD_SPANISH_NOTES, example = KanpekiConstants.API_WORD_SPANISH_EXAMPLE, required = true)
+	@NotBlank(message = KanpekiConstants.WORD_SPANISH_NOT_BLANK_MSG)
+	@Size(max = KanpekiConstants.MAX_STRING_LENGTH_VALUE, message = KanpekiConstants.WORD_SPANISH_SIZE_MSG)
 	private String spanish;
 
-	@ApiModelProperty(notes = "Word in furigana", example = "はは", required = false)
-	@Size(max = 40, message = "Furigana help must be less than 40 characters long")
+	@ApiModelProperty(notes = KanpekiConstants.API_WORD_FURIGANA_NOTES, example = KanpekiConstants.API_WORD_FURIGANA_EXAMPLE)
+	@Size(max = KanpekiConstants.MAX_STRING_LENGTH_VALUE, message = KanpekiConstants.WORD_FURIGANA_SIZE_MSG)
 	private String furigana;
 
-	@ApiModelProperty(notes = "Category id", example = "1", required = true)
-	@NotNull(message = "CategoryId may not be null")
+	@ApiModelProperty(notes = KanpekiConstants.API_CATEGORY_ID_NOTES, example = KanpekiConstants.API_ID_EXAMPLE, required = true)
+	@NotNull(message = KanpekiConstants.CATEGORY_ID_NOT_NULL_MSG)
 	private Long categoryId;
 
-	@ApiModelProperty(notes = "Image file field for uploadling", required = false)
+	@ApiModelProperty(notes = KanpekiConstants.API_FILE_NOTES)
 	private MultipartFile file;
 
 }

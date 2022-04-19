@@ -72,9 +72,9 @@ public class UserServiceImpl implements UserServiceI {
 		u.setNickname(uField);
 
 		ExampleMatcher customExMatcher = ExampleMatcher.matchingAny()
-				.withMatcher("email", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				.withMatcher("fullName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				.withMatcher("nickname", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+				.withMatcher(KanpekiConstants.USER_EMAIL_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				.withMatcher(KanpekiConstants.USER_FULLNAME_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				.withMatcher(KanpekiConstants.USER_NICKNAME_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
 		Example<User> userExample = Example.of(u, customExMatcher);
 

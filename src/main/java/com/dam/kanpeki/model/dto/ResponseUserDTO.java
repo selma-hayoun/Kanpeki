@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.dam.kanpeki.model.UserRole;
@@ -29,50 +30,50 @@ public class ResponseUserDTO implements Serializable {
 	*/
 	private static final long serialVersionUID = 5568049776356202763L;
 
-	@ApiModelProperty(notes = "User id", example = "1", required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_ID_NOTES, example = KanpekiConstants.API_ID_EXAMPLE, required = true)
 	@NotNull
 	private Long id;
 
-	@ApiModelProperty(notes = "User email", example = "kanjilovers@kanpeki.com", required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_EMAIL_NOTES, example = KanpekiConstants.API_USER_EMAIL_EXAMPLE, required = true)
 	@NotBlank
 	@Email
 	private String email;
 
-	@ApiModelProperty(notes = "User password", example = "C4c4hu3t3!!", required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_PASSWORD_NOTES, example = KanpekiConstants.API_USER_PASSWORD_EXAMPLE, required = true)
 	@NotBlank
-	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$")
+	@Pattern(regexp = KanpekiConstants.USER_PASSWORD_PATTERN, message = KanpekiConstants.USER_PASSWORD_PATTERN_MSG)
 	private String password;
 
-	@ApiModelProperty(notes = "User full name", example = "John Doe", required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_FULLNAME_NOTES, example = KanpekiConstants.API_USER_FULLNAME_EXAMPLE, required = true)
 	@NotBlank
-	@Size(max = 40)
+	@Size(max = KanpekiConstants.MAX_STRING_LENGTH_VALUE)
 	private String fullName;
 
-	@ApiModelProperty(notes = "User nickname", example = "Kanji-Lover", required = false)
-	@Size(max = 40)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_NICKNAME_NOTES, example = KanpekiConstants.API_USER_NICKNAME_EXAMPLE)
+	@Size(max = KanpekiConstants.MAX_STRING_LENGTH_VALUE)
 	private String nickname;
 
-	@ApiModelProperty(notes = "User image URL in our server", required = false)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_IMG_NOTES)
 	private String urlImage;
 
-	@ApiModelProperty(notes = "User birthday", example = "1989-12-31", required = false)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_BIRTHDAY_NOTES, example = KanpekiConstants.API_USER_BIRTHDAY_EXAMPLE)
+	@DateTimeFormat(pattern = KanpekiConstants.DATE_FORMAT)
 	private Date birthday;
 
-	@ApiModelProperty(notes = "User city or town", example = "Kyoto", required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_CITY_NOTES, example = KanpekiConstants.API_USER_CITY_EXAMPLE, required = true)
 	@NotBlank
-	@Size(max = 40)
+	@Size(max = KanpekiConstants.MAX_STRING_LENGTH_VALUE)
 	private String city;
 
-	@ApiModelProperty(notes = "User roles", example = "[\"USER\"]", required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_ROLES_NOTES, example = KanpekiConstants.API_USER_ROLES_EXAMPLE, required = true)
 	@NotNull
-	@Size(min = 1)
+	@Size(min = KanpekiConstants.MIN_ROLES_VALUE)
 	private Set<UserRole> roles;
 
-	@ApiModelProperty(notes = "User creation date and time", example = "2022-04-13T18:39:39.505Z", required = false)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_CREATED_NOTES, example = KanpekiConstants.API_USER_CREATED_EXAMPLE)
 	private LocalDateTime createdAt;
 
-	@ApiModelProperty(notes = "Password last date and time of modification", example = "2022-04-13T18:39:39.505Z", required = false)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_PASSWORD_CHANGE_NOTES, example = KanpekiConstants.API_USER_PASSWORD_CHANGE_EXAMPLE)
 	private LocalDateTime lastPasswordChangeAt;
 
 }

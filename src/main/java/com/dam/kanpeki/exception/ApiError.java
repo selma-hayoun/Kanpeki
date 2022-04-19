@@ -2,6 +2,7 @@ package com.dam.kanpeki.exception;
 
 import java.time.LocalDateTime;
 
+import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -26,7 +27,7 @@ public class ApiError {
 	@NonNull
 	private HttpStatus status;
 
-	@JsonFormat(shape = Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+	@JsonFormat(shape = Shape.STRING, pattern = KanpekiConstants.LOCAL_DATE_TIME_FORMAT)
 	private LocalDateTime errorDate = LocalDateTime.now();
 
 	@NonNull

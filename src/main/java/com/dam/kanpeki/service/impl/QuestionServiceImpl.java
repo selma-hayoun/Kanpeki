@@ -84,7 +84,7 @@ public class QuestionServiceImpl implements QuestionServiceI {
 		Question q = new Question();
 		q.setStatement(qField);
 
-		ExampleMatcher customExMatcher = ExampleMatcher.matchingAny().withMatcher("statement",
+		ExampleMatcher customExMatcher = ExampleMatcher.matchingAny().withMatcher(KanpekiConstants.QUESTION_STATEMENT_NAME,
 				ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
 		Example<Question> qExample = Example.of(q, customExMatcher);

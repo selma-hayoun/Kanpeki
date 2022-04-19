@@ -7,6 +7,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.dam.kanpeki.utils.KanpekiConstants;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,19 +22,19 @@ public class ResponseResultDTO implements Serializable {
 	*/
 	private static final long serialVersionUID = 163330717493359419L;
 
-	@ApiModelProperty(notes = "User id", example = "2", required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_ID_NOTES, example = KanpekiConstants.API_BOOLEAN_PROPERTY_EXAMPLE, required = true)
 	@NotNull
 	private Long userId;
 
-	@ApiModelProperty(notes = "Result date and time", example = "2022-01-10T15:00:00", required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_RESULT_DATE_NOTES, example = KanpekiConstants.API_RESULT_DATE_EXAMPLE, required = true)
 	private LocalDateTime resultDate;
 
-	@ApiModelProperty(notes = "Score reached in the test", example = "5", required = true)
-	@Min(0)
-	@Max(10)
+	@ApiModelProperty(notes = KanpekiConstants.API_RESULT_SCORE_NOTES, example = KanpekiConstants.API_RESULT_SCORE_EXAMPLE, required = true)
+	@Min(KanpekiConstants.MIN_SCORE_VALUE)
+	@Max(KanpekiConstants.MAX_AGE_VALUE)
 	private double score;
 
-	@ApiModelProperty(notes = "Category id", example = "2", required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_CATEGORY_ID_NOTES, example = KanpekiConstants.API_ID_EXAMPLE, required = true)
 	@NotNull
 	private Long categoryId;
 

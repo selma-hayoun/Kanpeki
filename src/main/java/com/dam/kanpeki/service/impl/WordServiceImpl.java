@@ -46,9 +46,9 @@ public class WordServiceImpl implements WordServiceI {
 		w.setSpanish(wField);
 
 		ExampleMatcher customExMatcher = ExampleMatcher.matchingAny()
-				.withMatcher("japanese", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				.withMatcher("english", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				.withMatcher("spanish", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+				.withMatcher(KanpekiConstants.WORD_JAPANESE_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				.withMatcher(KanpekiConstants.WORD_ENGLISH_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				.withMatcher(KanpekiConstants.WORD_SPANISH_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
 		Example<Word> wordExample = Example.of(w, customExMatcher);
 
