@@ -3,23 +3,21 @@ package com.dam.kanpeki.service.impl;
 import java.util.List;
 import java.util.Optional;
 
-import com.dam.kanpeki.exception.DataNotFoundException;
-import com.dam.kanpeki.model.User;
-import com.dam.kanpeki.model.dto.RequestWordDTO;
-import com.dam.kanpeki.model.dto.ResponseWordDTO;
-import com.dam.kanpeki.model.dto.mapper.WordDTOMapperStruct;
-import com.dam.kanpeki.service.FileSystemStorageServiceI;
-import com.dam.kanpeki.utils.FileUtils;
-import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-
-import com.dam.kanpeki.model.Word;
-import com.dam.kanpeki.repository.WordRepository;
-import com.dam.kanpeki.service.WordServiceI;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.dam.kanpeki.exception.DataNotFoundException;
+import com.dam.kanpeki.model.Word;
+import com.dam.kanpeki.model.dto.RequestWordDTO;
+import com.dam.kanpeki.model.dto.ResponseWordDTO;
+import com.dam.kanpeki.model.dto.mapper.WordDTOMapperStruct;
+import com.dam.kanpeki.repository.WordRepository;
+import com.dam.kanpeki.service.FileSystemStorageServiceI;
+import com.dam.kanpeki.service.WordServiceI;
+import com.dam.kanpeki.utils.KanpekiConstants;
 
 @Service
 public class WordServiceImpl implements WordServiceI {
@@ -46,9 +44,12 @@ public class WordServiceImpl implements WordServiceI {
 		w.setSpanish(wField);
 
 		ExampleMatcher customExMatcher = ExampleMatcher.matchingAny()
-				.withMatcher(KanpekiConstants.WORD_JAPANESE_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				.withMatcher(KanpekiConstants.WORD_ENGLISH_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				.withMatcher(KanpekiConstants.WORD_SPANISH_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+				.withMatcher(KanpekiConstants.WORD_JAPANESE_NAME,
+						ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				.withMatcher(KanpekiConstants.WORD_ENGLISH_NAME,
+						ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				.withMatcher(KanpekiConstants.WORD_SPANISH_NAME,
+						ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
 		Example<Word> wordExample = Example.of(w, customExMatcher);
 
@@ -64,7 +65,7 @@ public class WordServiceImpl implements WordServiceI {
 	public Optional<ResponseWordDTO> findById(Long id) {
 		Optional<Word> opWord = wRepo.findById(id);
 
-		if(!opWord.isPresent()){
+		if (!opWord.isPresent()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
 			return Optional.of(mapper.toWordDTO(opWord.get()));
@@ -74,23 +75,28 @@ public class WordServiceImpl implements WordServiceI {
 	@Override
 	public ResponseWordDTO addWord(RequestWordDTO w, MultipartFile file) {
 		Word wTemp = mapper.requestWordDTOtoWord(w);
-		wTemp.setUrlImage(FileUtils.saveFileRequest(file));
+		wTemp.setUrlImage(storeService.saveFileRequest(file));
 		return (mapper.toWordDTO(wRepo.save(wTemp)));
 	}
 
 	@Override
 	public void removeWordById(Long id) {
 		Optional<Word> opWord = wRepo.findById(id);
-		// Eliminamos la imagen del almacenamiento
-		storeService.delete(opWord.get().getUrlImage());
-		wRepo.deleteById(id);
+
+		if (!opWord.isPresent()) {
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
+		} else {
+			// Eliminamos la imagen del almacenamiento
+			storeService.delete(opWord.get().getUrlImage());
+			wRepo.deleteById(id);
+		}
 	}
 
 	@Override
 	public ResponseWordDTO updateWord(RequestWordDTO w, MultipartFile file, Long id) {
 		Word mappedW = mapper.requestWordDTOtoWord(w);
 
-		mappedW.setUrlImage(FileUtils.saveFileRequest(file));
+		mappedW.setUrlImage(storeService.saveFileRequest(file));
 
 		Word mappedWUpdated = wRepo.findById(id).map(newW -> {
 			newW.setJapanese(mappedW.getJapanese());

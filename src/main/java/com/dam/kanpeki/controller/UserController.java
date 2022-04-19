@@ -24,14 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.exception.ParameterIncorrectFormatException;
-import com.dam.kanpeki.model.User;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
-import com.dam.kanpeki.model.dto.mapper.UserDTOMapperStruct;
 import com.dam.kanpeki.service.FileSystemStorageServiceI;
-import com.dam.kanpeki.service.ResultServiceI;
 import com.dam.kanpeki.service.UserServiceI;
-import com.dam.kanpeki.utils.FileUtils;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
 import io.swagger.annotations.ApiOperation;
@@ -45,16 +41,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 @RequestMapping("kanpeki/users")
 public class UserController {
 
-//	private static final String SERVE_FILE = "serveFile";
-
 	@Autowired
 	private UserServiceI uService;
 
 	@Autowired
 	private FileSystemStorageServiceI storeService;
-
-	@Autowired
-	private ResultServiceI rService;
 
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
@@ -105,21 +96,6 @@ public class UserController {
 	public ResponseEntity<ResponseUserDTO> addNewUserV1(@Valid @RequestPart(value = "u") RequestUserDTO u,
 			@RequestPart(value = "file", required = false) MultipartFile file) {
 
-//		String urlImg = KanpekiConstants.EMPTY_STRING;
-//
-//		if (file != null && !file.isEmpty()) {
-//			// Almacenamos el fichero y obtenemos su URL
-//			String img = storeService.store(file);
-//			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
-//					.toUriString();
-//		}
-
-//		User uTemp = mapper.requestUserDTOtoUser(u);
-		// Seteamos la URL donde está almacenada
-//		uTemp.setUrlImage(urlImg);
-//		uTemp.setUrlImage(FileUtils.saveFileRequest(file));
-
-//		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toUserDTO(uService.addUser(uTemp)));
 		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
 
 	}
@@ -136,21 +112,6 @@ public class UserController {
 			@Valid @Parameter(description = "User attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestUserDTO u,
 			@Parameter(description = "Word image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file) {
 
-//		String urlImg = KanpekiConstants.EMPTY_STRING;
-//
-//		if (file != null && !file.isEmpty()) {
-//			// Almacenamos el fichero y obtenemos su URL
-//			String img = storeService.store(file);
-//			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
-//					.toUriString();
-//		}
-
-//		User uTemp = mapper.requestUserDTOtoUser(u);
-		// Seteamos la URL donde está almacenada
-//		uTemp.setUrlImage(urlImg);
-//		uTemp.setUrlImage(FileUtils.saveFileRequest(file));
-
-//		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toUserDTO(uService.addUser(uTemp)));
 		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
 
 	}
@@ -169,13 +130,6 @@ public class UserController {
 		if (!opUser.isPresent()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
-//			// Eliminamos la imagen del almacenamiento
-//			storeService.delete(opUser.get().getUrlImage());
-//
-//			if (!opUser.get().getResults().isEmpty()) {
-//				// Eliminamos sus resultados
-//				rService.deleteResultsByUserId(id);
-//			}
 			uService.removeUserById(id);
 			return ResponseEntity.noContent().build();
 		}
@@ -197,39 +151,11 @@ public class UserController {
 
 		if (opUser.isPresent()) {
 
-//			String urlImg = KanpekiConstants.EMPTY_STRING;
-
 			if (file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
 				storeService.delete(opUser.get().getUrlImage());
-
-//				// Almacenamos el fichero y obtenemos su URL
-//				if (!file.isEmpty()) {
-//					String img = storeService.store(file);
-//					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
-//							.build().toUriString();
-//				}
 			}
 
-//			User mappedU = mapper.requestUserDTOtoUser(u);
-			// Seteamos la URL donde está almacenada
-//			mappedU.setUrlImage(urlImg);
-//			mappedU.setUrlImage(FileUtils.saveFileRequest(file));
-//
-//			User mappedUUpdated = opUser.map(newU -> {
-//				newU.setEmail(u.getEmail());
-//				newU.setPassword(mappedU.getPassword());
-//				newU.setFullName(mappedU.getFullName());
-//				newU.setNickname(mappedU.getNickname());
-//				newU.setUrlImage(mappedU.getUrlImage());
-//				newU.setBirthday(mappedU.getBirthday());
-//				newU.setCity(mappedU.getCity());
-//				newU.setRoles(mappedU.getRoles());
-//				uService.updateUser(newU);
-//				return newU;
-//			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
-
-//			return ResponseEntity.ok(mapper.toUserDTO(mappedUUpdated));
 			return ResponseEntity.ok(uService.updateUser(u, file, id));
 
 		} else {
@@ -255,39 +181,11 @@ public class UserController {
 
 		if (opUser.isPresent()) {
 
-//			String urlImg = KanpekiConstants.EMPTY_STRING;
-
 			if (file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
 				storeService.delete(opUser.get().getUrlImage());
-
-//				// Almacenamos el fichero y obtenemos su URL
-//				if (!file.isEmpty()) {
-//					String img = storeService.store(file);
-//					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
-//							.build().toUriString();
-//				}
 			}
-//
-//			User mappedU = mapper.requestUserDTOtoUser(u);
-//			// Seteamos la URL donde está almacenada
-////			mappedU.setUrlImage(urlImg);
-//			mappedU.setUrlImage(FileUtils.saveFileRequest(file));
-//
-//			User mappedUUpdated = opUser.map(newU -> {
-//				newU.setEmail(u.getEmail());
-//				newU.setPassword(mappedU.getPassword());
-//				newU.setFullName(mappedU.getFullName());
-//				newU.setNickname(mappedU.getNickname());
-//				newU.setUrlImage(mappedU.getUrlImage());
-//				newU.setBirthday(mappedU.getBirthday());
-//				newU.setCity(mappedU.getCity());
-//				newU.setRoles(mappedU.getRoles());
-//				uService.updateUser(newU);
-//				return newU;
-//			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
-//
-//			return ResponseEntity.ok(mapper.toUserDTO(mappedUUpdated));
+
 			return ResponseEntity.ok(uService.updateUser(u, file, id));
 
 		} else {

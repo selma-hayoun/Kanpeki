@@ -26,7 +26,6 @@ import com.dam.kanpeki.model.ResultId;
 import com.dam.kanpeki.model.custom.ResultPerCategoryData;
 import com.dam.kanpeki.model.dto.RequestResultDTO;
 import com.dam.kanpeki.model.dto.ResponseResultDTO;
-import com.dam.kanpeki.model.dto.mapper.ResultDTOMapperStruct;
 import com.dam.kanpeki.service.ResultServiceI;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
@@ -41,8 +40,6 @@ public class ResultController {
 
 	@Autowired
 	private ResultServiceI rService;
-
-
 
 	private static final Logger LOG = LoggerFactory.getLogger(ResultController.class);
 
@@ -109,8 +106,7 @@ public class ResultController {
 	@RequestMapping(value = "/result", produces = { "application/json" }, method = RequestMethod.POST)
 	public ResponseEntity<ResponseResultDTO> addNewResult(@Valid @RequestBody RequestResultDTO r) {
 
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(rService.addResult(r));
+		return ResponseEntity.status(HttpStatus.CREATED).body(rService.addResult(r));
 
 	}
 

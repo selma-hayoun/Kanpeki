@@ -3,10 +3,10 @@ package com.dam.kanpeki.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.dam.kanpeki.model.Word;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.dam.kanpeki.model.dto.RequestWordDTO;
 import com.dam.kanpeki.model.dto.ResponseWordDTO;
-import org.springframework.web.multipart.MultipartFile;
 
 public interface WordServiceI {
 

@@ -4,17 +4,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.dam.kanpeki.model.dto.RequestResultDTO;
-import com.dam.kanpeki.model.dto.ResponseResultDTO;
-import com.dam.kanpeki.model.dto.mapper.ResultDTOMapperStruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.model.Result;
 import com.dam.kanpeki.model.ResultId;
 import com.dam.kanpeki.model.custom.ResultPerCategoryData;
+import com.dam.kanpeki.model.dto.RequestResultDTO;
+import com.dam.kanpeki.model.dto.ResponseResultDTO;
+import com.dam.kanpeki.model.dto.mapper.ResultDTOMapperStruct;
 import com.dam.kanpeki.repository.ResultRepository;
 import com.dam.kanpeki.service.ResultServiceI;
+import com.dam.kanpeki.utils.KanpekiConstants;
 
 @Service
 public class ResultServiceImpl implements ResultServiceI {
@@ -54,7 +56,13 @@ public class ResultServiceImpl implements ResultServiceI {
 	public void removeResultById(ResponseResultDTO r) {
 		ResultId resId = new ResultId(r.getUserId(), r.getResultDate());
 		Optional<Result> opResult = rRepo.findById(resId);
-		rRepo.deleteById(resId);
+
+		if (!opResult.isPresent()) {
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
+		} else {
+			rRepo.deleteById(resId);
+		}
+
 	}
 
 	@Override

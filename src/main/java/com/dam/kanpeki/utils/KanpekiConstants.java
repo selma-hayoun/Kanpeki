@@ -10,7 +10,11 @@ public class KanpekiConstants {
 	 */
 	public static final String EMPTY_STRING = "";
 
-	public static final String POINT_STRING = ".";
+	public static final String DOT_STRING = ".";
+
+	public static final String DOUBLE_DOTS_STRING = "..";
+
+	public static final String UNDERSCORE_STRING = "_";
 
 	public static final String SEMICOLON_STRING = " : ";
 
@@ -25,7 +29,6 @@ public class KanpekiConstants {
 	public static final String TABLE_QUESTIONS_NAME = " Questions ";
 
 	public static final String TABLE_RESULTS_NAME = " Results ";
-
 
 	/**
 	 * Mappings
@@ -138,7 +141,7 @@ public class KanpekiConstants {
 
 	public static final String API_USER_ROLES_NOTES = "User roles";
 
-	public static final String API_USER_ROLES_EXAMPLE ="[\"USER\"]";
+	public static final String API_USER_ROLES_EXAMPLE = "[\"USER\"]";
 
 	public static final String API_USER_IMG_NOTES = "User image URL in our server";
 
@@ -167,7 +170,6 @@ public class KanpekiConstants {
 	public static final String API_WORD_FURIGANA_EXAMPLE = "はは";
 
 	public static final String API_WORD_ID_NOTES = "Word id";
-
 
 	/**
 	 * Files
@@ -207,10 +209,6 @@ public class KanpekiConstants {
 	public static final String USER_FULLNAME_NAME = "fullName";
 
 	public static final String USER_NICKNAME_NAME = "nickname";
-
-
-
-
 
 	/**
 	 * Exceptions messages: controlled exceptions
@@ -252,7 +250,7 @@ public class KanpekiConstants {
 
 	public static final String EX_STORAGE_EXCEPTION_IOEX_STORE = "Failed to store file ";
 
-	public static final String EX_STORAGE_EXCEPTION_IOEX_READ = "Failed to store file ";
+	public static final String EX_STORAGE_EXCEPTION_IOEX_READ = "Failed to read file ";
 
 	public static final String EX_STORAGE_FILE_NOT_FOUND_READ = "Could not read file: ";
 
@@ -327,7 +325,6 @@ public class KanpekiConstants {
 
 	public static final String WORD_FURIGANA_SIZE_MSG = "Furigana must be less than 40 characters long";
 
-
 	/**
 	 * Values
 	 */
@@ -340,7 +337,5 @@ public class KanpekiConstants {
 	public static final int MAX_STRING_LENGTH_VALUE = 40;
 
 	public static final int MIN_ROLES_VALUE = 1;
-
-
 
 }

@@ -10,8 +10,6 @@ public interface FileSystemStorageServiceI {
 
 	public void init();
 
-	public String store(MultipartFile file);
-
 	public Stream<Path> loadAll();
 
 	public Path load(String filename);
@@ -21,5 +19,7 @@ public interface FileSystemStorageServiceI {
 	public void delete(String filename);
 
 	public void deleteAll();
+
+	public String saveFileRequest(MultipartFile file);
 
 }

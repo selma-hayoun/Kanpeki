@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
-import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -16,10 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import com.dam.kanpeki.controller.FilesController;
 import com.dam.kanpeki.exception.StorageException;
 import com.dam.kanpeki.exception.StorageFileNotFoundException;
 import com.dam.kanpeki.service.FileSystemStorageServiceI;
+import com.dam.kanpeki.utils.KanpekiConstants;
 
 @Service
 public class FileSystemStorageServiceImpl implements FileSystemStorageServiceI {
@@ -44,28 +46,50 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageServiceI {
 	 * {@link org.springframework.web.multipart#MultipartFile} MultipartFile
 	 */
 	@Override
-	public String store(MultipartFile file) {
+	public String saveFileRequest(MultipartFile file) {
 
-		String filename = StringUtils.cleanPath(file.getOriginalFilename());
-		String extension = StringUtils.getFilenameExtension(filename);
-		String justFilename = filename.replace("." + extension, "");
-		String storedFilename = System.currentTimeMillis() + "_" + justFilename + "." + extension;
-		try {
-			if (file.isEmpty()) {
-				throw new StorageException(KanpekiConstants.EX_STORAGE_EXCEPTION_EMPTY_FILE + filename);
+		String urlImg = KanpekiConstants.EMPTY_STRING;
+
+		if (file != null && !file.isEmpty()) {
+			// Almacenamos el fichero y obtenemos su URL
+			String img;
+
+			String originalFileName = file.getOriginalFilename();
+
+			String filename = KanpekiConstants.EMPTY_STRING;
+
+			if (originalFileName != null) {
+				filename = StringUtils.cleanPath(originalFileName);
 			}
-			if (filename.contains("..")) {
-				// Security check
-				throw new StorageException(
-						KanpekiConstants.EX_STORAGE_EXCEPTION_SECURITY_CHECK + filename);
+//			String filename = StringUtils.cleanPath(file.getOriginalFilename());
+			String extension = StringUtils.getFilenameExtension(filename);
+			String justFilename = filename.replace(KanpekiConstants.DOT_STRING + extension,
+					KanpekiConstants.EMPTY_STRING);
+			String storedFilename = System.currentTimeMillis() + KanpekiConstants.UNDERSCORE_STRING + justFilename
+					+ KanpekiConstants.DOT_STRING + extension;
+			try {
+				if (file.isEmpty()) {
+					throw new StorageException(KanpekiConstants.EX_STORAGE_EXCEPTION_EMPTY_FILE + filename);
+				}
+				if (filename.contains(KanpekiConstants.DOUBLE_DOTS_STRING)) {
+					// Security check
+					throw new StorageException(KanpekiConstants.EX_STORAGE_EXCEPTION_SECURITY_CHECK + filename);
+				}
+				try (InputStream inputStream = file.getInputStream()) {
+					Files.copy(inputStream, this.rootLocation.resolve(storedFilename),
+							StandardCopyOption.REPLACE_EXISTING);
+					img = storedFilename;
+				}
+			} catch (IOException e) {
+				throw new StorageException(KanpekiConstants.EX_STORAGE_EXCEPTION_IOEX_STORE + filename, e);
 			}
-			try (InputStream inputStream = file.getInputStream()) {
-				Files.copy(inputStream, this.rootLocation.resolve(storedFilename), StandardCopyOption.REPLACE_EXISTING);
-				return storedFilename;
-			}
-		} catch (IOException e) {
-			throw new StorageException(KanpekiConstants.EX_STORAGE_EXCEPTION_IOEX_STORE + filename, e);
+
+			urlImg = MvcUriComponentsBuilder
+					.fromMethodName(FilesController.class, KanpekiConstants.FILES_SERVE_FILE, img, null).build()
+					.toUriString();
 		}
+
+		return urlImg;
 	}
 
 	/**

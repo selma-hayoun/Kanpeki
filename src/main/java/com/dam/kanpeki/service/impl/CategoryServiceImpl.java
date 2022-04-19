@@ -3,7 +3,6 @@ package com.dam.kanpeki.service.impl;
 import java.util.List;
 import java.util.Optional;
 
-import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -17,6 +16,7 @@ import com.dam.kanpeki.model.dto.ResponseCategoryDTO;
 import com.dam.kanpeki.model.dto.mapper.CategoryDTOMapperStruct;
 import com.dam.kanpeki.repository.CategoryRepository;
 import com.dam.kanpeki.service.CategoryServiceI;
+import com.dam.kanpeki.utils.KanpekiConstants;
 
 @Service
 public class CategoryServiceImpl implements CategoryServiceI {
@@ -50,8 +50,10 @@ public class CategoryServiceImpl implements CategoryServiceI {
 		cat.setCategoryName(wField);
 
 		ExampleMatcher customExMatcher = ExampleMatcher.matchingAny()
-				.withMatcher(KanpekiConstants.CATEGORY_UNIT_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				.withMatcher(KanpekiConstants.CATEGORY_CAT_NAME, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+				.withMatcher(KanpekiConstants.CATEGORY_UNIT_NAME,
+						ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				.withMatcher(KanpekiConstants.CATEGORY_CAT_NAME,
+						ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
 		Example<Category> catExample = Example.of(cat, customExMatcher);
 
@@ -62,7 +64,7 @@ public class CategoryServiceImpl implements CategoryServiceI {
 	public Optional<ResponseCategoryDTO> findById(Long id) {
 		Optional<Category> opCat = catRepo.findById(id);
 
-		if(!opCat.isPresent()){
+		if (!opCat.isPresent()) {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		} else {
 			return Optional.of(mapper.toCategoryDTO(opCat.get()));
@@ -79,21 +81,26 @@ public class CategoryServiceImpl implements CategoryServiceI {
 	public void removeCategoryById(Long id) {
 		Optional<Category> opCat = catRepo.findById(id);
 
-		if ((!opCat.get().getWords().isEmpty()) || (!opCat.get().getQuestions().isEmpty())
-				|| (!opCat.get().getResults().isEmpty())) {
+		if (!opCat.isPresent()) {
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
+		} else {
+			if ((!opCat.get().getWords().isEmpty()) || (!opCat.get().getQuestions().isEmpty())
+					|| (!opCat.get().getResults().isEmpty())) {
 
-			throw new InvalidOperationOnCategoryException(
-					(!opCat.get().getWords().isEmpty() ? KanpekiConstants.TABLE_WORDS_NAME.concat(String.valueOf(opCat.get().getWords().size()))
-							: KanpekiConstants.EMPTY_STRING)
-							+ (!opCat.get().getWords().isEmpty()
-									? KanpekiConstants.TABLE_QUESTIONS_NAME.concat(String.valueOf(opCat.get().getWords().size()))
-									: KanpekiConstants.EMPTY_STRING)
-							+ (!opCat.get().getWords().isEmpty()
-									? KanpekiConstants.TABLE_RESULTS_NAME.concat(String.valueOf(opCat.get().getWords().size()))
-									: KanpekiConstants.EMPTY_STRING));
+				throw new InvalidOperationOnCategoryException((!opCat.get().getWords().isEmpty()
+						? KanpekiConstants.TABLE_WORDS_NAME.concat(String.valueOf(opCat.get().getWords().size()))
+						: KanpekiConstants.EMPTY_STRING)
+						+ (!opCat.get().getWords().isEmpty() ? KanpekiConstants.TABLE_QUESTIONS_NAME
+								.concat(String.valueOf(opCat.get().getWords().size())) : KanpekiConstants.EMPTY_STRING)
+						+ (!opCat.get().getWords().isEmpty()
+								? KanpekiConstants.TABLE_RESULTS_NAME
+										.concat(String.valueOf(opCat.get().getWords().size()))
+								: KanpekiConstants.EMPTY_STRING));
+			}
+
+			catRepo.deleteById(id);
 		}
 
-		catRepo.deleteById(id);
 	}
 
 	@Override

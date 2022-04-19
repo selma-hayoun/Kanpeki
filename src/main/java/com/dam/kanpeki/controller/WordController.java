@@ -20,13 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dam.kanpeki.exception.DataNotFoundException;
-import com.dam.kanpeki.model.Word;
 import com.dam.kanpeki.model.dto.RequestWordDTO;
 import com.dam.kanpeki.model.dto.ResponseWordDTO;
-import com.dam.kanpeki.model.dto.mapper.WordDTOMapperStruct;
 import com.dam.kanpeki.service.FileSystemStorageServiceI;
 import com.dam.kanpeki.service.WordServiceI;
-import com.dam.kanpeki.utils.FileUtils;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
 import io.swagger.annotations.ApiOperation;
@@ -40,14 +37,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 @RequestMapping("kanpeki/words")
 public class WordController {
 
-//	private static final String SERVE_FILE = "serveFile";
-
 	@Autowired
 	private WordServiceI wService;
 
 	@Autowired
 	private FileSystemStorageServiceI storeService;
-
 
 	@ApiOperation(value = "getWords", notes = "Get all words from our database")
 	@ApiResponses(value = {
@@ -96,21 +90,6 @@ public class WordController {
 	public ResponseEntity<ResponseWordDTO> addNewWordV1(@Valid @RequestPart(value = "w") RequestWordDTO w,
 			@RequestPart(value = "file", required = false) MultipartFile file) {
 
-//		String urlImg = KanpekiConstants.EMPTY_STRING;
-//
-//		if (file != null && !file.isEmpty()) {
-//			// Almacenamos el fichero y obtenemos su URL
-//			String img = storeService.store(file);
-//			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
-//					.toUriString();
-//		}
-
-//		Word wTemp = mapper.requestWordDTOtoWord(w);
-		// Seteamos la URL donde está almacenada
-//		wTemp.setUrlImage(urlImg);
-//		wTemp.setUrlImage(FileUtils.saveFileRequest(file));
-
-//		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toWordDTO(wService.addWord(wTemp)));
 		return ResponseEntity.status(HttpStatus.CREATED).body(wService.addWord(w, file));
 
 	}
@@ -127,20 +106,6 @@ public class WordController {
 			@Valid @Parameter(description = "Word attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestWordDTO w,
 			@Parameter(description = "Word image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file) {
 
-//		String urlImg = KanpekiConstants.EMPTY_STRING;
-//
-//		if (file != null && !file.isEmpty()) {
-//			String img = storeService.store(file);
-//			urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null).build()
-//					.toUriString();
-//		}
-
-//		Word wTemp = mapper.requestWordDTOtoWord(w);
-		// Seteamos la URL donde está almacenada
-//		wTemp.setUrlImage(urlImg);
-//		wTemp.setUrlImage(FileUtils.saveFileRequest(file));
-
-//		return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toWordDTO(wService.addWord(wTemp)));
 		return ResponseEntity.status(HttpStatus.CREATED).body(wService.addWord(w, file));
 	}
 
@@ -178,39 +143,10 @@ public class WordController {
 		Optional<ResponseWordDTO> opWord = wService.findById(id);
 
 		if (opWord.isPresent()) {
-
-//			String urlImg = KanpekiConstants.EMPTY_STRING;
-
 			if (file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
 				storeService.delete(opWord.get().getUrlImage());
-
-//				// Almacenamos el fichero y obtenemos su URL
-//				if (!file.isEmpty()) {
-//					String img = storeService.store(file);
-//					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
-//							.build().toUriString();
-//				}
 			}
-
-//			Word mappedW = mapper.requestWordDTOtoWord(w);
-			// Seteamos la URL donde está almacenada
-//			mappedW.setUrlImage(urlImg);
-//			mappedW.setUrlImage(FileUtils.saveFileRequest(file));
-//
-//			Word mappedWUpdated = opWord.map(newW -> {
-//				newW.setJapanese(mappedW.getJapanese());
-//				newW.setEnglish(mappedW.getEnglish());
-//				newW.setSpanish(mappedW.getSpanish());
-//				newW.setFurigana(mappedW.getFurigana());
-//				newW.setUrlImage(mappedW.getUrlImage());
-//				newW.setCategoryId(mappedW.getCategoryId());
-//				wService.updateWord(newW);
-//				return newW;
-//			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
-
-//			return ResponseEntity.ok(mapper.toWordDTO(mappedWUpdated));
-
 			return ResponseEntity.ok(wService.updateWord(w, file, id));
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
@@ -235,38 +171,10 @@ public class WordController {
 
 		if (opWord.isPresent()) {
 
-//			String urlImg = KanpekiConstants.EMPTY_STRING;
-
 			if (file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
 				storeService.delete(opWord.get().getUrlImage());
-
-//				// Almacenamos el fichero y obtenemos su URL
-//				if (!file.isEmpty()) {
-//					String img = storeService.store(file);
-//					urlImg = MvcUriComponentsBuilder.fromMethodName(FilesController.class, SERVE_FILE, img, null)
-//							.build().toUriString();
-//				}
 			}
-
-//			Word mappedW = mapper.requestWordDTOtoWord(w);
-			// Seteamos la URL donde está almacenada
-//			mappedW.setUrlImage(urlImg);
-//			mappedW.setUrlImage(FileUtils.saveFileRequest(file));
-//
-//			Word mappedWUpdated = opWord.map(newW -> {
-//				newW.setJapanese(mappedW.getJapanese());
-//				newW.setEnglish(mappedW.getEnglish());
-//				newW.setSpanish(mappedW.getSpanish());
-//				newW.setFurigana(mappedW.getFurigana());
-//				newW.setUrlImage(mappedW.getUrlImage());
-//				newW.setCategoryId(mappedW.getCategoryId());
-//				wService.updateWord(newW);
-//				return newW;
-//			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
-//
-//			return ResponseEntity.ok(mapper.toWordDTO(mappedWUpdated));
-
 			return ResponseEntity.ok(wService.updateWord(w, file, id));
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);

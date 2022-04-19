@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dam.kanpeki.exception.DataNotFoundException;
-import com.dam.kanpeki.model.Question;
 import com.dam.kanpeki.model.dto.RequestQuestionDTO;
 import com.dam.kanpeki.model.dto.ResponseQuestionDTO;
-import com.dam.kanpeki.model.dto.mapper.QuestionAnswerDTOMapperStruct;
 import com.dam.kanpeki.service.QuestionServiceI;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
@@ -81,8 +79,7 @@ public class QuestionAnswerController {
 	@RequestMapping(value = "/question", produces = { "application/json" }, method = RequestMethod.POST)
 	public ResponseEntity<ResponseQuestionDTO> addNewQuestion(@Valid @RequestBody RequestQuestionDTO q) {
 
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(qService.addQuestion(q));
+		return ResponseEntity.status(HttpStatus.CREATED).body(qService.addQuestion(q));
 
 	}
 
