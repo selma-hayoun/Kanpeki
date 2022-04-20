@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dam.kanpeki.exception.DataNotFoundException;
+import com.dam.kanpeki.exception.UserEmailAlreadyExistsException;
 import com.dam.kanpeki.model.User;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
@@ -35,6 +38,9 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Autowired
 	private ResultServiceI rService;
+
+	@Autowired
+	private PasswordEncoder passEncoder;
 
 	@Override
 	public List<User> findAllUsers() {
@@ -97,7 +103,14 @@ public class UserServiceImpl implements UserServiceI {
 	public ResponseUserDTO addUser(RequestUserDTO u, MultipartFile file) {
 		User uTemp = mapper.requestUserDTOtoUser(u);
 		uTemp.setUrlImage(storeService.saveFileRequest(file));
-		return mapper.toUserDTO(uRepo.save(uTemp));
+		uTemp.setPassword(passEncoder.encode(u.getPassword()));// Codificamos la password
+
+		try {
+			return mapper.toUserDTO(uRepo.save(uTemp));
+		} catch (DataIntegrityViolationException ex) {
+			throw new UserEmailAlreadyExistsException(null);
+		}
+
 	}
 
 	@Override
@@ -139,6 +152,20 @@ public class UserServiceImpl implements UserServiceI {
 		}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
 
 		return mapper.toUserDTO(mappedUUpdated);
+	}
+
+	/**
+	 * Método de verificación de usuario. Uso interno
+	 */
+	@Override
+	public Optional<User> findByEmail(String email) {
+		Optional<User> u = uRepo.findByEmail(email);
+
+		if (!u.isPresent()) {
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
+		} else {
+			return u;
+		}
 	}
 
 }

@@ -4,10 +4,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.dam.kanpeki.model.User;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
-import org.springframework.web.multipart.MultipartFile;
 
 public interface UserServiceI {
 
@@ -30,5 +31,7 @@ public interface UserServiceI {
 	public void removeUserById(Long id);
 
 	public ResponseUserDTO updateUser(RequestUserDTO u, MultipartFile file, Long id);
+
+	public Optional<User> findByEmail(String email);
 
 }

@@ -256,6 +256,8 @@ public class KanpekiConstants {
 
 	public static final String EX_STORAGE_EXCEPTION_IOEX_DELETE = "Error deleting a file";
 
+	public static final String EX_USER_EMAIL_EXISTS_EXCEPTION = "An user with that email already exists";
+
 	/**
 	 * Exceptions messages: data validation
 	 */
@@ -339,5 +341,15 @@ public class KanpekiConstants {
 	public static final int MAX_STRING_LENGTH_VALUE = 40;
 
 	public static final int MIN_ROLES_VALUE = 1;
+
+	/**
+	 * Security
+	 */
+
+	public static final String SENSEI_ROLE = "ADMIN";
+
+	public static final String GAKUSEI_ROLE = "USER";
+
+	public static final String ALL_MAPPINGS = "/kanpeki/**";
 
 }

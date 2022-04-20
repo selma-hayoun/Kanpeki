@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.exception.ParameterIncorrectFormatException;
+import com.dam.kanpeki.model.User;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
+import com.dam.kanpeki.model.dto.mapper.UserDTOMapperStruct;
 import com.dam.kanpeki.service.FileSystemStorageServiceI;
 import com.dam.kanpeki.service.UserServiceI;
 import com.dam.kanpeki.utils.KanpekiConstants;
@@ -46,6 +49,9 @@ public class UserController {
 
 	@Autowired
 	private FileSystemStorageServiceI storeService;
+
+	@Autowired
+	private UserDTOMapperStruct mapper;
 
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
@@ -83,6 +89,23 @@ public class UserController {
 		} else {
 			return ResponseEntity.ok(opUser.get());
 		}
+	}
+
+	/**
+	 * REVISAR: Método para autenticación - autorización
+	 * 
+	 * @param theUser
+	 * @return
+	 */
+	@ApiOperation(value = "me", notes = "Get user me")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
+	@RequestMapping(value = "/me", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<ResponseUserDTO> me(@AuthenticationPrincipal User theUser) {
+		return ResponseEntity.ok(mapper.toUserDTO(theUser));
 	}
 
 	@ApiOperation(value = "addNewUser", notes = "Create a new user")
