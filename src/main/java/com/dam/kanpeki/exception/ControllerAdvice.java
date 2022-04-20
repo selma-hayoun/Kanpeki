@@ -2,10 +2,13 @@ package com.dam.kanpeki.exception;
 
 import javax.validation.ConstraintViolationException;
 
+import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,6 +17,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.dam.kanpeki.utils.ExceptionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestControllerAdvice
 public class ControllerAdvice extends ResponseEntityExceptionHandler {
@@ -95,8 +101,21 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ExceptionUtils.getDefaultMsg(ex.getMessage()));
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+//		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ExceptionUtils.getDefaultMsg(ex.getMessage()));
+//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+
+//		List<String> errors = new ArrayList<>();
+//		for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+//			errors.add(error.getField() + KanpekiConstants.SEMICOLON_STRING + error.getDefaultMessage());
+//		}
+//		for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
+//			errors.add(error.getObjectName() + KanpekiConstants.SEMICOLON_STRING + error.getDefaultMessage());
+//		}
+//
+//		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "TOTAL ERRORS: " + ex.getErrorCount() + " - TARGET: " + ex.getBindingResult().getTarget(), errors);
+//		return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
+//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ExceptionUtils.getCustomApiError(ex));
 	}
 
 	/**
@@ -107,8 +126,21 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
 			WebRequest request) {
-		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ExceptionUtils.getDefaultMsg(ex.getMessage()));
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+//		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ExceptionUtils.getDefaultMsg(ex.getMessage()));
+//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+
+//		List<String> errors = new ArrayList<>();
+//		for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+//			errors.add(error.getField() + KanpekiConstants.SEMICOLON_STRING + error.getDefaultMessage());
+//		}
+//		for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
+//			errors.add(error.getObjectName() + KanpekiConstants.SEMICOLON_STRING + error.getDefaultMessage());
+//		}
+//
+//		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "TOTAL ERRORS: " + ex.getErrorCount() + " - TARGET: " + ex.getBindingResult().getTarget(), errors);
+////		return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
+//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ExceptionUtils.getCustomApiError(ex));
 	}
 
 }

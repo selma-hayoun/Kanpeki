@@ -309,6 +309,8 @@ public class KanpekiConstants {
 
 	public static final String USER_CITY_SIZE_MSG = "City must be less than 40 characters long";
 
+	public static final String USER_ROLES_NOT_NULL = "Roles may not be null";
+
 	public static final String USER_ROLES_SIZE_MSG = "Must be at least one role assigned mandatory";
 
 	public static final String WORD_JAPANESE_NOT_BLANK_MSG = "Japanese may not be null or empty";

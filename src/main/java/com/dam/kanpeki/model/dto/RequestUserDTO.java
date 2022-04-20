@@ -64,7 +64,7 @@ public class RequestUserDTO implements Serializable {
 	private String city;
 
 	@ApiModelProperty(notes = KanpekiConstants.API_USER_ROLES_NOTES, example = KanpekiConstants.API_USER_ROLES_EXAMPLE, required = true)
-	@NotNull
+	@NotNull(message = KanpekiConstants.USER_ROLES_NOT_NULL)
 	@Size(min = KanpekiConstants.MIN_ROLES_VALUE, message = KanpekiConstants.USER_ROLES_SIZE_MSG)
 	private Set<UserRole> roles;
 

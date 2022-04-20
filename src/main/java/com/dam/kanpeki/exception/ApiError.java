@@ -1,6 +1,8 @@
 package com.dam.kanpeki.exception;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class ApiError {
 
 	@NonNull
@@ -32,4 +33,24 @@ public class ApiError {
 
 	@NonNull
 	private String msg;
+
+	@NonNull
+	private List<String> errors;
+
+	public ApiError(@NonNull HttpStatus status, @NonNull String msg) {
+		this.status = status;
+		this.msg = msg;
+	}
+
+	public ApiError(@NonNull HttpStatus status, @NonNull String msg, @NonNull List<String> errors) {
+		this.status = status;
+		this.msg = msg;
+		this.errors = errors;
+	}
+
+	public ApiError(@NonNull HttpStatus status, @NonNull String msg, String error) {
+		this.status = status;
+		this.msg = msg;
+		errors = Arrays.asList(error);
+	}
 }
