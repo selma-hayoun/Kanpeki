@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +16,12 @@ import com.dam.kanpeki.service.FileSystemStorageServiceI;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class FilesController {
-
-	private static final Logger logger = LoggerFactory.getLogger(FilesController.class);
 
 	private final FileSystemStorageServiceI storageService;
 
@@ -36,7 +34,7 @@ public class FilesController {
 		try {
 			contentType = request.getServletContext().getMimeType(file.getFile().getAbsolutePath());
 		} catch (IOException ex) {
-			logger.info(KanpekiConstants.FILES_CONTROLLER_INFO_FILE_TYPE);
+			log.info(KanpekiConstants.FILES_CONTROLLER_INFO_FILE_TYPE);
 		}
 
 		if (contentType == null) {

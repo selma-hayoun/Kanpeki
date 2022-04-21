@@ -18,6 +18,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import com.dam.kanpeki.utils.KanpekiConstants;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -29,6 +31,12 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 	private final AuthenticationManager authenticationManager;
 	private final UserDetailsService userDetailsService;
 	private final DataSource dataSource;
+
+	// Constantes para los diferentes tipos de flujos que podrían existir
+	private static final String CODE_GRANT_TYPE = "authorization_code";
+	private static final String IMPLICIT_GRANT_TYPE = "implicit";
+	private static final String PASS_GRANT_TYPE = "password";
+	private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
 
 	@Value("${oauth2.client-id}")
 	private String clientId;
@@ -45,15 +53,13 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 	@Value("${oauth2.access-token-validity-seconds}")
 	private int refreshTokenValiditySeconds;
 
-	private static final String CODE_GRANT_TYPE = "authorization_code";
-	private static final String IMPLICIT_GRANT_TYPE = "implicit";
-	private static final String PASS_GRANT_TYPE = "password";
-	private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
-
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-		security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()")
-				.allowFormAuthenticationForClients();
+		// Especificar algunos elementos de seguridad
+		security.tokenKeyAccess("permitAll()")// Cualquiera puede acceder
+				.checkTokenAccess("isAuthenticated()").allowFormAuthenticationForClients();// Permitimos la
+																							// autenticación del
+																							// formulario de cliente
 
 	}
 
@@ -61,25 +67,28 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.jdbc(dataSource).withClient(clientId).secret(passwordEncoder.encode(clientSecret))
 				.authorizedGrantTypes(PASS_GRANT_TYPE, REFRESH_TOKEN_GRANT_TYPE, IMPLICIT_GRANT_TYPE, CODE_GRANT_TYPE)
-				.authorities("READ_ONLY_CLIENT").scopes("read").resourceIds("oauth2-resource").redirectUris(redirectUri)
-				.accessTokenValiditySeconds(accessTokenValiditySeconds)
+				.authorities("READ_ONLY_CLIENT").scopes("read").resourceIds(KanpekiConstants.SECURITY_RESOURCE_ID)
+				.redirectUris(redirectUri).accessTokenValiditySeconds(accessTokenValiditySeconds)
 				.refreshTokenValiditySeconds(refreshTokenValiditySeconds);
 
 	}
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		// Le indicamos el autentication manager y el userdetailsservice inyectados
 		endpoints.authenticationManager(authenticationManager).userDetailsService(userDetailsService)
 				.tokenStore(tokenStore()).accessTokenConverter(accessTokenConverter());
 	}
 
 	@Bean
-	public TokenStore tokenStore() {
+	public TokenStore tokenStore() {// Almacén de tokens
 		return new JdbcTokenStore(dataSource);
 	}
 
 	@Bean
 	public AccessTokenConverter accessTokenConverter() {
+		// Podemos add TokenEnhancer para añadir más información al token de la que se
+		// añade por defecto
 		return new JwtAccessTokenConverter();
 	}
 

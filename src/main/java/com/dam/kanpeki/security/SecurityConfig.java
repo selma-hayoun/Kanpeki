@@ -26,9 +26,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable().requestMatchers().antMatchers("/login", "/oauth/authorize").and()
-				.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/oauth/**").permitAll().anyRequest()
-				.authenticated().and().formLogin().permitAll();
+		http.cors().and().csrf().disable()// Establecemos cors y dehabilitamos csrf
+				.requestMatchers().antMatchers("/login", "/oauth/authorize").and().authorizeRequests()
+				.antMatchers(HttpMethod.OPTIONS, "/oauth/**").permitAll()// Para que se puedan hacer cualquier tipo de
+																			// petición de tipo options para oauth
+				.anyRequest().authenticated().and().formLogin().permitAll();// Salvo formulario de login que se le
+																			// permite a todo el mundo
 	}
 
 	@Override

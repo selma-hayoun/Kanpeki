@@ -24,11 +24,13 @@ public class SimpleCorsFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
 		final HttpServletResponse response = (HttpServletResponse) res;
-		response.setHeader("Access-Control-Allow-Origin", "*");
+		final HttpServletRequest request = (HttpServletRequest) req;
+		response.setHeader("Access-Control-Allow-Origin", "*");// Cualquier origen, podríamos, podemos limitarlo al
+																// cliente preparado
 		response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
 		response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
 		response.setHeader("Access-Control-Max-Age", "3600");
-		if (HttpMethod.OPTIONS.name().equalsIgnoreCase(((HttpServletRequest) req).getMethod())) {
+		if (HttpMethod.OPTIONS.name().equalsIgnoreCase(request.getMethod())) {
 			response.setStatus(HttpServletResponse.SC_OK);
 		} else {
 			chain.doFilter(req, res);
@@ -37,12 +39,12 @@ public class SimpleCorsFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		Filter.super.init(filterConfig);// En las anotaciones aparece sin nada en el método
+//		Filter.super.init(filterConfig);// En las anotaciones aparece sin nada en el método
 	}
 
 	@Override
 	public void destroy() {
-		Filter.super.destroy();// En las anotaciones aparece sin nada en el método
+//		Filter.super.destroy();// En las anotaciones aparece sin nada en el método
 	}
 
 }

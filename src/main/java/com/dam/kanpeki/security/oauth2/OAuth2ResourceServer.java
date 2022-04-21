@@ -16,14 +16,13 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-
-		resources.resourceId("oauth2-resource");
+		resources.resourceId(KanpekiConstants.SECURITY_RESOURCE_ID);
 
 	}
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-
+		// Configuración de la seguridad
 		http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authorizeRequests()
 				// Sirve para habilitar la consola de H2

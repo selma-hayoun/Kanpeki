@@ -179,7 +179,7 @@ public class KanpekiConstants {
 	public static final String FILES_SERVE_FILE = "serveFile";
 
 	/**
-	 * Controllers api responses messages
+	 * Controllers API responses messages
 	 */
 	public static final String CONTROLLER_MSG_200 = "OK. Resources obtained correctly";
 
@@ -351,5 +351,8 @@ public class KanpekiConstants {
 	public static final String GAKUSEI_ROLE = "USER";
 
 	public static final String ALL_MAPPINGS = "/kanpeki/**";
+
+	public static final String SECURITY_RESOURCE_ID = "oauth2-resource";// Configuración servidor de autorización y
+																		// recursos
 
 }
