@@ -106,20 +106,6 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-//		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ExceptionUtils.getDefaultMsg(ex.getMessage()));
-//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
-
-//		List<String> errors = new ArrayList<>();
-//		for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-//			errors.add(error.getField() + KanpekiConstants.SEMICOLON_STRING + error.getDefaultMessage());
-//		}
-//		for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
-//			errors.add(error.getObjectName() + KanpekiConstants.SEMICOLON_STRING + error.getDefaultMessage());
-//		}
-//
-//		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "TOTAL ERRORS: " + ex.getErrorCount() + " - TARGET: " + ex.getBindingResult().getTarget(), errors);
-//		return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
-//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ExceptionUtils.getCustomApiError(ex));
 	}
 
@@ -131,20 +117,6 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
 			WebRequest request) {
-//		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ExceptionUtils.getDefaultMsg(ex.getMessage()));
-//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
-
-//		List<String> errors = new ArrayList<>();
-//		for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-//			errors.add(error.getField() + KanpekiConstants.SEMICOLON_STRING + error.getDefaultMessage());
-//		}
-//		for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
-//			errors.add(error.getObjectName() + KanpekiConstants.SEMICOLON_STRING + error.getDefaultMessage());
-//		}
-//
-//		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "TOTAL ERRORS: " + ex.getErrorCount() + " - TARGET: " + ex.getBindingResult().getTarget(), errors);
-////		return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
-//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ExceptionUtils.getCustomApiError(ex));
 	}
 

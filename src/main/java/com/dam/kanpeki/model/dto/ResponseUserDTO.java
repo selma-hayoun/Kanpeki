@@ -8,13 +8,12 @@ import java.util.Set;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.dam.kanpeki.utils.KanpekiConstants;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.dam.kanpeki.model.UserRole;
+import com.dam.kanpeki.utils.KanpekiConstants;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -38,11 +37,6 @@ public class ResponseUserDTO implements Serializable {
 	@NotBlank
 	@Email
 	private String email;
-
-	@ApiModelProperty(notes = KanpekiConstants.API_USER_PASSWORD_NOTES, example = KanpekiConstants.API_USER_PASSWORD_EXAMPLE, required = true)
-	@NotBlank
-	@Pattern(regexp = KanpekiConstants.USER_PASSWORD_PATTERN, message = KanpekiConstants.USER_PASSWORD_PATTERN_MSG)
-	private String password;
 
 	@ApiModelProperty(notes = KanpekiConstants.API_USER_FULLNAME_NOTES, example = KanpekiConstants.API_USER_FULLNAME_EXAMPLE, required = true)
 	@NotBlank

@@ -1,6 +1,7 @@
 package com.dam.kanpeki.exception;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class ApiError {
 	public ApiError(@NonNull HttpStatus status, @NonNull String msg) {
 		this.status = status;
 		this.msg = msg;
+		this.errors = new ArrayList<>();
 	}
 
 	public ApiError(@NonNull HttpStatus status, @NonNull String msg, @NonNull List<String> errors) {

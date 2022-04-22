@@ -61,7 +61,7 @@ public class FileSystemStorageServiceImpl implements FileSystemStorageServiceI {
 			if (originalFileName != null) {
 				filename = StringUtils.cleanPath(originalFileName);
 			}
-//			String filename = StringUtils.cleanPath(file.getOriginalFilename());
+
 			String extension = StringUtils.getFilenameExtension(filename);
 			String justFilename = filename.replace(KanpekiConstants.DOT_STRING + extension,
 					KanpekiConstants.EMPTY_STRING);
