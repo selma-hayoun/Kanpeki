@@ -38,6 +38,8 @@ public class QuestionAnswerController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseQuestionDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = KanpekiConstants.EMPTY_STRING, produces = {
@@ -56,6 +58,8 @@ public class QuestionAnswerController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseQuestionDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/question", produces = { "application/json" }, method = RequestMethod.GET)
@@ -73,7 +77,10 @@ public class QuestionAnswerController {
 	@ApiOperation(value = "addNewQuestion", notes = "Create a new question")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseQuestionDTO.class),
+			@ApiResponse(code = 201, message = KanpekiConstants.CONTROLLER_MSG_201, response = ResponseQuestionDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/question", produces = { "application/json" }, method = RequestMethod.POST)
@@ -86,7 +93,10 @@ public class QuestionAnswerController {
 	@ApiOperation(value = "deleteQuestion", notes = "Delete a single question by ID")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseQuestionDTO.class),
+			@ApiResponse(code = 204, message = KanpekiConstants.CONTROLLER_MSG_204),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/question/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
@@ -106,6 +116,8 @@ public class QuestionAnswerController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseQuestionDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/question/{id}", produces = { "application/json" }, method = RequestMethod.PUT)
@@ -120,6 +132,8 @@ public class QuestionAnswerController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseQuestionDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/question/shuffle", produces = { "application/json" }, method = RequestMethod.GET)
@@ -139,6 +153,8 @@ public class QuestionAnswerController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseQuestionDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/question/search", produces = { "application/json" }, method = RequestMethod.GET)

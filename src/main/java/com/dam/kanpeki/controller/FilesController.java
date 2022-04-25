@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dam.kanpeki.service.FileSystemStorageServiceI;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +28,13 @@ public class FilesController {
 
 	private final FileSystemStorageServiceI storageService;
 
+	@ApiOperation(value = "serveFile", notes = "Get a file from the server by file name")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@GetMapping(value = "kanpeki/files/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@PathVariable String filename, HttpServletRequest request) {

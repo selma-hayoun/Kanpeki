@@ -37,6 +37,8 @@ public class CategoryController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseCategoryDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = KanpekiConstants.EMPTY_STRING, produces = {
@@ -55,6 +57,8 @@ public class CategoryController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseCategoryDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/category", produces = { "application/json" }, method = RequestMethod.GET)
@@ -72,7 +76,10 @@ public class CategoryController {
 	@ApiOperation(value = "addNewCategory", notes = "Create a new category")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseCategoryDTO.class),
+			@ApiResponse(code = 201, message = KanpekiConstants.CONTROLLER_MSG_201, response = ResponseCategoryDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/category", produces = { "application/json" }, method = RequestMethod.POST)
@@ -83,7 +90,10 @@ public class CategoryController {
 	@ApiOperation(value = "deleteCategory", notes = "Delete a single category by ID")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseCategoryDTO.class),
+			@ApiResponse(code = 204, message = KanpekiConstants.CONTROLLER_MSG_204),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/category/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
@@ -103,6 +113,8 @@ public class CategoryController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseCategoryDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/category/{id}", produces = { "application/json" }, method = RequestMethod.PUT)
@@ -117,6 +129,8 @@ public class CategoryController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseCategoryDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/category/search", produces = { "application/json" }, method = RequestMethod.GET)

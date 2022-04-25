@@ -7,8 +7,6 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,7 +37,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("kanpeki/users")
 public class UserController {
@@ -53,12 +53,12 @@ public class UserController {
 	@Autowired
 	private UserDTOMapperStruct mapper;
 
-	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
-
 	@ApiOperation(value = "getUsers", notes = "Get all users from our database")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = KanpekiConstants.EMPTY_STRING, produces = {
@@ -77,6 +77,8 @@ public class UserController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user", produces = { "application/json" }, method = RequestMethod.GET)
@@ -101,6 +103,8 @@ public class UserController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/me", produces = { "application/json" }, method = RequestMethod.GET)
@@ -111,7 +115,10 @@ public class UserController {
 	@ApiOperation(value = "addNewUser", notes = "Create a new user")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
+			@ApiResponse(code = 201, message = KanpekiConstants.CONTROLLER_MSG_201, response = ResponseUserDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/v1", produces = {
@@ -126,7 +133,10 @@ public class UserController {
 	@ApiOperation(value = "addNewUser", notes = "Create a new user")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
+			@ApiResponse(code = 201, message = KanpekiConstants.CONTROLLER_MSG_201, response = ResponseUserDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/v2", produces = { "application/json" }, consumes = {
@@ -142,7 +152,10 @@ public class UserController {
 	@ApiOperation(value = "deleteUser", notes = "Delete a single user by ID")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
+			@ApiResponse(code = 204, message = KanpekiConstants.CONTROLLER_MSG_204),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/{id}", produces = { "application/json" }, method = RequestMethod.DELETE)
@@ -162,6 +175,8 @@ public class UserController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/v1/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = {
@@ -191,6 +206,8 @@ public class UserController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/v2/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
@@ -221,6 +238,8 @@ public class UserController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/search", produces = { "application/json" }, method = RequestMethod.GET)
@@ -239,6 +258,8 @@ public class UserController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/birthdate", produces = { "application/json" }, method = RequestMethod.GET)
@@ -253,7 +274,7 @@ public class UserController {
 					new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
 					new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate));
 		} catch (ParseException e) {
-			LOG.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 
 		if (uList == null) {
@@ -270,6 +291,8 @@ public class UserController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/creation", produces = { "application/json" }, method = RequestMethod.GET)
@@ -284,7 +307,7 @@ public class UserController {
 					new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
 					new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate));
 		} catch (ParseException e) {
-			LOG.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 
 		if (uList == null) {

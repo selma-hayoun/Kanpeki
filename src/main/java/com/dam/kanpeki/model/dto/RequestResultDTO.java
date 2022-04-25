@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.dam.kanpeki.utils.KanpekiConstants;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class RequestResultDTO implements Serializable {
 	*/
 	private static final long serialVersionUID = 1999392315749197646L;
 
-	@ApiModelProperty(notes = KanpekiConstants.API_USER_ID_NOTES, example = KanpekiConstants.API_BOOLEAN_PROPERTY_EXAMPLE, required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_ID_NOTES, example = KanpekiConstants.API_ID_EXAMPLE, required = true)
 	@NotNull(message = KanpekiConstants.USER_ID_NOT_NULL_MSG)
 	private Long userId;
 

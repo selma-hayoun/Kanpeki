@@ -183,7 +183,15 @@ public class KanpekiConstants {
 	 */
 	public static final String CONTROLLER_MSG_200 = "OK. Resources obtained correctly";
 
+	public static final String CONTROLLER_MSG_201 = "OK. Created";
+
+	public static final String CONTROLLER_MSG_204 = "OK. No Content";
+
 	public static final String CONTROLLER_MSG_400 = "Bad request";
+
+	public static final String CONTROLLER_MSG_401 = "Unauthorized";
+
+	public static final String CONTROLLER_MSG_403 = "Forbidden";
 
 	public static final String CONTROLLER_MSG_404 = "Not found";
 

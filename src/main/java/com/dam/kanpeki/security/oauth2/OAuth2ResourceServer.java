@@ -26,7 +26,8 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
 		http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authorizeRequests()
 				// Sirve para habilitar la consola de H2
-				.antMatchers("/h2-console/**").permitAll().antMatchers("/swagger-ui/**").permitAll()
+				.antMatchers("/h2-console/**").permitAll()
+//				.antMatchers("/swagger-ui/**").permitAll()
 				.antMatchers(HttpMethod.GET, KanpekiConstants.ALL_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
 				.antMatchers(HttpMethod.POST, KanpekiConstants.ALL_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
 				.antMatchers(HttpMethod.PUT, KanpekiConstants.ALL_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)

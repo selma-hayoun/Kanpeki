@@ -15,7 +15,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import com.dam.kanpeki.utils.KanpekiConstants;
@@ -82,7 +81,8 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 
 	@Bean
 	public TokenStore tokenStore() {// Almacén de tokens
-		return new JdbcTokenStore(dataSource);
+//		return new JdbcTokenStore(dataSource);
+		return new JdbcTokenStores(dataSource);
 	}
 
 	@Bean
