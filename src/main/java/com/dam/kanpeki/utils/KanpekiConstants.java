@@ -234,6 +234,8 @@ public class KanpekiConstants {
 
 	public static final String DATA_NOT_FOUND_EX_USER_BY_STRING = "No users contain the string";
 
+	public static final String PARAMETER_INCORRECT_EX_MSG = "Values provided are not correct";
+
 	public static final String PARAMETER_INCORRECT_FORMAT_EX_DATES = "Dates format are incorrect. Correct pattern: yyyy-MM-dd";
 
 	public static final String DATA_NOT_FOUND_EX_USERS_CREATED_BY_DATES = "No users created between %s and %s";
@@ -265,6 +267,20 @@ public class KanpekiConstants {
 	public static final String EX_STORAGE_EXCEPTION_IOEX_DELETE = "Error deleting a file";
 
 	public static final String EX_USER_EMAIL_EXISTS_EXCEPTION = "An user with that email already exists";
+
+	public static final String CATEGORY_EXISTS_EX_STRING = "Category with same Unit Name and Category Name already exists";
+
+	public static final String USER_EMAIL_EXISTS_EX_STRING = "User with the given email already exists";
+
+	public static final String USER_NICKNAME_EXISTS_EX_STRING = "User with the given nickname already exists";
+
+	public static final String WORD_JAPANESE_EXISTS_EX_STRING = "Japanese word (japanese value) already exists";
+
+	public static final String INVALID_REFERENCES_RESULT_EX_BOTH = "User id and Category id provided do not exist";
+
+	public static final String INVALID_REFERENCES_RESULT_EX_USER_ID = "User id provided does not exist";
+
+	public static final String INVALID_REFERENCES_RESULT_EX_CATEGORY_ID = "Category id provided does not exist";
 
 	/**
 	 * Exceptions messages: data validation

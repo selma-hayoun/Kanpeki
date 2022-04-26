@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.dam.kanpeki.exception.DataNotFoundException;
+import com.dam.kanpeki.exception.InvalidFKReferencesException;
 import com.dam.kanpeki.model.Result;
 import com.dam.kanpeki.model.ResultId;
 import com.dam.kanpeki.model.custom.ResultPerCategoryData;
@@ -15,6 +17,7 @@ import com.dam.kanpeki.model.dto.RequestResultDTO;
 import com.dam.kanpeki.model.dto.ResponseResultDTO;
 import com.dam.kanpeki.model.dto.mapper.ResultDTOMapperStruct;
 import com.dam.kanpeki.repository.ResultRepository;
+import com.dam.kanpeki.service.CategoryServiceI;
 import com.dam.kanpeki.service.ResultServiceI;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
@@ -23,6 +26,9 @@ public class ResultServiceImpl implements ResultServiceI {
 
 	@Autowired
 	private ResultRepository rRepo;
+
+	@Autowired
+	private CategoryServiceI catService;
 
 	@Autowired
 	private ResultDTOMapperStruct mapper;
@@ -49,7 +55,19 @@ public class ResultServiceImpl implements ResultServiceI {
 
 	@Override
 	public ResponseResultDTO addResult(RequestResultDTO r) {
-		return mapper.toResultDTO(rRepo.save(mapper.requestResultDTOtoResult(r)));
+		// Verificamos si el id de usuario y de categoría existen con los try-catch
+		try {
+			catService.findById(r.getCategoryId());
+		} catch (DataNotFoundException ex) {
+			throw new InvalidFKReferencesException(KanpekiConstants.INVALID_REFERENCES_RESULT_EX_CATEGORY_ID);
+		}
+
+		try {
+			return mapper.toResultDTO(rRepo.save(mapper.requestResultDTOtoResult(r)));
+		} catch (DataIntegrityViolationException ex) {
+			throw new InvalidFKReferencesException(KanpekiConstants.INVALID_REFERENCES_RESULT_EX_USER_ID);
+		}
+
 	}
 
 	@Override
@@ -67,7 +85,22 @@ public class ResultServiceImpl implements ResultServiceI {
 
 	@Override
 	public void updateResult(Result r) {
-		rRepo.save(r);
+		// Verificamos si el id de usuario y de categoría existen
+
+		try {
+			catService.findById(r.getCategoryId());
+		} catch (DataNotFoundException ex) {
+			// Así tomamos el DataNotFoundException del findById de categoría y lo
+			// transformamos en nuestra excepción personalizada
+			throw new InvalidFKReferencesException(KanpekiConstants.INVALID_REFERENCES_RESULT_EX_CATEGORY_ID);
+		}
+
+		try {
+			rRepo.save(r);
+		} catch (DataIntegrityViolationException ex) {
+			throw new InvalidFKReferencesException(KanpekiConstants.INVALID_REFERENCES_RESULT_EX_USER_ID);
+		}
+
 	}
 
 	@Override
@@ -82,7 +115,6 @@ public class ResultServiceImpl implements ResultServiceI {
 
 	@Override
 	public List<ResponseResultDTO> findResultsUser(Long userId) {
-
 		return mapper.toResultDTOList(rRepo.findResultsUser(userId).stream());
 	}
 

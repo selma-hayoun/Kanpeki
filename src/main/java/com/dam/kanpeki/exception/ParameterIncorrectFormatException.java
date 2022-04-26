@@ -14,7 +14,7 @@ public class ParameterIncorrectFormatException extends RuntimeException {
 	private static final long serialVersionUID = 708018116495333173L;
 
 	public ParameterIncorrectFormatException(String info) {
-		super(KanpekiConstants.EXCEPTION_MSG_DATA_NOT_FOUND
+		super(KanpekiConstants.PARAMETER_INCORRECT_EX_MSG
 				+ (info.isEmpty() ? KanpekiConstants.DOT_STRING : KanpekiConstants.SEMICOLON_STRING + info));
 	}
 

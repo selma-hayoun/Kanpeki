@@ -63,6 +63,17 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	}
 
 	/**
+	 * Excepción cuando ya existe otro usuario registrado con ese nickname
+	 *
+	 */
+	@ExceptionHandler(UserNicknameAlreadyExistsException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ApiError> handleUserNicknameAlreadyExistsException(UserNicknameAlreadyExistsException ex) {
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+	}
+
+	/**
 	 * Excepción para controlar la no eliminación de una categoría con datos
 	 * vinculados
 	 *
@@ -87,15 +98,49 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	}
 
 	/**
+	 * Excepción el user id y/o category id del resultado no existen
+	 *
+	 */
+	@ExceptionHandler(InvalidFKReferencesException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ApiError> handleInvalidReferencesOnResultException(InvalidFKReferencesException ex) {
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+	}
+
+	/**
 	 * Excepción cuando no se quebrantan constraints de validación en la request
 	 *
 	 */
 	@ExceptionHandler(ConstraintViolationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	ResponseEntity<ApiError> handleConstraintViolationException(ConstraintViolationException ex) {
-		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND,
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST,
 				"Not valid due to validation error: \n" + ex.getMessage());
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+	}
+
+	/**
+	 * Excepción cuando se inserta o actualiza una categoría con un Unit Name y
+	 * Category Name que ya existen en la base de datos
+	 *
+	 */
+	@ExceptionHandler(CategoryAlreadyExistsException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ApiError> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException ex) {
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+	}
+
+	/**
+	 * Excepción cuando ya la palabra japonesa en la base de datos
+	 *
+	 */
+	@ExceptionHandler(WordJapaneseAlreadyExistsException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ApiError> handleWordJapaneseAlreadyExistsException(WordJapaneseAlreadyExistsException ex) {
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
 	}
 
 	/**

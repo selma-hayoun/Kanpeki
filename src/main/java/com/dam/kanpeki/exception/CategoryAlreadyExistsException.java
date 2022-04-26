@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class UserEmailAlreadyExistsException extends RuntimeException {
+public class CategoryAlreadyExistsException extends RuntimeException {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4570920656818133672L;
+	private static final long serialVersionUID = -2449592773859587705L;
 
-	public UserEmailAlreadyExistsException() {
-		super(KanpekiConstants.USER_EMAIL_EXISTS_EX_STRING);
+	public CategoryAlreadyExistsException() {
+		super(KanpekiConstants.CATEGORY_EXISTS_EX_STRING);
 	}
 
 }

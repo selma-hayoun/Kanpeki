@@ -19,7 +19,7 @@ public interface CategoryServiceI {
 
 	public Optional<ResponseCategoryDTO> findById(Long id);
 
-	public ResponseCategoryDTO addWord(RequestCategoryDTO cat);
+	public ResponseCategoryDTO addCategory(RequestCategoryDTO cat);
 
 	public void removeCategoryById(Long id);
 

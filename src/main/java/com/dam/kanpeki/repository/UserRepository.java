@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.dam.kanpeki.model.User;
@@ -25,5 +26,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> findByCity(String city);
 
 	Optional<User> findByEmail(String email);
+
+	Optional<User> findByNickname(String nickname);
+
+	@Query(value = "SELECT COUNT(*) FROM users u WHERE u.nickname = :nickname", nativeQuery = true)
+	Integer countUserNicknameUnique(@Param("nickname") String nickname);
 
 }

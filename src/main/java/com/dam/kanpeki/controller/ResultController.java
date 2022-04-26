@@ -172,8 +172,8 @@ public class ResultController {
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/result/search", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ResponseResultDTO>> searchResultsBetweenDates(
-			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2000-01-01") String startDate,
-			@RequestParam(name = "endDate") @ApiParam(name = "endDate", value = "to date", example = "2010-12-31") String endDate) {
+			@RequestParam(name = "startDate") @ApiParam(name = "startDate", value = "Search from date", example = "2022-01-01") String startDate,
+			@RequestParam(name = "endDate") @ApiParam(name = "endDate", value = "to date", example = "2022-01-31") String endDate) {
 
 		List<ResponseResultDTO> rList = null;
 

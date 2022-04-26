@@ -18,7 +18,6 @@ public class JdbcTokenStores extends JdbcTokenStore {
 
 	@Override
 	public OAuth2AccessToken readAccessToken(String tokenValue) {
-//		return super.readAccessToken(tokenValue);
 		OAuth2AccessToken accessToken = null;
 
 		try {

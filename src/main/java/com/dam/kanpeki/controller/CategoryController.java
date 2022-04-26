@@ -84,7 +84,7 @@ public class CategoryController {
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/category", produces = { "application/json" }, method = RequestMethod.POST)
 	public ResponseEntity<ResponseCategoryDTO> addNewCategory(@Valid @RequestBody RequestCategoryDTO cat) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(catService.addWord(cat));
+		return ResponseEntity.status(HttpStatus.CREATED).body(catService.addCategory(cat));
 	}
 
 	@ApiOperation(value = "deleteCategory", notes = "Delete a single category by ID")

@@ -1,6 +1,7 @@
 package com.dam.kanpeki.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+import com.dam.kanpeki.exception.CategoryAlreadyExistsException;
 import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.exception.InvalidOperationOnCategoryException;
 import com.dam.kanpeki.model.Category;
@@ -72,9 +74,13 @@ public class CategoryServiceImpl implements CategoryServiceI {
 	}
 
 	@Override
-	public ResponseCategoryDTO addWord(RequestCategoryDTO cat) {
+	public ResponseCategoryDTO addCategory(RequestCategoryDTO cat) {
 
-		return mapper.toCategoryDTO(catRepo.save(mapper.requestCategoryDTOtoCategory(cat)));
+		if (catRepo.countCategoriesUnique(cat.getUnitName(), cat.getCategoryName()) != 0) {
+			throw new CategoryAlreadyExistsException();
+		} else {
+			return mapper.toCategoryDTO(catRepo.save(mapper.requestCategoryDTOtoCategory(cat)));
+		}
 	}
 
 	@Override
@@ -105,17 +111,26 @@ public class CategoryServiceImpl implements CategoryServiceI {
 
 	@Override
 	public ResponseCategoryDTO updateCategory(RequestCategoryDTO cat, Long id) {
-		Category mappedCat = mapper.requestCategoryDTOtoCategory(cat);
 
-		Category mappedCatUpdated = catRepo.findById(id).map(newCat -> {
-			newCat.setUnitName(mappedCat.getUnitName());
-			newCat.setCategoryName(mappedCat.getCategoryName());
-			newCat.setIsQuestion(mappedCat.getIsQuestion());
-			catRepo.save(newCat);
-			return newCat;
-		}).orElseThrow(() -> new DataNotFoundException(""));
+		Optional<Category> tempCat = catRepo.findByUnitNameAndCategoryName(cat.getUnitName(), cat.getCategoryName());
 
-		return mapper.toCategoryDTO(mappedCatUpdated);
+		if (tempCat.isPresent() && (catRepo.countCategoriesUnique(cat.getUnitName(), cat.getCategoryName()) >= 1)
+				&& (!Objects.equals(tempCat.get().getId(), id))) {
+			// Significa que se le está poniendo el mismo de otra categoría ya existente
+			throw new CategoryAlreadyExistsException();
+		} else {
+			Category mappedCat = mapper.requestCategoryDTOtoCategory(cat);
+
+			Category mappedCatUpdated = catRepo.findById(id).map(newCat -> {
+				newCat.setUnitName(mappedCat.getUnitName());
+				newCat.setCategoryName(mappedCat.getCategoryName());
+				newCat.setIsQuestion(mappedCat.getIsQuestion());
+				catRepo.save(newCat);
+				return newCat;
+			}).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING));
+
+			return mapper.toCategoryDTO(mappedCatUpdated);
+		}
 
 	}
 

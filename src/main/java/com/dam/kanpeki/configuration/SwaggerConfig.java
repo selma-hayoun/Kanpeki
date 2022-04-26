@@ -39,8 +39,6 @@ public class SwaggerConfig {
 
 	@Bean
 	public Docket api() {
-//		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
-//				.paths(PathSelectors.any()).build().apiInfo(apiInfo());
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.any())
 				.paths(PathSelectors.any()).build().securitySchemes(Collections.singletonList(securitySchema()))
 				.securityContexts(Collections.singletonList(securityContext())).useDefaultResponseMessages(false);

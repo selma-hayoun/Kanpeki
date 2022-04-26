@@ -177,8 +177,9 @@ public class WordController {
 			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
-	@RequestMapping(value = "/word/v2/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { "application/json" }, method = RequestMethod.PUT)
+	@RequestMapping(value = "/word/v2/{id}", produces = { "application/json" },
+//			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE },
+			method = RequestMethod.PUT)
 	public ResponseEntity<ResponseWordDTO> updateWordV2(
 			@Valid @Parameter(description = "Word attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestWordDTO w,
 			@Parameter(description = "Word image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file,
