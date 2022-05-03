@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.dam.kanpeki.utils.KanpekiConstants;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +40,9 @@ public class ResponseWordDTO implements Serializable {
 
 	@Size(max = KanpekiConstants.MAX_STRING_LENGTH_VALUE)
 	private String furigana;
+
+	@ApiModelProperty(notes = KanpekiConstants.API_CATEGORY_ID_NOTES, example = KanpekiConstants.API_ID_EXAMPLE, required = true)
+	private Long categoryId;
 
 	private String urlImage;
 

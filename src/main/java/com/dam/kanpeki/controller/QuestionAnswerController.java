@@ -3,6 +3,7 @@ package com.dam.kanpeki.controller;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -145,7 +146,7 @@ public class QuestionAnswerController {
 		if (qList.isEmpty()) {
 			throw new DataNotFoundException(KanpekiConstants.DATA_NOT_FOUND_EX_QUESTIONS_BY_CATEGORY);
 		} else {
-			return ResponseEntity.ok(qList);
+			return ResponseEntity.ok(qList.stream().limit(10).collect(Collectors.toList()));// Limita a 10 preguntas
 		}
 	}
 
