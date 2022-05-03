@@ -30,12 +30,15 @@ public class SwaggerConfig {
 
 	@Value("${oauth2.client-id}")
 	private String clientId;
+
 	@Value("${oauth2.client-secret}")
 	private String clientSecret;
+
 	@Value("${info.build.name}")
 	private String infoBuildName;
 
-	private String accessTokenUri = "http://localhost:8080/oauth/token";
+	@Value("${oauth2.server.url}")
+	private String accessTokenUri;
 
 	@Bean
 	public Docket api() {

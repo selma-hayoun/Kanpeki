@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserServiceI {
 
 		String userNick = u.getNickname();
 
-		if (userNick != null && !userNick.isBlank() && (uRepo.countUserNicknameUnique(userNick) != 0)) {
+		if (userNick != null && !userNick.isEmpty() && (uRepo.countUserNicknameUnique(userNick) != 0)) {
 			throw new UserNicknameAlreadyExistsException();
 		} else {
 			User uTemp = mapper.requestUserDTOtoUser(u);
@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserServiceI {
 		String userNick = u.getNickname();
 		Optional<User> uTemp = uRepo.findByNickname(userNick);
 
-		if (uTemp.isPresent() && userNick != null && !userNick.isBlank()
+		if (uTemp.isPresent() && userNick != null && !userNick.isEmpty()
 				&& (uRepo.countUserNicknameUnique(userNick) >= 1) && (!Objects.equals(uTemp.get().getId(), id))) {
 			throw new UserNicknameAlreadyExistsException();
 		} else {

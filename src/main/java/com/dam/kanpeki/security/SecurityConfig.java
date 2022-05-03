@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.dam.kanpeki.utils.KanpekiConstants;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -30,8 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.requestMatchers().antMatchers("/login", "/oauth/authorize").and().authorizeRequests()
 				.antMatchers(HttpMethod.OPTIONS, "/oauth/**").permitAll()// Para que se puedan hacer cualquier tipo de
 																			// petición de tipo options para oauth
-				.anyRequest().authenticated().and().formLogin().permitAll();// Salvo formulario de login que se permite
-																			// sin excepciones
+				.antMatchers(HttpMethod.POST, KanpekiConstants.USER_MAPPINGS).permitAll().anyRequest().authenticated()
+				.and().formLogin().permitAll();// Salvo formulario de login que se permite
+												// sin excepciones
 	}
 
 	@Override

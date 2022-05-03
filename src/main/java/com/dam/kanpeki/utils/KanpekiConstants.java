@@ -376,6 +376,16 @@ public class KanpekiConstants {
 
 	public static final String ALL_MAPPINGS = "/kanpeki/**";
 
+	public static final String CATEGORY_MAPPINGS = "/kanpeki/categories/**";
+
+	public static final String QUESTION_MAPPINGS = "/kanpeki/questions/**";
+
+	public static final String RESULT_MAPPINGS = "/kanpeki/results/**";
+
+	public static final String USER_MAPPINGS = "/kanpeki/users/**";
+
+	public static final String WORD_MAPPINGS = "/kanpeki/words/**";
+
 	public static final String SECURITY_RESOURCE_ID = "oauth2-resource";// Configuración servidor de autorización y
 																		// recursos
 

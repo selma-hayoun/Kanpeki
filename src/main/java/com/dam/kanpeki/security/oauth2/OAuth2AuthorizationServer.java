@@ -59,7 +59,6 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 				.checkTokenAccess("isAuthenticated()").allowFormAuthenticationForClients();// Permitimos la
 																							// autenticación del
 																							// formulario de cliente
-
 	}
 
 	@Override
