@@ -1,6 +1,5 @@
 package com.dam.kanpeki.controller;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,8 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dam.kanpeki.model.UserRole;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
-import com.dam.kanpeki.model.dto.mapper.UserDTOMapperStruct;
-import com.dam.kanpeki.service.FileSystemStorageServiceI;
 import com.dam.kanpeki.service.UserServiceI;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
@@ -34,10 +31,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 @RestController
 @RequestMapping("kanpeki/registers")
 public class RegistrationController {
-	
+
 	@Autowired
 	private UserServiceI uService;
-	
+
 	@ApiOperation(value = "addNewUser", notes = "Create a new user")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseUserDTO.class),
@@ -52,12 +49,11 @@ public class RegistrationController {
 	public ResponseEntity<ResponseUserDTO> addNewUserV1(@Valid @RequestPart(value = "u") RequestUserDTO u,
 			@RequestPart(value = "file", required = false) MultipartFile file) {
 
-		//Seteamos a el rol a PENDING_APPROVAL
+		// Seteamos a el rol a PENDING_APPROVAL
 		Set<UserRole> roles = new HashSet<>();
 		roles.add(UserRole.PENDING_APPROVAL);
-		
 		u.setRoles(roles);
-		
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
 
 	}
@@ -71,18 +67,17 @@ public class RegistrationController {
 			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
-	@RequestMapping(value = "/v2", produces = { "application/json" }, consumes = {
-			MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE }, method = RequestMethod.POST)
+	@RequestMapping(value = "/v2", produces = { "application/json" }, consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.MULTIPART_FORM_DATA_VALUE }, method = RequestMethod.POST)
 	public ResponseEntity<ResponseUserDTO> addNewUserV2(
 			@Valid @Parameter(description = "User attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestUserDTO u,
 			@Parameter(description = "Word image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file) {
 
-		//Seteamos a el rol a PENDING_APPROVAL
+		// Seteamos a el rol a PENDING_APPROVAL
 		Set<UserRole> roles = new HashSet<>();
 		roles.add(UserRole.PENDING_APPROVAL);
-		
 		u.setRoles(roles);
-				
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
 
 	}

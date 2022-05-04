@@ -24,10 +24,10 @@ import com.dam.kanpeki.utils.KanpekiConstants;
 public class CategoryServiceImpl implements CategoryServiceI {
 
 	@Autowired
-	private CategoryRepository catRepo;
+	protected CategoryRepository catRepo;
 
 	@Autowired
-	private CategoryDTOMapperStruct mapper;
+	protected CategoryDTOMapperStruct mapper;
 
 	@Override
 	public List<ResponseCategoryDTO> findAllCategories() {
@@ -35,15 +35,15 @@ public class CategoryServiceImpl implements CategoryServiceI {
 		return mapper.toCategoryDTOList(catList.stream());
 	}
 
-	@Override
-	public List<Category> findByIsQuestionTrue() {
-		return catRepo.findByIsQuestionTrue();
-	}
-
-	@Override
-	public List<Category> findByIsQuestionFalse() {
-		return catRepo.findByIsQuestionFalse();
-	}
+//	@Override
+//	public List<Category> findByIsQuestionTrue() {
+//		return catRepo.findByIsQuestionTrue();
+//	}
+//
+//	@Override
+//	public List<Category> findByIsQuestionFalse() {
+//		return catRepo.findByIsQuestionFalse();
+//	}
 
 	@Override
 	public List<ResponseCategoryDTO> findCategoriesByMatcher(String wField) {
