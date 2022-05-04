@@ -29,11 +29,11 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
 				.antMatchers("/h2-console/**").permitAll().antMatchers(HttpMethod.GET, KanpekiConstants.ALL_MAPPINGS)
 				.hasRole(KanpekiConstants.SENSEI_ROLE)
 				.antMatchers(HttpMethod.POST, KanpekiConstants.CATEGORY_MAPPINGS, KanpekiConstants.QUESTION_MAPPINGS,
-						KanpekiConstants.RESULT_MAPPINGS, KanpekiConstants.WORD_MAPPINGS)
+						KanpekiConstants.RESULT_MAPPINGS, KanpekiConstants.WORD_MAPPINGS, KanpekiConstants.USER_MAPPINGS)
 				.hasRole(KanpekiConstants.SENSEI_ROLE).antMatchers(HttpMethod.PUT, KanpekiConstants.ALL_MAPPINGS)
 				.hasRole(KanpekiConstants.SENSEI_ROLE).antMatchers(HttpMethod.DELETE, KanpekiConstants.ALL_MAPPINGS)
 				.hasRole(KanpekiConstants.SENSEI_ROLE).antMatchers(HttpMethod.GET, KanpekiConstants.ALL_MAPPINGS)
-				.hasRole(KanpekiConstants.GAKUSEI_ROLE).antMatchers(HttpMethod.POST, KanpekiConstants.USER_MAPPINGS)
+				.hasRole(KanpekiConstants.GAKUSEI_ROLE).antMatchers(HttpMethod.POST, KanpekiConstants.REGISTRATION_MAPPINGS)
 				.permitAll();
 
 		// Sirve para habilitar la consola de H2

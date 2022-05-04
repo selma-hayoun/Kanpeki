@@ -383,6 +383,8 @@ public class KanpekiConstants {
 	public static final String RESULT_MAPPINGS = "/kanpeki/results/**";
 
 	public static final String USER_MAPPINGS = "/kanpeki/users/**";
+	
+	public static final String REGISTRATION_MAPPINGS = "/kanpeki/registers/**";
 
 	public static final String WORD_MAPPINGS = "/kanpeki/words/**";
 
