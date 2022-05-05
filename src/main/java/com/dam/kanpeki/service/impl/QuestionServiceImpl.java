@@ -23,13 +23,13 @@ import com.dam.kanpeki.utils.KanpekiConstants;
 public class QuestionServiceImpl implements QuestionServiceI {
 
 	@Autowired
-	private QuestionRepository qRepo;
+	protected QuestionRepository qRepo;
 
 	@Autowired
-	private CategoryServiceI catService;
+	protected CategoryServiceI catService;
 
 	@Autowired
-	private QuestionAnswerDTOMapperStruct mapper;
+	protected QuestionAnswerDTOMapperStruct mapper;
 
 	@Override
 	public List<ResponseQuestionDTO> findAllQuestions() {
@@ -42,10 +42,10 @@ public class QuestionServiceImpl implements QuestionServiceI {
 		return mapper.toQuestionDTOList(qRepo.findByCategoryId(id).stream());
 	}
 
-	@Override
-	public List<Question> findByStatementContaining(String qSate) {
-		return qRepo.findByStatementContaining(qSate);
-	}
+//	@Override
+//	public List<Question> findByStatementContaining(String qSate) {
+//		return qRepo.findByStatementContaining(qSate);
+//	}
 
 	@Override
 	public Optional<ResponseQuestionDTO> findById(Long id) {

@@ -1,0 +1,136 @@
+[{
+	"id": {
+		"userId":2,
+		"resultDate":"2022-01-10T15:00:00"
+	},	
+	"score":5.0,
+	"categoryId":2
+},
+{
+	"id": {
+		"userId":2,
+		"resultDate":"2022-01-10T17:00:00"
+	},	
+	"score":7.0,
+	"categoryId":4
+},
+{
+	"id": {
+		"userId":2,
+		"resultDate":"2022-01-12T00:00:00"
+	},	
+	"score":8.0,
+	"categoryId":6
+},
+{
+	"id": {
+		"userId":2,
+		"resultDate":"2022-02-10T00:00:00"
+	},	
+	"score":8.0,
+	"categoryId":2
+},
+{
+	"id": {
+		"userId":2,
+		"resultDate":"2022-02-11T00:00:00"
+	},	
+	"score":5.0,
+	"categoryId":4
+},
+{
+	"id": {
+		"userId":2,
+		"resultDate":"2022-02-12T00:00:00"
+	},	
+	"score":6.0,
+	"categoryId":6
+},
+{
+	"id": {
+		"userId":2,
+		"resultDate":"2022-03-10T00:00:00"
+	},	
+	"score":10.0,
+	"categoryId":2
+},
+{
+	"id": {
+		"userId":2,
+		"resultDate":"2022-03-11T00:00:00"
+	},	
+	"score":5.0,
+	"categoryId":4
+},
+{
+	"id": {
+		"userId":2,
+		"resultDate":"2022-03-12T00:00:00"
+	},		
+	"score":5.0,
+	"categoryId":6
+},
+{
+	"id": {
+		"userId":3,
+		"resultDate":"2022-01-10T00:00:00"
+	},		
+	"score":3.0,
+	"categoryId":2
+},
+{
+	"id": {
+		"userId":3,
+		"resultDate":"2022-01-11T00:00:00"
+	},	
+	"score":2.0,
+	"categoryId":4
+},
+{
+	"id": {
+		"userId":3,
+		"resultDate":"2022-02-10T00:00:00"
+	},		
+	"score":5.0,
+	"categoryId":6
+},
+{
+	"id": {
+		"userId":3,
+		"resultDate":"2022-02-12T00:00:00"
+	},	
+	"score":6.0,
+	"categoryId":2
+},
+{
+	"id": {
+		"userId":3,
+		"resultDate":"2022-02-13T00:00:00"
+	},	
+	"score":6.0,
+	"categoryId":4
+},
+{
+	"id": {
+		"userId":3,
+		"resultDate":"2022-02-16T00:00:00"
+	},	
+	"score":7.0,
+	"categoryId":6
+},
+{
+	"id": {
+		"userId":3,
+		"resultDate":"2022-03-15T00:00:00"
+	},	
+	"score":8.0,
+	"categoryId":4
+},
+{
+	"id": {
+		"userId":3,
+		"resultDate":"2022-03-16T00:00:00"
+	},	
+	"score":8.0,
+	"categoryId":6
+}]

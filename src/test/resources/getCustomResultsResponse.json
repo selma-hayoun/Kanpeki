@@ -1,0 +1,17 @@
+[
+  {
+    "categoryId": 2,
+    "numResults": 8,
+    "avgResults": 7
+  },
+  {
+    "categoryId": 4,
+    "numResults": 8,
+    "avgResults": 5.375
+  },
+  {
+    "categoryId": 6,
+    "numResults": 9,
+    "avgResults": 6.555555555555555
+  }
+]

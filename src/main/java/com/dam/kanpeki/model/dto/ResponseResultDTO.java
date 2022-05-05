@@ -8,6 +8,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.dam.kanpeki.utils.KanpekiConstants;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +31,8 @@ public class ResponseResultDTO implements Serializable {
 	@NotNull
 	private Long userId;
 
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@ApiModelProperty(notes = KanpekiConstants.API_RESULT_DATE_NOTES, example = KanpekiConstants.API_RESULT_DATE_EXAMPLE, required = true)
 	private LocalDateTime resultDate;
 

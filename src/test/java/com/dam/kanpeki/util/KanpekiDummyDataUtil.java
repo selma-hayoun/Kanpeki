@@ -6,7 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 import com.dam.kanpeki.model.Category;
+import com.dam.kanpeki.model.Question;
+import com.dam.kanpeki.model.Result;
+import com.dam.kanpeki.model.custom.ResultPerCategoryData;
 import com.dam.kanpeki.model.dto.ResponseCategoryDTO;
+import com.dam.kanpeki.model.dto.ResponseQuestionDTO;
+import com.dam.kanpeki.model.dto.ResponseResultDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,10 +29,8 @@ public class KanpekiDummyDataUtil {
 		this.classLoader = getClass().getClassLoader();
 	}
 
-	public Optional<?> getJsonDummyData(String resourceName, Optional<?> objectType) {
+	public Optional<?> getJsonDummyDataCategory(String resourceName, Optional<?> objectType) {
 
-//		ClassLoader classLoader = getClass().getClassLoader();
-//		File file;
 		Optional<?> result = null;
 
 		// Parseamos el objeto del json
@@ -44,7 +47,64 @@ public class KanpekiDummyDataUtil {
 			}
 
 		} catch (IOException e) {
-			log.info("getJsonDummyData() parsing json file ERROR - " + e.getMessage());
+			log.info("getJsonDummyDataCategory() parsing json file ERROR - " + e.getMessage());
+		}
+		return result;
+	}
+
+	public Optional<?> getJsonDummyDataQuestion(String resourceName, Optional<?> objectType,
+			Optional<?> objectTypeElements) {
+
+		Optional<?> result = null;
+
+		// Parseamos el objeto del json
+		try {
+			file = new File(classLoader.getResource(resourceName).getFile());
+
+			if (objectType.get() instanceof ResponseQuestionDTO) {
+				result = Optional.of(objectMapper.readValue(file, ResponseQuestionDTO.class));
+			} else if (objectType.get() instanceof Question) {
+				result = Optional.of(objectMapper.readValue(file, Question.class));
+			} else if (objectTypeElements != null && objectTypeElements.get() instanceof Question) {
+				result = Optional.of(objectMapper.readValue(file, new TypeReference<List<Question>>() {
+				}));
+			} else {
+				result = Optional.of(objectMapper.readValue(file, new TypeReference<List<ResponseQuestionDTO>>() {
+				}));
+			}
+
+		} catch (IOException e) {
+			log.info("getJsonDummyDataQuestion() parsing json file ERROR - " + e.getMessage());
+		}
+		return result;
+	}
+
+	public Optional<?> getJsonDummyDataResult(String resourceName, Optional<?> objectType,
+			Optional<?> objectTypeElements) {
+
+		Optional<?> result = null;
+
+		// Parseamos el objeto del json
+		try {
+			file = new File(classLoader.getResource(resourceName).getFile());
+
+			if (objectType.get() instanceof ResponseResultDTO) {
+				result = Optional.of(objectMapper.readValue(file, ResponseResultDTO.class));
+			} else if (objectType.get() instanceof Result) {
+				result = Optional.of(objectMapper.readValue(file, Result.class));
+			} else if (objectTypeElements != null && objectTypeElements.get() instanceof Result) {
+				result = Optional.of(objectMapper.readValue(file, new TypeReference<List<Result>>() {
+				}));
+			} else if (objectTypeElements != null && objectTypeElements.get() instanceof ResultPerCategoryData) {
+				result = Optional.of(objectMapper.readValue(file, new TypeReference<List<ResultPerCategoryData>>() {
+				}));
+			} else {
+				result = Optional.of(objectMapper.readValue(file, new TypeReference<List<ResponseResultDTO>>() {
+				}));
+			}
+
+		} catch (IOException e) {
+			log.info("getJsonDummyDataResult() parsing json file ERROR - " + e.getMessage());
 		}
 		return result;
 	}

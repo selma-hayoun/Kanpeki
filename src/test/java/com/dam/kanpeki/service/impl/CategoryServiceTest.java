@@ -55,12 +55,12 @@ public class CategoryServiceTest {
 	void whenCallingFindAllCategories_thenShouldReturnCorrectListOfObjects() throws Exception {
 		listCatDummy = new ArrayList<>();
 		listCatDummy = (List<Category>) kanpekiDummyDataUtil
-				.getJsonDummyData("getCategoriesRepository.json", Optional.of(listCatDummy)).get();
+				.getJsonDummyDataCategory("getCategoriesRepository.json", Optional.of(listCatDummy)).get();
 		when(catRepo.findAll()).thenReturn(listCatDummy);
 
 		listCatDummyResponse = new ArrayList<>();
 		listCatDummyResponse = (List<ResponseCategoryDTO>) kanpekiDummyDataUtil
-				.getJsonDummyData("getCategoriesResponse.json", Optional.of(listCatDummyResponse)).get();
+				.getJsonDummyDataCategory("getCategoriesResponse.json", Optional.of(listCatDummyResponse)).get();
 
 		when(mapper.toCategoryDTOList(any())).thenReturn(listCatDummyResponse);
 
@@ -74,16 +74,16 @@ public class CategoryServiceTest {
 	void whenCallingFindCategoriesByMatcher_givenFamily_thenShouldReturnCorrectListOfObjects() throws Exception {
 		listCatDummy = new ArrayList<>();
 		listCatDummy = (List<Category>) kanpekiDummyDataUtil
-				.getJsonDummyData("getCategoriesRepository.json", Optional.of(listCatDummy)).get();
+				.getJsonDummyDataCategory("getCategoriesRepository.json", Optional.of(listCatDummy)).get();
 		when(catRepo.findAll()).thenReturn(listCatDummy);
 
 		listCatDummyResponse = new ArrayList<>();
 		listCatDummyResponse = (List<ResponseCategoryDTO>) kanpekiDummyDataUtil
-				.getJsonDummyData("searchCategoriesResponse.json", Optional.of(listCatDummyResponse)).get();
+				.getJsonDummyDataCategory("searchCategoriesResponse.json", Optional.of(listCatDummyResponse)).get();
 
 		when(mapper.toCategoryDTOList(any())).thenReturn(listCatDummyResponse);
 
-		assertEquals(categoryService.findAllCategories(), listCatDummyResponse);
+		assertEquals(categoryService.findCategoriesByMatcher(anyString()), listCatDummyResponse);
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class CategoryServiceTest {
 		when(catRepo.findById(1L)).thenReturn(Optional.of(dummyCat));
 
 		catDummyResponse = (ResponseCategoryDTO) kanpekiDummyDataUtil
-				.getJsonDummyData("getCategoryResponse.json", Optional.of(new ResponseCategoryDTO())).get();
+				.getJsonDummyDataCategory("getCategoryResponse.json", Optional.of(new ResponseCategoryDTO())).get();
 
 		when(mapper.toCategoryDTO(any())).thenReturn(catDummyResponse);
 
@@ -129,7 +129,7 @@ public class CategoryServiceTest {
 		when(catRepo.save(dummyCat1)).thenReturn(dummyCat2);
 
 		catDummyResponse = (ResponseCategoryDTO) kanpekiDummyDataUtil
-				.getJsonDummyData("getCategoryResponse.json", Optional.of(new ResponseCategoryDTO())).get();
+				.getJsonDummyDataCategory("getCategoryResponse.json", Optional.of(new ResponseCategoryDTO())).get();
 
 		when(mapper.toCategoryDTO(any())).thenReturn(catDummyResponse);
 
@@ -165,7 +165,7 @@ public class CategoryServiceTest {
 	void whenCallingRemoveCategoryById_givenIncorrectId_thenThrowInvalidOperationOnCategoryException()
 			throws Exception {
 		Category dummyCat = (Category) kanpekiDummyDataUtil
-				.getJsonDummyData("getCategoryRepository.json", Optional.of(new Category())).get();
+				.getJsonDummyDataCategory("getCategoryRepository.json", Optional.of(new Category())).get();
 		when(catRepo.findById(1L)).thenReturn(Optional.of(dummyCat));
 
 		assertThrows(InvalidOperationOnCategoryException.class, () -> {
@@ -175,7 +175,7 @@ public class CategoryServiceTest {
 
 	@Test
 	@DisplayName("Test Should Pass When updateCategory is Given Correct RequestCategoryDTO and ID Returns Correct Object")
-	void whenCallingupdateCategory_givenCorrectRequestCategoryDTOAndId_thenShouldReturnCorrectObject()
+	void whenCallingUpdateCategory_givenCorrectRequestCategoryDTOAndId_thenShouldReturnCorrectObject()
 			throws Exception {
 		RequestCategoryDTO dummyRequestCatDTO = new RequestCategoryDTO("Lesson 1", "Family", false);
 		Category dummyCat1 = new Category();
@@ -191,7 +191,7 @@ public class CategoryServiceTest {
 		when(catRepo.save(dummyCat1)).thenReturn(dummyCat1);
 
 		catDummyResponse = (ResponseCategoryDTO) kanpekiDummyDataUtil
-				.getJsonDummyData("getCategoryResponse.json", Optional.of(new ResponseCategoryDTO())).get();
+				.getJsonDummyDataCategory("getCategoryResponse.json", Optional.of(new ResponseCategoryDTO())).get();
 
 		when(mapper.toCategoryDTO(any())).thenReturn(catDummyResponse);
 
@@ -201,7 +201,7 @@ public class CategoryServiceTest {
 
 	@Test
 	@DisplayName("Test Should Pass When updateCategory is Given Existing Category Throws CategoryAlreadyExistsException")
-	void whenCallingupdateCategory_givenExistingCategory_thenThrowCategoryAlreadyExistsException() throws Exception {
+	void whenCallingUpdateCategory_givenExistingCategory_thenThrowCategoryAlreadyExistsException() throws Exception {
 		RequestCategoryDTO dummyRequestCatDTO = new RequestCategoryDTO("Lesson 1", "Family", false);
 		Category dummyCat1 = new Category();
 		dummyCat1.setId(1L);

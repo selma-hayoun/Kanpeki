@@ -25,23 +25,23 @@ import com.dam.kanpeki.utils.KanpekiConstants;
 public class ResultServiceImpl implements ResultServiceI {
 
 	@Autowired
-	private ResultRepository rRepo;
+	protected ResultRepository rRepo;
 
 	@Autowired
-	private CategoryServiceI catService;
+	protected CategoryServiceI catService;
 
 	@Autowired
-	private ResultDTOMapperStruct mapper;
+	protected ResultDTOMapperStruct mapper;
 
 	@Override
 	public List<ResponseResultDTO> findAllResults() {
 		return mapper.toResultDTOList(rRepo.findAll().stream());
 	}
 
-	@Override
-	public List<Result> findByCategoryId(Long id) {
-		return rRepo.findByCategoryId(id);
-	}
+//	@Override
+//	public List<Result> findByCategoryId(Long id) {
+//		return rRepo.findByCategoryId(id);
+//	}
 
 	@Override
 	public List<ResultPerCategoryData> resultsPerCategory() {

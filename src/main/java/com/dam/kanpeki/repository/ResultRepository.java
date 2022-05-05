@@ -18,7 +18,7 @@ import com.dam.kanpeki.model.custom.ResultPerCategoryData;
 @Repository
 public interface ResultRepository extends JpaRepository<Result, ResultId> {
 
-	List<Result> findByCategoryId(Long id);
+//	List<Result> findByCategoryId(Long id);
 
 	@Query(value = "SELECT * FROM results r WHERE r.user_id = :userId", nativeQuery = true)
 	List<Result> findResultsUser(Long userId);

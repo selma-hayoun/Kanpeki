@@ -1,0 +1,56 @@
+[
+  {
+    "userId": 4,
+    "resultDate": "2022-01-19T00:00:00",
+    "score": 10,
+    "categoryId": 2
+  },
+  {
+    "userId": 4,
+    "resultDate": "2022-01-18T00:00:00",
+    "score": 8,
+    "categoryId": 6
+  },
+  {
+    "userId": 4,
+    "resultDate": "2022-01-16T00:00:00",
+    "score": 9,
+    "categoryId": 4
+  },
+  {
+    "userId": 4,
+    "resultDate": "2022-01-15T00:00:00",
+    "score": 10,
+    "categoryId": 2
+  },
+  {
+    "userId": 2,
+    "resultDate": "2022-01-12T00:00:00",
+    "score": 8,
+    "categoryId": 6
+  },
+  {
+    "userId": 3,
+    "resultDate": "2022-01-11T00:00:00",
+    "score": 2,
+    "categoryId": 4
+  },
+  {
+    "userId": 2,
+    "resultDate": "2022-01-10T17:00:00",
+    "score": 7,
+    "categoryId": 4
+  },
+  {
+    "userId": 2,
+    "resultDate": "2022-01-10T15:00:00",
+    "score": 5,
+    "categoryId": 2
+  },
+  {
+    "userId": 3,
+    "resultDate": "2022-01-10T00:00:00",
+    "score": 3,
+    "categoryId": 2
+  }
+]
