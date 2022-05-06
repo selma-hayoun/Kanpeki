@@ -27,14 +27,19 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
 				.authorizeRequests()
 				// Sirve para habilitar la consola de H2
 				.antMatchers("/h2-console/**").permitAll().antMatchers(HttpMethod.GET, KanpekiConstants.ALL_MAPPINGS)
-				.hasRole(KanpekiConstants.SENSEI_ROLE)
-				.antMatchers(HttpMethod.POST, KanpekiConstants.CATEGORY_MAPPINGS, KanpekiConstants.QUESTION_MAPPINGS,
-						KanpekiConstants.RESULT_MAPPINGS, KanpekiConstants.WORD_MAPPINGS, KanpekiConstants.USER_MAPPINGS)
-				.hasRole(KanpekiConstants.SENSEI_ROLE).antMatchers(HttpMethod.PUT, KanpekiConstants.ALL_MAPPINGS)
+				.hasAnyRole(KanpekiConstants.SENSEI_ROLE, KanpekiConstants.GAKUSEI_ROLE)
+				.antMatchers(HttpMethod.POST, KanpekiConstants.CATEGORY_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
+				.antMatchers(HttpMethod.POST, KanpekiConstants.QUESTION_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
+				.antMatchers(HttpMethod.POST, KanpekiConstants.RESULT_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
+				.antMatchers(HttpMethod.POST, KanpekiConstants.WORD_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
+				.antMatchers(HttpMethod.POST, KanpekiConstants.USER_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
+				.antMatchers(HttpMethod.PUT, KanpekiConstants.CATEGORY_MAPPINGS, KanpekiConstants.QUESTION_MAPPINGS,
+						KanpekiConstants.RESULT_MAPPINGS, KanpekiConstants.WORD_MAPPINGS)
 				.hasRole(KanpekiConstants.SENSEI_ROLE).antMatchers(HttpMethod.DELETE, KanpekiConstants.ALL_MAPPINGS)
-				.hasRole(KanpekiConstants.SENSEI_ROLE).antMatchers(HttpMethod.GET, KanpekiConstants.ALL_MAPPINGS)
-				.hasRole(KanpekiConstants.GAKUSEI_ROLE).antMatchers(HttpMethod.POST, KanpekiConstants.REGISTRATION_MAPPINGS)
-				.permitAll();
+				.hasRole(KanpekiConstants.SENSEI_ROLE)
+				.antMatchers(HttpMethod.PUT, KanpekiConstants.USER_UPDATE_MAPPINGS)
+				.hasAnyRole(KanpekiConstants.GAKUSEI_ROLE, KanpekiConstants.SENSEI_ROLE)
+				.antMatchers(HttpMethod.POST, KanpekiConstants.REGISTRATION_MAPPINGS).permitAll();
 
 		// Sirve para habilitar la consola de H2
 		http.headers().frameOptions().disable();

@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.exception.UserEmailAlreadyExistsException;
 import com.dam.kanpeki.exception.UserNicknameAlreadyExistsException;
+import com.dam.kanpeki.exception.UserPasswordInsecureException;
 import com.dam.kanpeki.model.User;
+import com.dam.kanpeki.model.dto.RequestUpdateUserDTO;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
 import com.dam.kanpeki.model.dto.mapper.UserDTOMapperStruct;
@@ -143,20 +147,41 @@ public class UserServiceImpl implements UserServiceI {
 	}
 
 	@Override
-	public ResponseUserDTO updateUser(RequestUserDTO u, MultipartFile file, Long id) {
+	public ResponseUserDTO updateUser(RequestUpdateUserDTO u, MultipartFile file, Long id) {
 
 		String userNick = u.getNickname();
 		Optional<User> uTemp = uRepo.findByNickname(userNick);
 
+		Matcher matcher = null;
+
+		if (u.getPassword() != null && !u.getPassword().isEmpty()) {
+			Pattern passPattern = Pattern.compile(KanpekiConstants.USER_PASSWORD_PATTERN);
+			matcher = passPattern.matcher(u.getPassword());
+		} else {
+			u.setPassword(KanpekiConstants.EMPTY_STRING);
+		}
+
 		if (uTemp.isPresent() && userNick != null && !userNick.isEmpty()
 				&& (uRepo.countUserNicknameUnique(userNick) >= 1) && (!Objects.equals(uTemp.get().getId(), id))) {
 			throw new UserNicknameAlreadyExistsException();
+		} else if (!u.getPassword().isEmpty() && (matcher != null) && !matcher.matches()) {
+			throw new UserPasswordInsecureException();
 		} else {
-			User mappedU = mapper.requestUserDTOtoUser(u);
+			User mappedU = mapper.requestUpdateUserDTOtoUser(u);
 			mappedU.setUrlImage(storeService.saveFileRequest(file));
+			Optional<User> uTempToUpdate = Optional
+					.of(uRepo.findById(id).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING)));
+
+			// En el caso de que se envíe una contraseña vacía, se mantiene la anterior
+			if (uTempToUpdate.isPresent() && u.getPassword().isEmpty()) {
+				mappedU.setPassword(uTempToUpdate.get().getPassword());
+			} else {
+				// El caso contrario, contraseña nueva, debemos codificarla
+				mappedU.setPassword(passEncoder.encode(mappedU.getPassword()));
+			}
 
 			try {
-				User mappedUUpdated = uRepo.findById(id).map(newU -> {
+				User mappedUUpdated = uTempToUpdate.map(newU -> {
 					newU.setEmail(mappedU.getEmail());
 					newU.setPassword(mappedU.getPassword());
 					newU.setFullName(mappedU.getFullName());

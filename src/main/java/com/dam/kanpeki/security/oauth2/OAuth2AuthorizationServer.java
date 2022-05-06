@@ -56,6 +56,7 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		// Especificar algunos elementos de seguridad
 		security.tokenKeyAccess("permitAll()")// Cualquiera puede acceder
+//				.checkTokenAccess("permitAll()").allowFormAuthenticationForClients();//Permitir los endpoints de gestión a cualquiera
 				.checkTokenAccess("isAuthenticated()").allowFormAuthenticationForClients();// Permitimos la
 																							// autenticación del
 																							// formulario de cliente
@@ -68,7 +69,6 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 				.authorities("READ_ONLY_CLIENT").scopes("read").resourceIds(KanpekiConstants.SECURITY_RESOURCE_ID)
 				.redirectUris(redirectUri).accessTokenValiditySeconds(accessTokenValiditySeconds)
 				.refreshTokenValiditySeconds(refreshTokenValiditySeconds);
-
 	}
 
 	@Override

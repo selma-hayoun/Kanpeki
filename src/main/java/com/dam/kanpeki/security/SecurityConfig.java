@@ -32,9 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.requestMatchers().antMatchers("/login", "/oauth/authorize").and().authorizeRequests()
 				.antMatchers(HttpMethod.OPTIONS, "/oauth/**").permitAll()// Para que se puedan hacer cualquier tipo de
 																			// petición de tipo options para oauth
-				.antMatchers(HttpMethod.POST, KanpekiConstants.REGISTRATION_MAPPINGS).permitAll().anyRequest().authenticated()
-				.and().formLogin().permitAll();// Salvo formulario de login que se permite
-												// sin excepciones
+				.antMatchers(HttpMethod.POST, KanpekiConstants.REGISTRATION_MAPPINGS).permitAll().anyRequest()
+				.authenticated().and().formLogin().permitAll();// Salvo formulario de login que se permite
+																// sin excepciones
 	}
 
 	@Override

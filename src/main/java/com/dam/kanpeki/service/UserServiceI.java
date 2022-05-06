@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dam.kanpeki.model.User;
+import com.dam.kanpeki.model.dto.RequestUpdateUserDTO;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
 
@@ -30,7 +31,7 @@ public interface UserServiceI {
 
 	public void removeUserById(Long id);
 
-	public ResponseUserDTO updateUser(RequestUserDTO u, MultipartFile file, Long id);
+	public ResponseUserDTO updateUser(RequestUpdateUserDTO u, MultipartFile file, Long id);
 
 	public Optional<User> findByEmail(String email);
 

@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import org.mapstruct.Mapper;
 
 import com.dam.kanpeki.model.User;
+import com.dam.kanpeki.model.dto.RequestUpdateUserDTO;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
 
@@ -21,5 +22,7 @@ public interface UserDTOMapperStruct {
 	User requestUserDTOtoUser(RequestUserDTO u);
 
 	User responseUserDTOtoUser(ResponseUserDTO u);
+
+	User requestUpdateUserDTOtoUser(RequestUpdateUserDTO u);
 
 }

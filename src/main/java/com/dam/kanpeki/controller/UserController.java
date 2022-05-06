@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.exception.ParameterIncorrectFormatException;
 import com.dam.kanpeki.model.User;
+import com.dam.kanpeki.model.dto.RequestUpdateUserDTO;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
 import com.dam.kanpeki.model.dto.mapper.UserDTOMapperStruct;
@@ -181,7 +182,7 @@ public class UserController {
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
 	@RequestMapping(value = "/user/v1/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = {
 			"application/json" }, method = RequestMethod.PUT)
-	public ResponseEntity<ResponseUserDTO> updateUserV1(@Valid @RequestPart(value = "u") RequestUserDTO u,
+	public ResponseEntity<ResponseUserDTO> updateUserV1(@Valid @RequestPart(value = "u") RequestUpdateUserDTO u,
 			@RequestPart(value = "file", required = false) MultipartFile file,
 			@PathVariable("id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
 
@@ -214,7 +215,7 @@ public class UserController {
 //	consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE }, 
 			produces = { "application/json" }, method = RequestMethod.PUT)
 	public ResponseEntity<ResponseUserDTO> updateUserV2(
-			@Valid @Parameter(description = "User attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestUserDTO u,
+			@Valid @Parameter(description = "User attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestUpdateUserDTO u,
 			@Parameter(description = "User image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file,
 			@PathVariable("id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
 
