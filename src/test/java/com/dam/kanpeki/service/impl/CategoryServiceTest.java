@@ -25,7 +25,7 @@ import com.dam.kanpeki.model.dto.mapper.CategoryDTOMapperStruct;
 import com.dam.kanpeki.repository.CategoryRepository;
 import com.dam.kanpeki.util.KanpekiDummyDataUtil;
 
-public class CategoryServiceTest {
+class CategoryServiceTest {
 
 	private CategoryRepository catRepo;
 	private CategoryDTOMapperStruct mapper;

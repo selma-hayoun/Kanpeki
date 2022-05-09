@@ -272,6 +272,8 @@ public class KanpekiConstants {
 
 	public static final String USER_EMAIL_EXISTS_EX_STRING = "User with the given email already exists";
 
+	public static final String USER_PASSWORD_INVALID_EX_STRING = "The given password is insecure";
+
 	public static final String USER_NICKNAME_EXISTS_EX_STRING = "User with the given nickname already exists";
 
 	public static final String WORD_JAPANESE_EXISTS_EX_STRING = "Japanese word (japanese value) already exists";

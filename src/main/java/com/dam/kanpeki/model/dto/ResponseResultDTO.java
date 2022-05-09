@@ -27,7 +27,7 @@ public class ResponseResultDTO implements Serializable {
 	*/
 	private static final long serialVersionUID = 163330717493359419L;
 
-	@ApiModelProperty(notes = KanpekiConstants.API_USER_ID_NOTES, example = KanpekiConstants.API_BOOLEAN_PROPERTY_EXAMPLE, required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_USER_ID_NOTES, example = KanpekiConstants.API_ID_EXAMPLE, required = true)
 	@NotNull
 	private Long userId;
 

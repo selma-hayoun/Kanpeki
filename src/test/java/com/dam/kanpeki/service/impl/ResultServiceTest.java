@@ -30,7 +30,7 @@ import com.dam.kanpeki.service.CategoryServiceI;
 import com.dam.kanpeki.util.KanpekiDummyDataUtil;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
-public class ResultServiceTest {
+class ResultServiceTest {
 
 	private ResultServiceImpl resultService;
 	private ResultRepository rRepo;

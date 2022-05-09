@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.dam.kanpeki.model.User;
 import com.dam.kanpeki.service.UserServiceI;
 
-public class CustomUserDetailsServiceTest {
+class CustomUserDetailsServiceTest {
 
 	private CustomUserDetailsService customUserDetailsService;
 	private UserServiceI uService;

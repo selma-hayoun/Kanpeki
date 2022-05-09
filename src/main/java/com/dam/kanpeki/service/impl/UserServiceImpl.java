@@ -173,7 +173,7 @@ public class UserServiceImpl implements UserServiceI {
 					.of(uRepo.findById(id).orElseThrow(() -> new DataNotFoundException(KanpekiConstants.EMPTY_STRING)));
 
 			// En el caso de que se envíe una contraseña vacía, se mantiene la anterior
-			if (uTempToUpdate.isPresent() && u.getPassword().isEmpty()) {
+			if (u.getPassword().isEmpty()) {
 				mappedU.setPassword(uTempToUpdate.get().getPassword());
 			} else {
 				// El caso contrario, contraseña nueva, debemos codificarla

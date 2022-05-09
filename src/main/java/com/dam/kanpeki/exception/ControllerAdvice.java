@@ -63,6 +63,17 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	}
 
 	/**
+	 * Excepción la password es insegura (no cumple patrón de seguridad)
+	 *
+	 */
+	@ExceptionHandler(UserPasswordInsecureException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ApiError> handleUserPasswordInsecureException(UserPasswordInsecureException ex) {
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+	}
+
+	/**
 	 * Excepción cuando ya existe otro usuario registrado con ese nickname
 	 *
 	 */

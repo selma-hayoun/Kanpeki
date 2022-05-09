@@ -26,7 +26,7 @@ import com.dam.kanpeki.repository.QuestionRepository;
 import com.dam.kanpeki.service.CategoryServiceI;
 import com.dam.kanpeki.util.KanpekiDummyDataUtil;
 
-public class QuestionServiceTest {
+class QuestionServiceTest {
 
 	private QuestionServiceImpl questionService;
 	private QuestionRepository qRepo;
