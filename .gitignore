@@ -36,3 +36,4 @@ build/
 /db/kanpekidb.trace.db
 /upload-dir
 /bin/
+/logs

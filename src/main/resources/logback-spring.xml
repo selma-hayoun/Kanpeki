@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Logback architecture = three classes: Logger, Appender, Layout.-->
+<configuration>
+
+    <!--File variables-->
+    <property name="LOGS" value="./logs" />
+    <property name="LOG_PATTERN" value="%boldWhite(%d{ISO8601}) %cyan([%thread]) %highlight(%-5level) %highlight(%logger) - %magenta(%msg%n)"/>
+    <property name="LOG_ENCODER_PATTERN" value="%d %p %C{1.} [%t] %m%n"/>
+    <property name="LOG_FILE_ID" value="%d{yyyy-MM-dd}.%i.log"/>
+
+    <!--APPENDER: place log messages in their final destination (console, file or others)-->
+    <!--Appender for console logs. Configure console logs here-->
+    <appender name="Console"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <!--LAYOUT prepares messages for outputting, format them-->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                ${LOG_PATTERN}
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="RollingFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/kanpeki-logger.log</file>
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_ENCODER_PATTERN}</Pattern>
+        </encoder>
+
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>${LOGS}/archived/kanpeki-logger-${LOG_FILE_ID}
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+
+    <appender name="SevereRollingFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/severe-kanpeki-logger.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_ENCODER_PATTERN}</Pattern>
+        </encoder>
+
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>${LOGS}/archived/severe-kanpeki-logger-${LOG_FILE_ID}
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+    
+    <appender name="HibernateRollingFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/hibernate-kanpeki-logger.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_ENCODER_PATTERN}</Pattern>
+        </encoder>
+
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>${LOGS}/archived/hibernate-kanpeki-logger-${LOG_FILE_ID}
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- LOG everything at WARN level with Appender Console-->
+    <!--This tag sets the root logger to WARN mode, and associates its output with the Appender named Console-->
+    <root level="warn">
+        <appender-ref ref="Console" />
+    </root>
+
+    <!--A LOGGER is a context for log messages. It creates the log messages-->
+    <!-- LOG "com.dam.kanpeki" package at INFO level -->
+    <logger name="com.dam.kanpeki" level="info" additivity="false">
+        <!--APPENDERS added to the specific LOGGER context-->
+        <appender-ref ref="SevereRollingFile" />
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="Console" />
+    </logger>
+
+    <!-- LOG "org.springframework" package at WARN level -->
+    <logger name="org.springframework" level="warn" additivity="false">
+        <appender-ref ref="SevereRollingFile" />
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="Console" />
+    </logger>
+        
+    <logger name="org.hibernate.SQL" level="debug" additivity="false">
+        <appender-ref ref="HibernateRollingFile" />
+        <appender-ref ref="Console" />
+    </logger>
+    
+
+</configuration>
