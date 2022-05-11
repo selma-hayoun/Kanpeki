@@ -27,7 +27,7 @@ import com.dam.kanpeki.utils.KanpekiConstants;
 public class FileSystemStorageServiceImpl implements FileSystemStorageServiceI {
 
 	@Value("${upload.root-location}")
-	private Path rootLocation;
+	protected Path rootLocation;
 
 	/**
 	 * Inicializa el almacenamiento del proyecto
