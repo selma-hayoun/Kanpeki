@@ -34,24 +34,24 @@ import com.dam.kanpeki.utils.KanpekiConstants;
 public class UserServiceImpl implements UserServiceI {
 
 	@Autowired
-	private UserRepository uRepo;
+	protected UserRepository uRepo;
 
 	@Autowired
-	private UserDTOMapperStruct mapper;
+	protected UserDTOMapperStruct mapper;
 
 	@Autowired
-	private FileSystemStorageServiceI storeService;
+	protected FileSystemStorageServiceI storeService;
 
 	@Autowired
-	private ResultServiceI rService;
+	protected ResultServiceI rService;
 
 	@Autowired
-	private PasswordEncoder passEncoder;
+	protected PasswordEncoder passEncoder;
 
-	@Override
-	public List<User> findAllUsers() {
-		return uRepo.findAll();
-	}
+//	@Override
+//	public List<User> findAllUsers() {
+//		return uRepo.findAll();
+//	}
 
 	@Override
 	public List<ResponseUserDTO> findUsersOrderByDate() {
@@ -69,10 +69,10 @@ public class UserServiceImpl implements UserServiceI {
 		return mapper.toUserDTOList(uRepo.findUsersBirthdayBetweenDates(startDate, endDate).stream());
 	}
 
-	@Override
-	public List<User> findByCity(String city) {
-		return uRepo.findByCity(city);
-	}
+//	@Override
+//	public List<User> findByCity(String city) {
+//		return uRepo.findByCity(city);
+//	}
 
 	@Override
 	public List<ResponseUserDTO> findUsersByMatcher(String uField) {
@@ -205,7 +205,7 @@ public class UserServiceImpl implements UserServiceI {
 	}
 
 	/**
-	 * Método de verificación de usuario. Uso interno
+	 * Método de verificación de usuario. Uso interno de la aplicación
 	 */
 	@Override
 	public Optional<User> findByEmail(String email) {

@@ -1,0 +1,14 @@
+[
+	{
+		"id":1,
+		"email":"selma.hayoun.caballero@gmail.com",
+		"fullName":"Admin",
+		"nickname":"Admin",
+		"urlImage":"",
+		"birthday":"1989-12-31",
+		"city":"Kyoto",
+		"roles":["ADMIN"],
+		"createdAt":"2022-04-01T00:00:00",
+		"lastPasswordChangeAt":"2022-05-11T09:31:40.472"
+	}
+]

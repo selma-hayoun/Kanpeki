@@ -13,7 +13,7 @@ import com.dam.kanpeki.model.dto.ResponseUserDTO;
 
 public interface UserServiceI {
 
-	public List<User> findAllUsers();
+//	public List<User> findAllUsers();
 
 	public List<ResponseUserDTO> findUsersOrderByDate();
 
@@ -21,7 +21,7 @@ public interface UserServiceI {
 
 	public List<ResponseUserDTO> findUsersBirthdayBetweenDates(Date startDate, Date endDate);
 
-	public List<User> findByCity(String city);
+//	public List<User> findByCity(String city);
 
 	public List<ResponseUserDTO> findUsersByMatcher(String uField);
 

@@ -1,0 +1,16 @@
+[
+  {
+    "id": 2,
+    "email": "aaaaa@gmail.com",
+    "fullName": "Marisol Ruiz Cabrales",
+    "nickname": "KanjiAditc",
+    "urlImage": "",
+    "birthday": "1989-12-31",
+    "city": "Córdoba",
+    "roles": [
+      "USER"
+    ],
+    "createdAt": "2000-01-01T00:00:00",
+    "lastPasswordChangeAt": "2022-04-01T00:00:00"
+  }
+]

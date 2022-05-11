@@ -14,6 +14,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.dam.kanpeki.model.UserRole;
 import com.dam.kanpeki.utils.KanpekiConstants;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -64,9 +68,13 @@ public class ResponseUserDTO implements Serializable {
 	@Size(min = KanpekiConstants.MIN_ROLES_VALUE)
 	private Set<UserRole> roles;
 
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@ApiModelProperty(notes = KanpekiConstants.API_USER_CREATED_NOTES, example = KanpekiConstants.API_USER_CREATED_EXAMPLE)
 	private LocalDateTime createdAt;
 
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@ApiModelProperty(notes = KanpekiConstants.API_USER_PASSWORD_CHANGE_NOTES, example = KanpekiConstants.API_USER_PASSWORD_CHANGE_EXAMPLE)
 	private LocalDateTime lastPasswordChangeAt;
 
