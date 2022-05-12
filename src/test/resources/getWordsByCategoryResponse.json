@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "japanese": "家ぞく",
+    "english": "family",
+    "spanish": "familia",
+    "furigana": "かぞく",
+    "categoryId": 1,
+    "urlImage": "http://api.kanpeki.es:30008/kanpeki/files/1652354060882_familia-animada.png"
+  },
+  {
+    "id": 8,
+    "japanese": "兄",
+    "english": "my older brother",
+    "spanish": "mi hermano mayor",
+    "furigana": "あに",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 7,
+    "japanese": "弟",
+    "english": "my younger brother",
+    "spanish": "mi hermano menor",
+    "furigana": "おとうと",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 6,
+    "japanese": "妹",
+    "english": "my younger sister",
+    "spanish": "mi hermana menor",
+    "furigana": "いもうと",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 3,
+    "japanese": "父",
+    "english": "my dad",
+    "spanish": "mi papá",
+    "furigana": "ちち",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 2,
+    "japanese": "りょうしん",
+    "english": "parents",
+    "spanish": "padres",
+    "furigana": "りょうしん",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 5,
+    "japanese": "姉",
+    "english": "my older sister",
+    "spanish": "mi hermana mayor",
+    "furigana": "あね",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 4,
+    "japanese": "母",
+    "english": "my mom",
+    "spanish": "mi mamá",
+    "furigana": "はは",
+    "categoryId": 1,
+    "urlImage": ""
+  }
+]

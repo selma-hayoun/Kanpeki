@@ -1,0 +1,11 @@
+[
+  {
+    "id": 9,
+    "japanese": "犬",
+    "english": "dog",
+    "spanish": "perro",
+    "furigana": "いぬ",
+    "categoryId": 3,
+    "urlImage": "http://api.kanpeki.es:30008/kanpeki/files/1652354133400_perro-pastor.png"
+  }
+]

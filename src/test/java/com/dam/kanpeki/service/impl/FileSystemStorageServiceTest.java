@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 
 import com.dam.kanpeki.exception.StorageFileNotFoundException;
+import com.dam.kanpeki.util.KanpekiTestsConstants;
 
 class FileSystemStorageServiceTest {
 
@@ -30,7 +31,7 @@ class FileSystemStorageServiceTest {
 		fileSystemStorageService = new FileSystemStorageServiceImpl();
 		rootLocation = Paths.get("src", "test", "resources", "upload-dir-test");
 		fileSystemStorageService.rootLocation = rootLocation;
-		dummyFile = new File(rootLocation.toString(), "happy_turtle.jpg");
+		dummyFile = new File(rootLocation.toString(), KanpekiTestsConstants.FILE_NAME_EXAMPLE);
 	}
 
 	@Test
@@ -44,7 +45,7 @@ class FileSystemStorageServiceTest {
 	@DisplayName("Test Should Pass When saveFileRequest is Given Correct File Returns Not Null")
 	void whenCallingSaveFileRequest_givenCorrectFile_thenShouldReturnPath() throws Exception {
 
-		dummyFile = new File(rootLocation.getFileName().toString(), "happy_turtle.jpg");
+		dummyFile = new File(rootLocation.getFileName().toString(), KanpekiTestsConstants.FILE_NAME_EXAMPLE);
 
 		byte[] dummyFileContent = null;
 		try {
@@ -80,7 +81,7 @@ class FileSystemStorageServiceTest {
 	void whenCallingLoad_givenCorrectFileName_thenShouldReturnCorrectPath() throws Exception {
 		assertEquals(fileSystemStorageService.load(dummyFile.getName()).toString(),
 				"src" + File.separator + "test" + File.separator + "resources" + File.separator + "upload-dir-test"
-						+ File.separator + "happy_turtle.jpg");
+						+ File.separator + KanpekiTestsConstants.FILE_NAME_EXAMPLE);
 	}
 
 	@Test
@@ -96,7 +97,7 @@ class FileSystemStorageServiceTest {
 			throws Exception {
 
 		assertThrows(StorageFileNotFoundException.class, () -> {
-			fileSystemStorageService.loadAsResource("unlucky.png");
+			fileSystemStorageService.loadAsResource(KanpekiTestsConstants.FILE_NAME_NOT_EXISTS_EXAMPLE);
 		});
 	}
 

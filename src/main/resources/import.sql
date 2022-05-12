@@ -142,7 +142,8 @@ INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, l
 
 /*Table User_roles*/
 INSERT INTO user_roles(user_id, roles) VALUES(1, 'ADMIN');
-INSERT INTO user_roles(user_id, roles) VALUES(1, 'USER');
+/*INSERT INTO user_roles(user_id, roles) VALUES(1, 'USER');*/
+/*Se ha eliminado el multi-rol dado que la parte cliente no ha sido capaz de gestionarlo*/
 INSERT INTO user_roles(user_id, roles) VALUES(2, 'USER');
 INSERT INTO user_roles(user_id, roles) VALUES(3, 'USER');
 INSERT INTO user_roles(user_id, roles) VALUES(4, 'USER');

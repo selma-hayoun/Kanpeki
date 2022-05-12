@@ -28,7 +28,7 @@ import com.dam.kanpeki.model.dto.mapper.ResultDTOMapperStruct;
 import com.dam.kanpeki.repository.ResultRepository;
 import com.dam.kanpeki.service.CategoryServiceI;
 import com.dam.kanpeki.util.KanpekiDummyDataUtil;
-import com.dam.kanpeki.utils.KanpekiConstants;
+import com.dam.kanpeki.util.KanpekiTestsConstants;
 
 class ResultServiceTest {
 
@@ -99,20 +99,22 @@ class ResultServiceTest {
 	@Test
 	@DisplayName("Test Should Pass When findById is Given Correct Id Returns Correct Object")
 	void whenCallingFindById_givenCorrectId_thenShouldReturnCorrectObject() throws Exception {
-		Result dummyR = new Result(new ResultId(1L, null), 0, 2L);
+		Result dummyR = new Result(new ResultId(KanpekiTestsConstants.ID, null), 0, KanpekiTestsConstants.ID_ALT);
 		when(rRepo.findById(any())).thenReturn(Optional.of(dummyR));
-		assertEquals(resultService.findById(new ResultId(1L, null)), Optional.of(dummyR));
+		assertEquals(resultService.findById(new ResultId(KanpekiTestsConstants.ID, null)), Optional.of(dummyR));
 	}
 
 	@Test
 	@DisplayName("Test Should Pass When addResult is Given Correct RequestResultDTO Returns Correct Object")
 	void whenCallingAddResult_givenCorrectRequestResultDTO_thenShouldReturnCorrectObject() throws Exception {
-		RequestResultDTO dummyRequestResult = new RequestResultDTO(2L, 0, 2L);
+		RequestResultDTO dummyRequestResult = new RequestResultDTO(KanpekiTestsConstants.ID_ALT, 0,
+				KanpekiTestsConstants.ID_ALT);
 		Result dummyRes1 = new Result();
 		dummyRes1.setId(new ResultId(dummyRequestResult.getUserId(), null));
 		dummyRes1.setScore(dummyRequestResult.getScore());
 		dummyRes1.setCategoryId(dummyRequestResult.getCategoryId());
-		ResponseCategoryDTO dummyCat = new ResponseCategoryDTO(2L, "Lesson 1", "Family", true);
+		ResponseCategoryDTO dummyCat = new ResponseCategoryDTO(KanpekiTestsConstants.ID_ALT,
+				KanpekiTestsConstants.UNIT_NAME_EXAMPLE, KanpekiTestsConstants.CATEGORY_NAME_EXAMPLE, true);
 
 		when(catService.findById(dummyRequestResult.getCategoryId())).thenReturn(Optional.of(dummyCat));
 		when(mapper.requestResultDTOtoResult(dummyRequestResult)).thenReturn(dummyRes1);
@@ -133,7 +135,8 @@ class ResultServiceTest {
 	@DisplayName("Test Should Pass When addResult is Given Incorrect RequestResultDTO (Category) Throws InvalidFKReferencesException")
 	void whenCallingAddResult_givenIncorrectRequestResultDTOCategory_thenThrowInvalidFKReferencesException()
 			throws Exception {
-		RequestResultDTO dummyRequestResult = new RequestResultDTO(2L, 0, 2L);
+		RequestResultDTO dummyRequestResult = new RequestResultDTO(KanpekiTestsConstants.ID_ALT, 0,
+				KanpekiTestsConstants.ID_ALT);
 		when(catService.findById(dummyRequestResult.getCategoryId())).thenThrow(DataNotFoundException.class);
 
 		assertThrows(InvalidFKReferencesException.class, () -> {
@@ -145,12 +148,14 @@ class ResultServiceTest {
 	@DisplayName("Test Should Pass When addResult is Given Incorrect RequestResultDTO (UserId) Throws InvalidFKReferencesException")
 	void whenCallingAddResult_givenIncorrectRequestResultDTOUserId_thenThrowInvalidFKReferencesException()
 			throws Exception {
-		RequestResultDTO dummyRequestResult = new RequestResultDTO(2L, 0, 2L);
+		RequestResultDTO dummyRequestResult = new RequestResultDTO(KanpekiTestsConstants.ID_ALT, 0,
+				KanpekiTestsConstants.ID_ALT);
 		Result dummyRes1 = new Result();
 		dummyRes1.setId(new ResultId(dummyRequestResult.getUserId(), null));
 		dummyRes1.setScore(dummyRequestResult.getScore());
 		dummyRes1.setCategoryId(dummyRequestResult.getCategoryId());
-		ResponseCategoryDTO dummyCat = new ResponseCategoryDTO(2L, "Lesson 1", "Family", true);
+		ResponseCategoryDTO dummyCat = new ResponseCategoryDTO(KanpekiTestsConstants.ID_ALT,
+				KanpekiTestsConstants.UNIT_NAME_EXAMPLE, KanpekiTestsConstants.CATEGORY_NAME_EXAMPLE, true);
 
 		when(catService.findById(dummyRequestResult.getCategoryId())).thenReturn(Optional.of(dummyCat));
 		when(catService.findById(dummyRequestResult.getCategoryId())).thenThrow(DataNotFoundException.class);
@@ -180,7 +185,7 @@ class ResultServiceTest {
 	@DisplayName("Test Should Pass When updateResult is Given Incorrect Result (Category) Throws InvalidFKReferencesException")
 	void whenCallingUpdateResult_givenIncorrectResultCategoryId_thenThrowInvalidFKReferencesException()
 			throws Exception {
-		Result dummyRes = new Result(new ResultId(2L, null), 2, 2L);
+		Result dummyRes = new Result(new ResultId(KanpekiTestsConstants.ID_ALT, null), 2, KanpekiTestsConstants.ID_ALT);
 		when(catService.findById(dummyRes.getCategoryId())).thenThrow(DataNotFoundException.class);
 
 		assertThrows(InvalidFKReferencesException.class, () -> {
@@ -191,8 +196,9 @@ class ResultServiceTest {
 	@Test
 	@DisplayName("Test Should Pass When updateResult is Given Incorrect Result (User Id) Throws InvalidFKReferencesException")
 	void whenCallingUpdateResult_givenIncorrectResultUserId_thenThrowInvalidFKReferencesException() throws Exception {
-		Result dummyRes = new Result(new ResultId(2L, null), 2, 2L);
-		ResponseCategoryDTO dummyCat = new ResponseCategoryDTO(2L, "Lesson 1", "Family", true);
+		Result dummyRes = new Result(new ResultId(KanpekiTestsConstants.ID_ALT, null), 2, KanpekiTestsConstants.ID_ALT);
+		ResponseCategoryDTO dummyCat = new ResponseCategoryDTO(KanpekiTestsConstants.ID_ALT,
+				KanpekiTestsConstants.UNIT_NAME_EXAMPLE, KanpekiTestsConstants.CATEGORY_NAME_EXAMPLE, true);
 
 		when(catService.findById(dummyRes.getCategoryId())).thenReturn(Optional.of(dummyCat));
 		when(rRepo.save(dummyRes)).thenThrow(DataIntegrityViolationException.class);
@@ -213,8 +219,8 @@ class ResultServiceTest {
 		listResultDummy = new ArrayList<>();
 		listResultDummy = (List<Result>) kanpekiDummyDataUtil.getJsonDummyDataResult(
 				"searchBetweenDatesResultRepository.json", Optional.of(listResultDummy), Optional.of(dummyR)).get();
-		when(rRepo.findResultsBetweenDates(new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
-				new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate))).thenReturn(listResultDummy);
+		when(rRepo.findResultsBetweenDates(new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(startDate),
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(endDate))).thenReturn(listResultDummy);
 
 		listResultDummyResponse = new ArrayList<>();
 		listResultDummyResponse = (List<ResponseResultDTO>) kanpekiDummyDataUtil.getJsonDummyDataResult(
@@ -222,9 +228,11 @@ class ResultServiceTest {
 
 		when(mapper.toResultDTOList(any())).thenReturn(listResultDummyResponse);
 
-		assertEquals(resultService.findResultsBetweenDates(
-				new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
-				new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate)), listResultDummyResponse);
+		assertEquals(
+				resultService.findResultsBetweenDates(
+						new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(startDate),
+						new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(endDate)),
+				listResultDummyResponse);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -235,7 +243,7 @@ class ResultServiceTest {
 		listResultDummy = new ArrayList<>();
 		listResultDummy = (List<Result>) kanpekiDummyDataUtil.getJsonDummyDataResult(
 				"searchByUserIdResultRepository.json", Optional.of(listResultDummy), Optional.of(dummyR)).get();
-		when(rRepo.findResultsUser(1L)).thenReturn(listResultDummy);
+		when(rRepo.findResultsUser(KanpekiTestsConstants.ID)).thenReturn(listResultDummy);
 
 		listResultDummyResponse = new ArrayList<>();
 		listResultDummyResponse = (List<ResponseResultDTO>) kanpekiDummyDataUtil
@@ -244,7 +252,7 @@ class ResultServiceTest {
 
 		when(mapper.toResultDTOList(any())).thenReturn(listResultDummyResponse);
 
-		assertEquals(resultService.findResultsUser(2L), listResultDummyResponse);
+		assertEquals(resultService.findResultsUser(KanpekiTestsConstants.ID_ALT), listResultDummyResponse);
 	}
 
 }

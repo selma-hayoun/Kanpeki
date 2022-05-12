@@ -27,16 +27,16 @@ import com.dam.kanpeki.utils.KanpekiConstants;
 public class WordServiceImpl implements WordServiceI {
 
 	@Autowired
-	private WordRepository wRepo;
+	protected WordRepository wRepo;
 
 	@Autowired
-	private WordDTOMapperStruct mapper;
+	protected WordDTOMapperStruct mapper;
 
 	@Autowired
-	private FileSystemStorageServiceI storeService;
+	protected FileSystemStorageServiceI storeService;
 
 	@Autowired
-	private CategoryServiceI catService;
+	protected CategoryServiceI catService;
 
 	@Override
 	public List<ResponseWordDTO> findAllWords() {

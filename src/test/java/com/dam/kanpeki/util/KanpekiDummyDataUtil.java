@@ -9,11 +9,13 @@ import com.dam.kanpeki.model.Category;
 import com.dam.kanpeki.model.Question;
 import com.dam.kanpeki.model.Result;
 import com.dam.kanpeki.model.User;
+import com.dam.kanpeki.model.Word;
 import com.dam.kanpeki.model.custom.ResultPerCategoryData;
 import com.dam.kanpeki.model.dto.ResponseCategoryDTO;
 import com.dam.kanpeki.model.dto.ResponseQuestionDTO;
 import com.dam.kanpeki.model.dto.ResponseResultDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
+import com.dam.kanpeki.model.dto.ResponseWordDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -134,6 +136,33 @@ public class KanpekiDummyDataUtil {
 
 		} catch (IOException e) {
 			log.info("getJsonDummyDataUser() parsing json file ERROR - " + e.getMessage());
+		}
+		return result;
+	}
+
+	public Optional<?> getJsonDummyDataWord(String resourceName, Optional<?> objectType,
+			Optional<?> objectTypeElements) {
+
+		Optional<?> result = null;
+
+		// Parseamos el objeto del json
+		try {
+			file = new File(classLoader.getResource(resourceName).getFile());
+
+			if (objectType.get() instanceof ResponseWordDTO) {
+				result = Optional.of(objectMapper.readValue(file, ResponseWordDTO.class));
+			} else if (objectType.get() instanceof Word) {
+				result = Optional.of(objectMapper.readValue(file, Word.class));
+			} else if (objectTypeElements != null && objectTypeElements.get() instanceof Word) {
+				result = Optional.of(objectMapper.readValue(file, new TypeReference<List<Word>>() {
+				}));
+			} else {
+				result = Optional.of(objectMapper.readValue(file, new TypeReference<List<ResponseWordDTO>>() {
+				}));
+			}
+
+		} catch (IOException e) {
+			log.info("getJsonDummyDataWord() parsing json file ERROR - " + e.getMessage());
 		}
 		return result;
 	}

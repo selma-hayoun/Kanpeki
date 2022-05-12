@@ -35,7 +35,7 @@ import com.dam.kanpeki.repository.UserRepository;
 import com.dam.kanpeki.service.FileSystemStorageServiceI;
 import com.dam.kanpeki.service.ResultServiceI;
 import com.dam.kanpeki.util.KanpekiDummyDataUtil;
-import com.dam.kanpeki.utils.KanpekiConstants;
+import com.dam.kanpeki.util.KanpekiTestsConstants;
 
 class UserServiceTest {
 
@@ -103,8 +103,9 @@ class UserServiceTest {
 		listUserDummy = new ArrayList<>();
 		listUserDummy = (List<User>) kanpekiDummyDataUtil.getJsonDummyDataUser("searchBetweenDatesUserRepository.json",
 				Optional.of(listUserDummy), Optional.of(dummyU)).get();
-		when(uRepo.findUsersCreatedAtBetweenDates(new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
-				new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate))).thenReturn(listUserDummy);
+		when(uRepo.findUsersCreatedAtBetweenDates(
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(startDate),
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(endDate))).thenReturn(listUserDummy);
 
 		listUserDummyResponse = new ArrayList<>();
 		listUserDummyResponse = (List<ResponseUserDTO>) kanpekiDummyDataUtil
@@ -114,8 +115,8 @@ class UserServiceTest {
 		when(mapper.toUserDTOList(any())).thenReturn(listUserDummyResponse);
 
 		assertEquals(userService.findUsersCreatedAtBetweenDates(
-				new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
-				new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate)), listUserDummyResponse);
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(startDate),
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(endDate)), listUserDummyResponse);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -130,8 +131,9 @@ class UserServiceTest {
 		listUserDummy = new ArrayList<>();
 		listUserDummy = (List<User>) kanpekiDummyDataUtil.getJsonDummyDataUser(
 				"searchBetweenDatesBirthdayUserRepository.json", Optional.of(listUserDummy), Optional.of(dummyU)).get();
-		when(uRepo.findUsersCreatedAtBetweenDates(new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
-				new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate))).thenReturn(listUserDummy);
+		when(uRepo.findUsersCreatedAtBetweenDates(
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(startDate),
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(endDate))).thenReturn(listUserDummy);
 
 		listUserDummyResponse = new ArrayList<>();
 		listUserDummyResponse = (List<ResponseUserDTO>) kanpekiDummyDataUtil.getJsonDummyDataUser(
@@ -140,18 +142,19 @@ class UserServiceTest {
 		when(mapper.toUserDTOList(any())).thenReturn(listUserDummyResponse);
 
 		assertEquals(userService.findUsersCreatedAtBetweenDates(
-				new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
-				new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate)), listUserDummyResponse);
-		assertEquals(userService
-				.findUsersCreatedAtBetweenDates(new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(startDate),
-						new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse(endDate))
-				.size(), 1);
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(startDate),
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(endDate)), listUserDummyResponse);
+		assertEquals(userService.findUsersCreatedAtBetweenDates(
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(startDate),
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(endDate)).size(), 1);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
 	@DisplayName("Test Should Pass When findUsersByMatcher is Given string mar Returns Correct List of Objects")
 	void whenCallingFindUsersByMatcher_givenMar_thenShouldReturnCorrectListOfObjects() throws Exception {
+		String searchedStr = "mar";
+
 		listUserDummy = new ArrayList<>();
 		listUserDummy = (List<User>) kanpekiDummyDataUtil
 				.getJsonDummyDataUser("getUsersRepository.json", Optional.of(listUserDummy), Optional.of(new User()))
@@ -165,7 +168,7 @@ class UserServiceTest {
 
 		when(mapper.toUserDTOList(any())).thenReturn(listUserDummyResponse);
 
-		assertEquals(userService.findUsersByMatcher("mar"), listUserDummyResponse);
+		assertEquals(userService.findUsersByMatcher(searchedStr), listUserDummyResponse);
 	}
 
 	@Test
@@ -173,13 +176,14 @@ class UserServiceTest {
 	void whenCallingFindById_givenCorrectId_thenShouldReturnCorrectObject() throws Exception {
 		Set<UserRole> roles = new HashSet<UserRole>(Collections.singletonList(UserRole.USER));
 		User dummyU = new User();
-		dummyU.setId(1L);
-		dummyU.setEmail("dummy_email@email.com");
-		dummyU.setPassword("Password34315?");
-		dummyU.setFullName("Dummy User");
-		dummyU.setNickname("Dummy");
-		dummyU.setBirthday(new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse("2022-05-01"));
-		dummyU.setCity("Kyoto");
+		dummyU.setId(KanpekiTestsConstants.ID);
+		dummyU.setEmail(KanpekiTestsConstants.USER_EMAIL_EXAMPLE);
+		dummyU.setPassword(KanpekiTestsConstants.USER_PASSWORD_EXAMPLE);
+		dummyU.setFullName(KanpekiTestsConstants.USER_NAME_EXAMPLE);
+		dummyU.setNickname(KanpekiTestsConstants.USER_NICKNAME_EXAMPLE);
+		dummyU.setBirthday(new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT)
+				.parse(KanpekiTestsConstants.USER_BIRTHDAY_EXAMPLE));
+		dummyU.setCity(KanpekiTestsConstants.USER_CITY_EXAMPLE);
 		dummyU.setRoles(roles);
 
 		when(uRepo.findById(any())).thenReturn(Optional.of(dummyU));
@@ -189,24 +193,38 @@ class UserServiceTest {
 
 		when(mapper.toUserDTO(any())).thenReturn(uDummyResponse);
 
-		assertEquals(userService.findById(1L), Optional.of(uDummyResponse));
-		assertEquals(userService.findById(1L).get().getBirthday(), uDummyResponse.getBirthday());
+		assertEquals(userService.findById(KanpekiTestsConstants.ID), Optional.of(uDummyResponse));
+		assertEquals(userService.findById(KanpekiTestsConstants.ID).get().getBirthday(), uDummyResponse.getBirthday());
 
+	}
+
+	@Test
+	@DisplayName("Test Should Pass When findById is Given Incorrect Id Throws DataNotFoundException")
+	void whenCallingFindById_givenIncorrectId_thenShouldThrowDataNotFoundException() throws Exception {
+		when(uRepo.findById(KanpekiTestsConstants.ID)).thenReturn(Optional.ofNullable(null));
+
+		assertThrows(DataNotFoundException.class, () -> {
+			userService.findById(KanpekiTestsConstants.ID);
+		});
 	}
 
 	@Test
 	@DisplayName("Test Should Pass When addUser is Given Correct RequestUserDTO Returns Correct Object")
 	void whenCallingAddUser_givenCorrectRequestUserDTO_thenShouldReturnCorrectObject() throws Exception {
 		Set<UserRole> roles = new HashSet<UserRole>(Collections.singletonList(UserRole.USER));
-		RequestUserDTO dummyRequestUserDTO = new RequestUserDTO("dummy_email@email.com", "Password34315?", "Dummy User",
-				"Dummy", null, new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse("2022-05-01"), "Kyoto", roles);
+		RequestUserDTO dummyRequestUserDTO = new RequestUserDTO(KanpekiTestsConstants.USER_EMAIL_EXAMPLE,
+				KanpekiTestsConstants.USER_PASSWORD_EXAMPLE, KanpekiTestsConstants.USER_NAME_EXAMPLE,
+				KanpekiTestsConstants.USER_NICKNAME_EXAMPLE, null,
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(
+						KanpekiTestsConstants.USER_BIRTHDAY_EXAMPLE),
+				KanpekiTestsConstants.USER_CITY_EXAMPLE, roles);
 
 		User dummyU1 = new User();
 		dummyU1.setEmail(dummyRequestUserDTO.getEmail());
 		dummyU1.setPassword(dummyRequestUserDTO.getPassword());
 		dummyU1.setFullName(dummyRequestUserDTO.getFullName());
 		dummyU1.setNickname(dummyRequestUserDTO.getNickname());
-		dummyU1.setUrlImage(dummyRequestUserDTO.getFile() == null ? KanpekiConstants.EMPTY_STRING
+		dummyU1.setUrlImage(dummyRequestUserDTO.getFile() == null ? KanpekiTestsConstants.EMPTY_STRING
 				: dummyRequestUserDTO.getFile().getName());
 		dummyU1.setBirthday(dummyRequestUserDTO.getBirthday());
 		dummyU1.setCity(dummyRequestUserDTO.getCity());
@@ -217,7 +235,7 @@ class UserServiceTest {
 		when(mapper.requestUserDTOtoUser(dummyRequestUserDTO)).thenReturn(dummyU1);
 
 		User dummyU2 = new User();
-		dummyU2.setId(1L);
+		dummyU2.setId(KanpekiTestsConstants.ID);
 		dummyU2.setEmail(dummyU1.getEmail());
 		dummyU2.setPassword(dummyU1.getPassword());
 		dummyU2.setFullName(dummyU1.getFullName());
@@ -236,7 +254,7 @@ class UserServiceTest {
 
 		when(mapper.toUserDTO(any())).thenReturn(uDummyResponse);
 
-		when(storeService.saveFileRequest(any())).thenReturn(KanpekiConstants.EMPTY_STRING);
+		when(storeService.saveFileRequest(any())).thenReturn(KanpekiTestsConstants.EMPTY_STRING);
 
 		assertEquals(userService.addUser(dummyRequestUserDTO, null), uDummyResponse);
 
@@ -246,8 +264,12 @@ class UserServiceTest {
 	@DisplayName("Test Should Pass When addUser is Given Nickname Already Exists Throws UserNicknameAlreadyExistsException")
 	void whenCallingAddUser_givenNicknameAlreadyExists_thenThrowUserNicknameAlreadyExistsException() throws Exception {
 		Set<UserRole> roles = new HashSet<UserRole>(Collections.singletonList(UserRole.USER));
-		RequestUserDTO dummyRequestUserDTO = new RequestUserDTO("dummy_email@email.com", "Password34315?", "Dummy User",
-				"Dummy", null, new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse("2022-05-01"), "Kyoto", roles);
+		RequestUserDTO dummyRequestUserDTO = new RequestUserDTO(KanpekiTestsConstants.USER_EMAIL_EXAMPLE,
+				KanpekiTestsConstants.USER_PASSWORD_EXAMPLE, KanpekiTestsConstants.USER_NAME_EXAMPLE,
+				KanpekiTestsConstants.USER_NICKNAME_EXAMPLE, null,
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(
+						KanpekiTestsConstants.USER_BIRTHDAY_EXAMPLE),
+				KanpekiTestsConstants.USER_CITY_EXAMPLE, roles);
 
 		when(uRepo.countUserNicknameUnique(anyString())).thenReturn(1);
 
@@ -260,15 +282,19 @@ class UserServiceTest {
 	@DisplayName("Test Should Pass When addUser is Given Email Already Exists Throws UserEmailAlreadyExistsException")
 	void whenCallingAddUser_givenEmailAlreadyExists_thenThrowUserEmailAlreadyExistsException() throws Exception {
 		Set<UserRole> roles = new HashSet<UserRole>(Collections.singletonList(UserRole.USER));
-		RequestUserDTO dummyRequestUserDTO = new RequestUserDTO("dummy_email@email.com", "Password34315?", "Dummy User",
-				"Dummy", null, new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse("2022-05-01"), "Kyoto", roles);
+		RequestUserDTO dummyRequestUserDTO = new RequestUserDTO(KanpekiTestsConstants.USER_EMAIL_EXAMPLE,
+				KanpekiTestsConstants.USER_PASSWORD_EXAMPLE, KanpekiTestsConstants.USER_NAME_EXAMPLE,
+				KanpekiTestsConstants.USER_NICKNAME_EXAMPLE, null,
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(
+						KanpekiTestsConstants.USER_BIRTHDAY_EXAMPLE),
+				KanpekiTestsConstants.USER_CITY_EXAMPLE, roles);
 
 		User dummyU1 = new User();
 		dummyU1.setEmail(dummyRequestUserDTO.getEmail());
 		dummyU1.setPassword(dummyRequestUserDTO.getPassword());
 		dummyU1.setFullName(dummyRequestUserDTO.getFullName());
 		dummyU1.setNickname(dummyRequestUserDTO.getNickname());
-		dummyU1.setUrlImage(dummyRequestUserDTO.getFile() == null ? KanpekiConstants.EMPTY_STRING
+		dummyU1.setUrlImage(dummyRequestUserDTO.getFile() == null ? KanpekiTestsConstants.EMPTY_STRING
 				: dummyRequestUserDTO.getFile().getName());
 		dummyU1.setBirthday(dummyRequestUserDTO.getBirthday());
 		dummyU1.setCity(dummyRequestUserDTO.getCity());
@@ -278,7 +304,7 @@ class UserServiceTest {
 
 		when(mapper.requestUserDTOtoUser(dummyRequestUserDTO)).thenReturn(dummyU1);
 
-		when(storeService.saveFileRequest(any())).thenReturn(KanpekiConstants.EMPTY_STRING);
+		when(storeService.saveFileRequest(any())).thenReturn(KanpekiTestsConstants.EMPTY_STRING);
 
 		when(uRepo.save(any())).thenThrow(DataIntegrityViolationException.class);
 
@@ -293,7 +319,7 @@ class UserServiceTest {
 		when(uRepo.findById(anyLong())).thenReturn(Optional.ofNullable(null));
 
 		assertThrows(DataNotFoundException.class, () -> {
-			userService.removeUserById(1L);
+			userService.removeUserById(KanpekiTestsConstants.ID);
 		});
 	}
 
@@ -301,16 +327,19 @@ class UserServiceTest {
 	@DisplayName("Test Should Pass When updateUser is Given Correct RequestUserDTO and Id Returns Correct Object")
 	void whenCallingUpdateUser_givenCorrectRequestUserDTOAndId_thenShouldReturnCorrectObject() throws Exception {
 		Set<UserRole> roles = new HashSet<UserRole>(Collections.singletonList(UserRole.USER));
-		RequestUpdateUserDTO dummyRequestUserDTO = new RequestUpdateUserDTO("dummy_email@email.com", "Password34315?",
-				"Dummy User", "Dummy", null, new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse("2022-05-01"),
-				"Kyoto", roles);
+		RequestUpdateUserDTO dummyRequestUserDTO = new RequestUpdateUserDTO(KanpekiTestsConstants.USER_EMAIL_EXAMPLE,
+				KanpekiTestsConstants.USER_PASSWORD_EXAMPLE, KanpekiTestsConstants.USER_NAME_EXAMPLE,
+				KanpekiTestsConstants.USER_NICKNAME_EXAMPLE, null,
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(
+						KanpekiTestsConstants.USER_BIRTHDAY_EXAMPLE),
+				KanpekiTestsConstants.USER_CITY_EXAMPLE, roles);
 
 		User dummyU = new User();
 		dummyU.setEmail(dummyRequestUserDTO.getEmail());
 		dummyU.setPassword(dummyRequestUserDTO.getPassword());
 		dummyU.setFullName(dummyRequestUserDTO.getFullName());
 		dummyU.setNickname(dummyRequestUserDTO.getNickname());
-		dummyU.setUrlImage(dummyRequestUserDTO.getFile() == null ? KanpekiConstants.EMPTY_STRING
+		dummyU.setUrlImage(dummyRequestUserDTO.getFile() == null ? KanpekiTestsConstants.EMPTY_STRING
 				: dummyRequestUserDTO.getFile().getName());
 		dummyU.setBirthday(dummyRequestUserDTO.getBirthday());
 		dummyU.setCity(dummyRequestUserDTO.getCity());
@@ -322,7 +351,7 @@ class UserServiceTest {
 
 		when(mapper.requestUpdateUserDTOtoUser(dummyRequestUserDTO)).thenReturn(dummyU);
 
-		when(storeService.saveFileRequest(any())).thenReturn(KanpekiConstants.EMPTY_STRING);
+		when(storeService.saveFileRequest(any())).thenReturn(KanpekiTestsConstants.EMPTY_STRING);
 
 		when(uRepo.findById(anyLong())).thenReturn(Optional.of(dummyU));
 
@@ -333,7 +362,7 @@ class UserServiceTest {
 
 		when(mapper.toUserDTO(any())).thenReturn(uDummyResponse);
 
-		assertEquals(userService.updateUser(dummyRequestUserDTO, null, 1L), uDummyResponse);
+		assertEquals(userService.updateUser(dummyRequestUserDTO, null, KanpekiTestsConstants.ID), uDummyResponse);
 
 	}
 
@@ -342,17 +371,20 @@ class UserServiceTest {
 	void whenCallingUpdateUser_givenIncorrectRequestUserDTONickname_thenThrowUserNicknameAlreadyExistsException()
 			throws Exception {
 		Set<UserRole> roles = new HashSet<UserRole>(Collections.singletonList(UserRole.USER));
-		RequestUpdateUserDTO dummyRequestUserDTO = new RequestUpdateUserDTO("dummy_email@email.com", "Password34315?",
-				"Dummy User", "Dummy", null, new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse("2022-05-01"),
-				"Kyoto", roles);
+		RequestUpdateUserDTO dummyRequestUserDTO = new RequestUpdateUserDTO(KanpekiTestsConstants.USER_EMAIL_EXAMPLE,
+				KanpekiTestsConstants.USER_PASSWORD_EXAMPLE, KanpekiTestsConstants.USER_NAME_EXAMPLE,
+				KanpekiTestsConstants.USER_NICKNAME_EXAMPLE, null,
+				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(
+						KanpekiTestsConstants.USER_BIRTHDAY_EXAMPLE),
+				KanpekiTestsConstants.USER_CITY_EXAMPLE, roles);
 
 		User dummyU1 = new User();
-		dummyU1.setId(1L);
+		dummyU1.setId(KanpekiTestsConstants.ID);
 		dummyU1.setEmail(dummyRequestUserDTO.getEmail());
 		dummyU1.setPassword(dummyRequestUserDTO.getPassword());
 		dummyU1.setFullName(dummyRequestUserDTO.getFullName());
 		dummyU1.setNickname(dummyRequestUserDTO.getNickname());
-		dummyU1.setUrlImage(dummyRequestUserDTO.getFile() == null ? KanpekiConstants.EMPTY_STRING
+		dummyU1.setUrlImage(dummyRequestUserDTO.getFile() == null ? KanpekiTestsConstants.EMPTY_STRING
 				: dummyRequestUserDTO.getFile().getName());
 		dummyU1.setBirthday(dummyRequestUserDTO.getBirthday());
 		dummyU1.setCity(dummyRequestUserDTO.getCity());
@@ -361,7 +393,7 @@ class UserServiceTest {
 		dummyU1.setLastPasswordChangeAt(null);
 
 		User dummyU2 = new User();
-		dummyU2.setId(2L);
+		dummyU2.setId(KanpekiTestsConstants.ID_ALT);
 		dummyU2.setEmail(dummyU1.getEmail());
 		dummyU2.setPassword(dummyU1.getPassword());
 		dummyU2.setFullName(dummyU1.getFullName());
@@ -378,7 +410,7 @@ class UserServiceTest {
 		when(uRepo.countUserNicknameUnique(anyString())).thenReturn(2);
 
 		assertThrows(UserNicknameAlreadyExistsException.class, () -> {
-			userService.updateUser(dummyRequestUserDTO, null, 1L);
+			userService.updateUser(dummyRequestUserDTO, null, KanpekiTestsConstants.ID);
 		});
 
 	}
@@ -388,13 +420,14 @@ class UserServiceTest {
 	void whenCallingFindByEmail_givenCorrectEmail_thenShouldReturnCorrectObject() throws Exception {
 		Set<UserRole> roles = new HashSet<UserRole>(Collections.singletonList(UserRole.USER));
 		User dummyU = new User();
-		dummyU.setId(1L);
-		dummyU.setEmail("dummy_email@email.com");
-		dummyU.setPassword("Password34315?");
-		dummyU.setFullName("Dummy User");
-		dummyU.setNickname("Dummy");
-		dummyU.setBirthday(new SimpleDateFormat(KanpekiConstants.DATE_FORMAT).parse("2022-05-01"));
-		dummyU.setCity("Kyoto");
+		dummyU.setId(KanpekiTestsConstants.ID);
+		dummyU.setEmail(KanpekiTestsConstants.USER_EMAIL_EXAMPLE);
+		dummyU.setPassword(KanpekiTestsConstants.USER_PASSWORD_EXAMPLE);
+		dummyU.setFullName(KanpekiTestsConstants.USER_NAME_EXAMPLE);
+		dummyU.setNickname(KanpekiTestsConstants.USER_NICKNAME_EXAMPLE);
+		dummyU.setBirthday(new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT)
+				.parse(KanpekiTestsConstants.USER_BIRTHDAY_EXAMPLE));
+		dummyU.setCity(KanpekiTestsConstants.USER_CITY_EXAMPLE);
 		dummyU.setRoles(roles);
 
 		when(uRepo.findByEmail(anyString())).thenReturn(Optional.of(dummyU));
@@ -410,7 +443,7 @@ class UserServiceTest {
 		when(uRepo.findByEmail(anyString())).thenReturn(Optional.ofNullable(null));
 
 		assertThrows(DataNotFoundException.class, () -> {
-			userService.findByEmail(KanpekiConstants.EMPTY_STRING);
+			userService.findByEmail(KanpekiTestsConstants.EMPTY_STRING);
 		});
 	}
 

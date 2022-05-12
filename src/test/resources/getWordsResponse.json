@@ -1,0 +1,200 @@
+[
+  {
+    "id": 1,
+    "japanese": "家ぞく",
+    "english": "family",
+    "spanish": "familia",
+    "furigana": "かぞく",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 2,
+    "japanese": "りょうしん",
+    "english": "parents",
+    "spanish": "padres",
+    "furigana": "りょうしん",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 3,
+    "japanese": "父",
+    "english": "my dad",
+    "spanish": "mi papá",
+    "furigana": "ちち",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 4,
+    "japanese": "母",
+    "english": "my mom",
+    "spanish": "mi mamá",
+    "furigana": "はは",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 5,
+    "japanese": "姉",
+    "english": "my older sister",
+    "spanish": "mi hermana mayor",
+    "furigana": "あね",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 6,
+    "japanese": "妹",
+    "english": "my younger sister",
+    "spanish": "mi hermana menor",
+    "furigana": "いもうと",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 7,
+    "japanese": "弟",
+    "english": "my younger brother",
+    "spanish": "mi hermano menor",
+    "furigana": "おとうと",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 8,
+    "japanese": "兄",
+    "english": "my older brother",
+    "spanish": "mi hermano mayor",
+    "furigana": "あに",
+    "categoryId": 1,
+    "urlImage": ""
+  },
+  {
+    "id": 9,
+    "japanese": "犬",
+    "english": "dog",
+    "spanish": "perro",
+    "furigana": "いぬ",
+    "categoryId": 3,
+    "urlImage": ""
+  },
+  {
+    "id": 10,
+    "japanese": "鳥",
+    "english": "bird",
+    "spanish": "pájaro",
+    "furigana": "とり",
+    "categoryId": 3,
+    "urlImage": ""
+  },
+  {
+    "id": 11,
+    "japanese": "ヘビ",
+    "english": "snake",
+    "spanish": "serpiente",
+    "furigana": "ヘビ",
+    "categoryId": 3,
+    "urlImage": ""
+  },
+  {
+    "id": 12,
+    "japanese": "馬",
+    "english": "horse",
+    "spanish": "caballo",
+    "furigana": "うま",
+    "categoryId": 3,
+    "urlImage": ""
+  },
+  {
+    "id": 13,
+    "japanese": "狐",
+    "english": "fox",
+    "spanish": "zorro",
+    "furigana": "きつね",
+    "categoryId": 3,
+    "urlImage": ""
+  },
+  {
+    "id": 14,
+    "japanese": "動物",
+    "english": "animal",
+    "spanish": "animal",
+    "furigana": "どうぶつ",
+    "categoryId": 3,
+    "urlImage": ""
+  },
+  {
+    "id": 15,
+    "japanese": "牛",
+    "english": "cow",
+    "spanish": "vaca",
+    "furigana": "うし",
+    "categoryId": 3,
+    "urlImage": ""
+  },
+  {
+    "id": 16,
+    "japanese": "日よう日",
+    "english": "sunday",
+    "spanish": "domingo",
+    "furigana": "にちようび",
+    "categoryId": 5,
+    "urlImage": ""
+  },
+  {
+    "id": 17,
+    "japanese": "月曜日",
+    "english": "monday",
+    "spanish": "lunes",
+    "furigana": "げつようび",
+    "categoryId": 5,
+    "urlImage": ""
+  },
+  {
+    "id": 18,
+    "japanese": "火曜日",
+    "english": "tuesday",
+    "spanish": "martes",
+    "furigana": "かようび",
+    "categoryId": 5,
+    "urlImage": ""
+  },
+  {
+    "id": 19,
+    "japanese": "水曜日",
+    "english": "wednesday",
+    "spanish": "miércoles",
+    "furigana": "すいよび",
+    "categoryId": 5,
+    "urlImage": ""
+  },
+  {
+    "id": 20,
+    "japanese": "木曜日",
+    "english": "thursday",
+    "spanish": "jueves",
+    "furigana": "もくようび",
+    "categoryId": 5,
+    "urlImage": ""
+  },
+  {
+    "id": 21,
+    "japanese": "金曜日",
+    "english": "friday",
+    "spanish": "viernes",
+    "furigana": "きんようび",
+    "categoryId": 5,
+    "urlImage": ""
+  },
+  {
+    "id": 22,
+    "japanese": "土曜日",
+    "english": "saturday",
+    "spanish": "sábado",
+    "furigana": "どようび",
+    "categoryId": 5,
+    "urlImage": ""
+  }
+]

@@ -24,6 +24,7 @@ import com.dam.kanpeki.model.dto.ResponseCategoryDTO;
 import com.dam.kanpeki.model.dto.mapper.CategoryDTOMapperStruct;
 import com.dam.kanpeki.repository.CategoryRepository;
 import com.dam.kanpeki.util.KanpekiDummyDataUtil;
+import com.dam.kanpeki.util.KanpekiTestsConstants;
 
 class CategoryServiceTest {
 
@@ -89,42 +90,44 @@ class CategoryServiceTest {
 	@Test
 	@DisplayName("Test Should Pass When findById is Given Correct Id Returns Correct Object")
 	void whenCallingFindById_givenCorrectId_thenShouldReturnCorrectObject() throws Exception {
-		Category dummyCat = new Category(1L, "Lesson 1", "Family", false, null, null, null);
-		when(catRepo.findById(1L)).thenReturn(Optional.of(dummyCat));
+		Category dummyCat = new Category(KanpekiTestsConstants.ID, KanpekiTestsConstants.UNIT_NAME_EXAMPLE,
+				KanpekiTestsConstants.CATEGORY_NAME_EXAMPLE, false, null, null, null);
+		when(catRepo.findById(KanpekiTestsConstants.ID)).thenReturn(Optional.of(dummyCat));
 
 		catDummyResponse = (ResponseCategoryDTO) kanpekiDummyDataUtil
 				.getJsonDummyDataCategory("getCategoryResponse.json", Optional.of(new ResponseCategoryDTO())).get();
 
 		when(mapper.toCategoryDTO(any())).thenReturn(catDummyResponse);
 
-		assertEquals(categoryService.findById(1L), Optional.of(catDummyResponse));
+		assertEquals(categoryService.findById(KanpekiTestsConstants.ID), Optional.of(catDummyResponse));
 
 	}
 
 	@Test
 	@DisplayName("Test Should Pass When findById is Given Incorrect Id Throws DataNotFoundException")
 	void whenCallingFindById_givenIncorrectId_thenShouldThrowDataNotFoundException() throws Exception {
-		when(catRepo.findById(1L)).thenReturn(Optional.ofNullable(null));
+		when(catRepo.findById(KanpekiTestsConstants.ID)).thenReturn(Optional.ofNullable(null));
 
 		assertThrows(DataNotFoundException.class, () -> {
-			categoryService.findById(1L);
+			categoryService.findById(KanpekiTestsConstants.ID);
 		});
 	}
 
 	@Test
 	@DisplayName("Test Should Pass When addCategory is Given Correct RequestCategoryDTO Returns Correct Object")
 	void whenCallingAddCategory_givenCorrectRequestCategoryDTO_thenShouldReturnCorrectObject() throws Exception {
-		RequestCategoryDTO dummyRequestCatDTO = new RequestCategoryDTO("Lesson 1", "Family", false);
+		RequestCategoryDTO dummyRequestCatDTO = new RequestCategoryDTO(KanpekiTestsConstants.UNIT_NAME_EXAMPLE,
+				KanpekiTestsConstants.CATEGORY_NAME_EXAMPLE, false);
 		Category dummyCat1 = new Category();
 		dummyCat1.setUnitName(dummyRequestCatDTO.getUnitName());
 		dummyCat1.setCategoryName(dummyRequestCatDTO.getCategoryName());
 		dummyCat1.setIsQuestion(dummyRequestCatDTO.getIsQuestion());
 
-		when(catRepo.countCategoriesUnique(anyString(), anyString())).thenReturn(0);
+		when(catRepo.countCategoriesUnique(anyString(), anyString())).thenReturn(KanpekiTestsConstants.RETURN_ZERO);
 		when(mapper.requestCategoryDTOtoCategory(dummyRequestCatDTO)).thenReturn(dummyCat1);
 
-		Category dummyCat2 = new Category(1L, dummyCat1.getUnitName(), dummyCat1.getCategoryName(),
-				dummyCat1.getIsQuestion(), null, null, null);
+		Category dummyCat2 = new Category(KanpekiTestsConstants.ID, dummyCat1.getUnitName(),
+				dummyCat1.getCategoryName(), dummyCat1.getIsQuestion(), null, null, null);
 
 		when(catRepo.save(dummyCat1)).thenReturn(dummyCat2);
 
@@ -141,8 +144,9 @@ class CategoryServiceTest {
 	@DisplayName("Test Should Pass When addCategory is Given Incorrect RequestCategoryDTO Throws CategoryAlreadyExistsException")
 	void whenCallingAddCategory_givenIncorrectRequestCategoryDTO_thenThrowCategoryAlreadyExistsException()
 			throws Exception {
-		RequestCategoryDTO dummyRequestCatDTO = new RequestCategoryDTO("Lesson 1", "Family", false);
-		when(catRepo.countCategoriesUnique(anyString(), anyString())).thenReturn(1);
+		RequestCategoryDTO dummyRequestCatDTO = new RequestCategoryDTO(KanpekiTestsConstants.UNIT_NAME_EXAMPLE,
+				KanpekiTestsConstants.CATEGORY_NAME_EXAMPLE, false);
+		when(catRepo.countCategoriesUnique(anyString(), anyString())).thenReturn(KanpekiTestsConstants.RETURN_ONE);
 
 		assertThrows(CategoryAlreadyExistsException.class, () -> {
 			categoryService.addCategory(dummyRequestCatDTO);
@@ -153,10 +157,10 @@ class CategoryServiceTest {
 	@Test
 	@DisplayName("Test Should Pass When removeCategoryById is Given Incorrect Id Throws DataNotFoundException")
 	void whenCallingRemoveCategoryById_givenIncorrectId_thenThrowDataNotFoundException() throws Exception {
-		when(catRepo.findById(1L)).thenReturn(Optional.ofNullable(null));
+		when(catRepo.findById(KanpekiTestsConstants.ID)).thenReturn(Optional.ofNullable(null));
 
 		assertThrows(DataNotFoundException.class, () -> {
-			categoryService.removeCategoryById(1L);
+			categoryService.removeCategoryById(KanpekiTestsConstants.ID);
 		});
 	}
 
@@ -166,10 +170,10 @@ class CategoryServiceTest {
 			throws Exception {
 		Category dummyCat = (Category) kanpekiDummyDataUtil
 				.getJsonDummyDataCategory("getCategoryRepository.json", Optional.of(new Category())).get();
-		when(catRepo.findById(1L)).thenReturn(Optional.of(dummyCat));
+		when(catRepo.findById(KanpekiTestsConstants.ID)).thenReturn(Optional.of(dummyCat));
 
 		assertThrows(InvalidOperationOnCategoryException.class, () -> {
-			categoryService.removeCategoryById(1L);
+			categoryService.removeCategoryById(KanpekiTestsConstants.ID);
 		});
 	}
 
@@ -177,7 +181,8 @@ class CategoryServiceTest {
 	@DisplayName("Test Should Pass When updateCategory is Given Correct RequestCategoryDTO and ID Returns Correct Object")
 	void whenCallingUpdateCategory_givenCorrectRequestCategoryDTOAndId_thenShouldReturnCorrectObject()
 			throws Exception {
-		RequestCategoryDTO dummyRequestCatDTO = new RequestCategoryDTO("Lesson 1", "Family", false);
+		RequestCategoryDTO dummyRequestCatDTO = new RequestCategoryDTO(KanpekiTestsConstants.UNIT_NAME_EXAMPLE,
+				KanpekiTestsConstants.CATEGORY_NAME_EXAMPLE, false);
 		Category dummyCat1 = new Category();
 		dummyCat1.setUnitName(dummyRequestCatDTO.getUnitName());
 		dummyCat1.setCategoryName(dummyRequestCatDTO.getCategoryName());
@@ -187,7 +192,7 @@ class CategoryServiceTest {
 				dummyRequestCatDTO.getCategoryName())).thenReturn(Optional.ofNullable(null));
 
 		when(mapper.requestCategoryDTOtoCategory(dummyRequestCatDTO)).thenReturn(dummyCat1);
-		when(catRepo.findById(1L)).thenReturn(Optional.of(dummyCat1));
+		when(catRepo.findById(KanpekiTestsConstants.ID)).thenReturn(Optional.of(dummyCat1));
 		when(catRepo.save(dummyCat1)).thenReturn(dummyCat1);
 
 		catDummyResponse = (ResponseCategoryDTO) kanpekiDummyDataUtil
@@ -195,16 +200,16 @@ class CategoryServiceTest {
 
 		when(mapper.toCategoryDTO(any())).thenReturn(catDummyResponse);
 
-		assertEquals(categoryService.updateCategory(dummyRequestCatDTO, 1L), catDummyResponse);
-
+		assertEquals(categoryService.updateCategory(dummyRequestCatDTO, KanpekiTestsConstants.ID), catDummyResponse);
 	}
 
 	@Test
 	@DisplayName("Test Should Pass When updateCategory is Given Existing Category Throws CategoryAlreadyExistsException")
 	void whenCallingUpdateCategory_givenExistingCategory_thenThrowCategoryAlreadyExistsException() throws Exception {
-		RequestCategoryDTO dummyRequestCatDTO = new RequestCategoryDTO("Lesson 1", "Family", false);
+		RequestCategoryDTO dummyRequestCatDTO = new RequestCategoryDTO(KanpekiTestsConstants.UNIT_NAME_EXAMPLE,
+				KanpekiTestsConstants.CATEGORY_NAME_EXAMPLE, false);
 		Category dummyCat1 = new Category();
-		dummyCat1.setId(1L);
+		dummyCat1.setId(KanpekiTestsConstants.ID);
 		dummyCat1.setUnitName(dummyRequestCatDTO.getUnitName());
 		dummyCat1.setCategoryName(dummyRequestCatDTO.getCategoryName());
 		dummyCat1.setIsQuestion(dummyRequestCatDTO.getIsQuestion());
@@ -212,10 +217,10 @@ class CategoryServiceTest {
 		when(catRepo.findByUnitNameAndCategoryName(dummyRequestCatDTO.getUnitName(),
 				dummyRequestCatDTO.getCategoryName())).thenReturn(Optional.of(dummyCat1));
 
-		when(catRepo.countCategoriesUnique(anyString(), anyString())).thenReturn(2);
+		when(catRepo.countCategoriesUnique(anyString(), anyString())).thenReturn(KanpekiTestsConstants.RETURN_TWO);
 
 		assertThrows(CategoryAlreadyExistsException.class, () -> {
-			categoryService.updateCategory(dummyRequestCatDTO, 2L);
+			categoryService.updateCategory(dummyRequestCatDTO, KanpekiTestsConstants.ID_ALT);
 		});
 
 	}

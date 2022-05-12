@@ -25,6 +25,7 @@ import com.dam.kanpeki.model.dto.mapper.QuestionAnswerDTOMapperStruct;
 import com.dam.kanpeki.repository.QuestionRepository;
 import com.dam.kanpeki.service.CategoryServiceI;
 import com.dam.kanpeki.util.KanpekiDummyDataUtil;
+import com.dam.kanpeki.util.KanpekiTestsConstants;
 
 class QuestionServiceTest {
 
@@ -89,15 +90,16 @@ class QuestionServiceTest {
 
 		when(mapper.toQuestionDTOList(any())).thenReturn(listQuestionDummyResponse);
 
-		assertEquals(questionService.findByCategoryId(2L), listQuestionDummyResponse);
+		assertEquals(questionService.findByCategoryId(KanpekiTestsConstants.ID_ALT), listQuestionDummyResponse);
 	}
 
 	@Test
 	@DisplayName("Test Should Pass When findById is Given Correct Id Returns Correct Object")
 	void whenCallingFindById_givenCorrectId_thenShouldReturnCorrectObject() throws Exception {
-		Question dummyQ = new Question(1L, "statement", "furigana help", 2L, null);
+		Question dummyQ = new Question(KanpekiTestsConstants.ID, KanpekiTestsConstants.QUESTION_STATEMENT_EXAMPLE,
+				KanpekiTestsConstants.EMPTY_STRING, KanpekiTestsConstants.ID_ALT, null);
 
-		when(qRepo.findById(1L)).thenReturn(Optional.of(dummyQ));
+		when(qRepo.findById(KanpekiTestsConstants.ID)).thenReturn(Optional.of(dummyQ));
 
 		qDummyResponse = (ResponseQuestionDTO) kanpekiDummyDataUtil
 				.getJsonDummyDataQuestion("getQuestionResponse.json", Optional.of(new ResponseQuestionDTO()), null)
@@ -105,35 +107,39 @@ class QuestionServiceTest {
 
 		when(mapper.toQuestionDTO(any())).thenReturn(qDummyResponse);
 
-		assertEquals(questionService.findById(1L), Optional.of(qDummyResponse));
+		assertEquals(questionService.findById(KanpekiTestsConstants.ID), Optional.of(qDummyResponse));
 
 	}
 
 	@Test
 	@DisplayName("Test Should Pass When findById is Given Incorrect Id Throws DataNotFoundException")
 	void whenCallingFindById_givenIncorrectId_thenShouldThrowDataNotFoundException() throws Exception {
-		when(qRepo.findById(1L)).thenReturn(Optional.ofNullable(null));
+		when(qRepo.findById(KanpekiTestsConstants.ID)).thenReturn(Optional.ofNullable(null));
 
 		assertThrows(DataNotFoundException.class, () -> {
-			questionService.findById(1L);
+			questionService.findById(KanpekiTestsConstants.ID);
 		});
 	}
 
 	@Test
 	@DisplayName("Test Should Pass When addQuestion is Given Correct RequestQuestionDTO Returns Correct Object")
 	void whenCallingAddQuestion_givenCorrectRequestQuestionDTO_thenShouldReturnCorrectObject() throws Exception {
-		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO("あの 人は ジムさんの お父さんです。", "", 2L, null);
+		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO(
+				KanpekiTestsConstants.QUESTION_STATEMENT_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING,
+				KanpekiTestsConstants.ID_ALT, null);
 		Question dummyQ1 = new Question();
 		dummyQ1.setStatement(dummyRequestQuestionDTO.getStatement());
 		dummyQ1.setHelp(dummyRequestQuestionDTO.getHelp());
 		dummyQ1.setCategoryId(dummyRequestQuestionDTO.getCategoryId());
-		ResponseCategoryDTO dummyCat = new ResponseCategoryDTO(2L, "Lesson 1", "Family", true);
+		ResponseCategoryDTO dummyCat = new ResponseCategoryDTO(KanpekiTestsConstants.ID_ALT,
+				KanpekiTestsConstants.UNIT_NAME_EXAMPLE, KanpekiTestsConstants.CATEGORY_NAME_EXAMPLE, true);
 
 		when(catService.findById(dummyRequestQuestionDTO.getCategoryId())).thenReturn(Optional.of(dummyCat));
 
 		when(mapper.requestQuestionDTOtoQuestion(dummyRequestQuestionDTO)).thenReturn(dummyQ1);
 
-		Question dummyQ2 = new Question(1L, dummyQ1.getStatement(), dummyQ1.getHelp(), dummyQ1.getCategoryId(), null);
+		Question dummyQ2 = new Question(KanpekiTestsConstants.ID, dummyQ1.getStatement(), dummyQ1.getHelp(),
+				dummyQ1.getCategoryId(), null);
 
 		when(qRepo.save(dummyQ1)).thenReturn(dummyQ2);
 
@@ -151,7 +157,9 @@ class QuestionServiceTest {
 	@DisplayName("Test Should Pass When addQuestion is Given Incorrect RequestQuestionDTO Throws InvalidFKReferencesException")
 	void whenCallingAddQuestion_givenIncorrectRequestQuestionDTO_thenThrowInvalidFKReferencesException()
 			throws Exception {
-		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO("あの 人は ジムさんの お父さんです。", "", 2L, null);
+		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO(
+				KanpekiTestsConstants.QUESTION_STATEMENT_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING,
+				KanpekiTestsConstants.ID_ALT, null);
 		when(catService.findById(dummyRequestQuestionDTO.getCategoryId())).thenThrow(DataNotFoundException.class);
 
 		assertThrows(InvalidFKReferencesException.class, () -> {
@@ -163,20 +171,24 @@ class QuestionServiceTest {
 	@DisplayName("Test Should Pass When updateQuestion is Given Correct RequestQuestionDTO and ID Returns Correct Object")
 	void whenCallingUpdateQuestion_givenCorrectRequestQuestionDTOAndId_thenShouldReturnCorrectObject()
 			throws Exception {
-		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO("あの 人は ジムさんの お父さんです。", "", 2L, null);
+		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO(
+				KanpekiTestsConstants.QUESTION_STATEMENT_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING,
+				KanpekiTestsConstants.ID_ALT, null);
 		Question dummyQ1 = new Question();
 		dummyQ1.setStatement(dummyRequestQuestionDTO.getStatement());
 		dummyQ1.setHelp(dummyRequestQuestionDTO.getHelp());
 		dummyQ1.setCategoryId(dummyRequestQuestionDTO.getCategoryId());
 
-		ResponseCategoryDTO dummyCat = new ResponseCategoryDTO(2L, "Lesson 1", "Family", true);
+		ResponseCategoryDTO dummyCat = new ResponseCategoryDTO(KanpekiTestsConstants.ID_ALT,
+				KanpekiTestsConstants.UNIT_NAME_EXAMPLE, KanpekiTestsConstants.CATEGORY_NAME_EXAMPLE, true);
 
 		when(catService.findById(dummyRequestQuestionDTO.getCategoryId())).thenReturn(Optional.of(dummyCat));
 
 		when(mapper.requestQuestionDTOtoQuestion(dummyRequestQuestionDTO)).thenReturn(dummyQ1);
-		when(qRepo.findById(1L)).thenReturn(Optional.of(dummyQ1));
+		when(qRepo.findById(KanpekiTestsConstants.ID)).thenReturn(Optional.of(dummyQ1));
 
-		Question dummyQ2 = new Question(1L, dummyQ1.getStatement(), dummyQ1.getHelp(), dummyQ1.getCategoryId(), null);
+		Question dummyQ2 = new Question(KanpekiTestsConstants.ID, dummyQ1.getStatement(), dummyQ1.getHelp(),
+				dummyQ1.getCategoryId(), null);
 
 		when(qRepo.save(dummyQ1)).thenReturn(dummyQ2);
 
@@ -193,11 +205,13 @@ class QuestionServiceTest {
 	@DisplayName("Test Should Pass When updateQuestion is Given Incorrect RequestQuestionDTO Throws InvalidFKReferencesException")
 	void whenCallingUpdateQuestion_givenIncorrectRequestQuestionDTO_thenThrowInvalidFKReferencesException()
 			throws Exception {
-		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO("あの 人は ジムさんの お父さんです。", "", 2L, null);
+		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO(
+				KanpekiTestsConstants.QUESTION_STATEMENT_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING,
+				KanpekiTestsConstants.ID_ALT, null);
 		when(catService.findById(dummyRequestQuestionDTO.getCategoryId())).thenThrow(DataNotFoundException.class);
 
 		assertThrows(InvalidFKReferencesException.class, () -> {
-			questionService.updateQuestion(dummyRequestQuestionDTO, 1L);
+			questionService.updateQuestion(dummyRequestQuestionDTO, KanpekiTestsConstants.ID);
 		});
 	}
 

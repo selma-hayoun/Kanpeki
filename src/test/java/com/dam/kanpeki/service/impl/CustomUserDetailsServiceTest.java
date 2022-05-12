@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.dam.kanpeki.model.User;
 import com.dam.kanpeki.service.UserServiceI;
+import com.dam.kanpeki.util.KanpekiTestsConstants;
 
 class CustomUserDetailsServiceTest {
 
@@ -31,12 +32,14 @@ class CustomUserDetailsServiceTest {
 	@DisplayName("Test Should Pass When loadUserByUsername is Given Correct Username Return Correct Object")
 	void whenCallingLoadUserByUsername_givenCorrectUsername_thenShouldReturnCorrectObject() throws Exception {
 
-		User dummyUser = new User(1L, "dummy@gmail.com", "d4mm7", "Jonh Doe", "Dummy", "urlimg", null, "unknown", null,
-				null, null, null);
+		User dummyUser = new User(1L, KanpekiTestsConstants.USER_EMAIL_EXAMPLE,
+				KanpekiTestsConstants.USER_PASSWORD_EXAMPLE, KanpekiTestsConstants.USER_NAME_EXAMPLE,
+				KanpekiTestsConstants.USER_NICKNAME_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, null,
+				KanpekiTestsConstants.USER_CITY_EXAMPLE, null, null, null, null);
 
 		when(uService.findByEmail(anyString())).thenReturn(Optional.of(dummyUser));
 
-		assertEquals(customUserDetailsService.loadUserByUsername("dummy@gmail.com"), dummyUser);
+		assertEquals(customUserDetailsService.loadUserByUsername(KanpekiTestsConstants.USER_EMAIL_EXAMPLE), dummyUser);
 
 	}
 
@@ -44,7 +47,7 @@ class CustomUserDetailsServiceTest {
 	@DisplayName("Test Should Pass When loadUserByUsername is Given Incorrect Username Throws UsernameNotFoundException")
 	void whenCallingLoadUserByUsername_givenIncorrectUsername_thenThrowUsernameNotFoundException() throws Exception {
 
-		String username = "incorrect@email.es";
+		String username = KanpekiTestsConstants.USER_EMAIL_EXAMPLE;
 
 		when(uService.findByEmail(username)).thenReturn(Optional.ofNullable(null));
 
