@@ -3,6 +3,7 @@ package com.dam.kanpeki.service.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -115,12 +116,19 @@ public class ResultServiceImpl implements ResultServiceI {
 
 	@Override
 	public List<ResponseResultDTO> findResultsUser(Long userId) {
-		return mapper.toResultDTOList(rRepo.findResultsUser(userId).stream());
+		// Limitamos a los 20 últimos resultados
+		return mapper.toResultDTOList(rRepo.findResultsUser(userId).stream()).stream()
+				.limit(KanpekiConstants.USER_RESULTS_PER_REQUEST_LIMIT).collect(Collectors.toList());
 	}
 
 	@Override
 	public void deleteResultsByUserId(Long id) {
 		rRepo.deleteResultsByUserId(id);
+	}
+
+	@Override
+	public List<ResultPerCategoryData> findResultsUserPerCategory(Long userId) {
+		return rRepo.findResultsUserPerCategory(userId);
 	}
 
 }

@@ -101,6 +101,27 @@ public class ResultController {
 		}
 	}
 
+	@ApiOperation(value = "getResultsByUserCustomData", notes = "Get custom data results from a user ID ")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseResultDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 400, message = KanpekiConstants.CONTROLLER_MSG_400),
+			@ApiResponse(code = 401, message = KanpekiConstants.CONTROLLER_MSG_401),
+			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
+			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
+			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
+	@RequestMapping(value = "/result/user/custom", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<List<ResultPerCategoryData>> getResultsByUserCustomData(
+			@RequestParam(name = "id") @ApiParam(name = "id", value = "User id", example = "1") Long id) {
+
+		List<ResultPerCategoryData> rList = rService.findResultsUserPerCategory(id);
+
+		if (rList.isEmpty()) {
+			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
+		} else {
+			return ResponseEntity.ok(rList);
+		}
+	}
+
 	@ApiOperation(value = "addNewResult", notes = "Create a new result")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = KanpekiConstants.CONTROLLER_MSG_200, response = ResponseResultDTO.class),

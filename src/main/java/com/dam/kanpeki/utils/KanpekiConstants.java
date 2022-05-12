@@ -368,6 +368,10 @@ public class KanpekiConstants {
 
 	public static final int MIN_ROLES_VALUE = 1;
 
+	public static final int QUESTIONS_PER_TEST_LIMIT = 10;
+
+	public static final int USER_RESULTS_PER_REQUEST_LIMIT = 20;
+
 	/**
 	 * Security
 	 */

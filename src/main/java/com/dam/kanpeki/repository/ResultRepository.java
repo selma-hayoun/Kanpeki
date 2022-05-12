@@ -20,8 +20,12 @@ public interface ResultRepository extends JpaRepository<Result, ResultId> {
 
 //	List<Result> findByCategoryId(Long id);
 
-	@Query(value = "SELECT * FROM results r WHERE r.user_id = :userId", nativeQuery = true)
+	@Query(value = "SELECT * FROM results r WHERE r.user_id = :userId ORDER BY r.result_date DESC", nativeQuery = true)
 	List<Result> findResultsUser(Long userId);
+
+	@Query("SELECT new com.dam.kanpeki.model.custom.ResultPerCategoryData(r.categoryId, COUNT(*), AVG(r.score)) "
+			+ "FROM Result AS r WHERE r.id.userId = :userId GROUP BY r.categoryId")
+	List<ResultPerCategoryData> findResultsUserPerCategory(Long userId);
 
 	@Query("SELECT new com.dam.kanpeki.model.custom.ResultPerCategoryData(r.categoryId, COUNT(r), AVG(r.score)) "
 			+ "FROM Result AS r GROUP BY r.categoryId")

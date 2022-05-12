@@ -146,7 +146,9 @@ public class QuestionAnswerController {
 		if (qList.isEmpty()) {
 			throw new DataNotFoundException(KanpekiConstants.DATA_NOT_FOUND_EX_QUESTIONS_BY_CATEGORY);
 		} else {
-			return ResponseEntity.ok(qList.stream().limit(10).collect(Collectors.toList()));// Limita a 10 preguntas
+			// Limita a 10 preguntas, se hace aquí para realizarlo tras el shuffle
+			return ResponseEntity
+					.ok(qList.stream().limit(KanpekiConstants.QUESTIONS_PER_TEST_LIMIT).collect(Collectors.toList()));
 		}
 	}
 

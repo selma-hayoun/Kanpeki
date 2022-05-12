@@ -3,6 +3,7 @@ package com.dam.kanpeki.service.impl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 import java.text.SimpleDateFormat;
@@ -253,6 +254,26 @@ class ResultServiceTest {
 		when(mapper.toResultDTOList(any())).thenReturn(listResultDummyResponse);
 
 		assertEquals(resultService.findResultsUser(KanpekiTestsConstants.ID_ALT), listResultDummyResponse);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	@DisplayName("Test Should Pass When findResultsUserPerCategory Given Correct User Id Returns Correct List of Objects")
+	void whenCallingFindResultsUserPerCategory_givenCorrectUserId_thenShouldReturnCorrectListOfObjects()
+			throws Exception {
+		ResultPerCategoryData dummyR = new ResultPerCategoryData();
+		List<ResultPerCategoryData> listCustomResultDummyRepo = new ArrayList<>();
+		listCustomResultDummyRepo = (List<ResultPerCategoryData>) kanpekiDummyDataUtil.getJsonDummyDataResult(
+				"getCustomResultsRepository.json", Optional.of(listCustomResultDummyRepo), Optional.of(dummyR)).get();
+
+		when(rRepo.findResultsUserPerCategory(anyLong())).thenReturn(listCustomResultDummyRepo);
+
+		listCustomResultDummyResponse = new ArrayList<>();
+		listCustomResultDummyResponse = (List<ResultPerCategoryData>) kanpekiDummyDataUtil.getJsonDummyDataResult(
+				"getCustomResultsResponse.json", Optional.of(listCustomResultDummyResponse), Optional.of(dummyR)).get();
+
+		assertEquals(resultService.findResultsUserPerCategory(KanpekiTestsConstants.ID_ALT),
+				listCustomResultDummyResponse);
 	}
 
 }
