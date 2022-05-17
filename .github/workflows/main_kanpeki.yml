@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'Kanpeki'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_34F8C8AD3AF24D89BE03F767BA099A2A }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A803BD0CBC4145BEA77D85FE05488E9B }}
           package: '*.jar'
