@@ -289,10 +289,10 @@ INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(134,
 INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(135, 'に', '', 0, 34);
 INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(136, 'が', '', 0, 34);
 /*Question 35*/
-INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(133, 'もう', '', 0, 35);
-INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(134, 'だけ', '', 0, 35);
-INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(135, 'まだ', '', 1, 35);
-INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(136, 'まで', '', 0, 35);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(137, 'もう', '', 0, 35);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(138, 'だけ', '', 0, 35);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(139, 'まだ', '', 1, 35);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(140, 'まで', '', 0, 35);
 
 /*Table Users*/
 /*ADMIN - C4c4hu3t3!! */
@@ -360,7 +360,7 @@ INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-20
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-10', 4, 4, 1);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-12', 4, 6, 2);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-15', 4, 2, 4);
-INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-15', 4, 7, 3);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-24', 4, 7, 3);
 
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-15', 4, 6, 10);
 
