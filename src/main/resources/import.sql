@@ -39,16 +39,6 @@ INSERT INTO categories(id, unit_name, category_name, is_question) VALUES(7, 'Les
 INSERT INTO categories(id, unit_name, category_name, is_question) VALUES(8, 'Lesson 1', 'Numbers', 0);
 
 /*Table words*/
-/*
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(1, '家ぞく', 'かぞく', 'family', 'familia', 'family.jpg', 1);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(2, 'りょうしん', 'りょうしん', 'parents', 'padres', 'parents.jpg', 1);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(3, '父', 'ちち', 'my dad', 'mi papá', 'father.png', 1);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(4, '母', 'はは', 'my mom', 'mi mamá', 'mother.jpg', 1);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(5, '姉', 'あね', 'my older sister', 'mi hermana mayor', 'older_sister.jpg', 1);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(6, '妹', 'いもうと', 'my younger sister', 'mi hermana menor', 'young_sister.png', 1);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(7, '弟', 'おとうと', 'my younger brother', 'mi hermano menor', 'young_brother.png', 1);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(8, '兄', 'あに', 'my older brother', 'mi hermano mayor', 'older_brother.jpg', 1);
-*/
 INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(1, '家ぞく', 'かぞく', 'family', 'familia', '', 1);
 INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(2, 'りょうしん', 'りょうしん', 'parents', 'padres', '', 1);
 INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(3, '父', 'ちち', 'my dad', 'mi papá', '', 1);
@@ -74,19 +64,6 @@ INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_
 INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(21, '金曜日', 'きんようび', 'friday', 'viernes', '', 5);
 INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(22, '土曜日', 'どようび', 'saturday', 'sábado', '', 5);
 
-/*
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(23, '一', 'いち', 'one', 'uno', 'one.png', 8);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(24, '二', 'に', 'two', 'dos', 'two.jpg', 8);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(25, '三', 'さん', 'three', 'tres', 'three.jpg', 8);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(26, '四', 'し / よん', 'four', 'cuatro', 'four.png', 8);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(27, '五', 'ご', 'five', 'cinco', 'five.jpg', 8);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(28, '六', 'ろく', 'six', 'seis', 'six.jpg', 8);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(29, '七', 'なな / しち', 'seven', 'siete', 'seven.png', 8);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(30, '八', 'はち', 'eight', 'ocho', 'eight.jpg', 8);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(31, '九', 'きゅう / く', 'nine', 'nueve', 'nine.jpg', 8);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(32, '十', 'じゅう', 'ten', 'diez', 'ten.jpg', 8);
-INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(33, 'れい', 'ゼロ', 'zero', 'cero', '', 8);
-*/
 INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(23, '一', 'いち', 'one', 'uno', '', 8);
 INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(24, '二', 'に', 'two', 'dos', '', 8);
 INSERT INTO words(id, japanese, furigana, english, spanish, url_image, category_id) VALUES(25, '三', 'さん', 'three', 'tres', '', 8);
