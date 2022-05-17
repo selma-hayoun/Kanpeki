@@ -91,7 +91,8 @@ INSERT INTO questions(id, statement, help, category_id) VALUES(26, 'あれはな
 INSERT INTO questions(id, statement, help, category_id) VALUES(5, 'A 「毎日いえで （     ） べんきょうしますか。」 B 「わたちは いえでは べんきょうしません。」', '', 4);
 INSERT INTO questions(id, statement, help, category_id) VALUES(6, 'A 「このかんじの いみを 教えてください。」 B 「（      ） かんじですか？。」', '', 4);
 INSERT INTO questions(id, statement, help, category_id) VALUES(7, '昨日、ノート _____  _____  __＊__  _____を 2こ 買いました。', 'きのう、ノート _____  _____  __＊__  _____を にこ かいました。', 4);
-
+INSERT INTO questions(id, statement, help, category_id) VALUES(34, 'まいにちしんぶん　_______ 読みます。', 'まいにちしんぶん　_______ よみます。', 4);
+INSERT INTO questions(id, statement, help, category_id) VALUES(35, '田中さんは　_______ 来ていませんよ。', 'たなかさんは　_______ きていませんよ。', 4);
 
 INSERT INTO questions(id, statement, help, category_id) VALUES(8, '私の 前の アパートは （      ）せまかったです。', 'わたしの まえの アパートは （      ）せまかったです。', 7);
 INSERT INTO questions(id, statement, help, category_id) VALUES(9, 'トム 「りんさんは いつ しゅくだいを しますか。」 りん 「あさ、 します。 おきて、 あさごはんを （      ）から します。」', '', 7);
@@ -282,6 +283,16 @@ INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(129,
 INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(130, '何', '', 1, 26);
 INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(131, '伺', '', 0, 26);
 INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(132, '同', '', 0, 26);
+/*Question 34*/
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(133, 'へ', '', 0, 34);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(134, 'を', '', 1, 34);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(135, 'に', '', 0, 34);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(136, 'が', '', 0, 34);
+/*Question 35*/
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(133, 'もう', '', 0, 35);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(134, 'だけ', '', 0, 35);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(135, 'まだ', '', 1, 35);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(136, 'まで', '', 0, 35);
 
 /*Table Users*/
 /*ADMIN - C4c4hu3t3!! */
@@ -310,30 +321,48 @@ INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-12
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-10', 2, 2, 8);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-11', 2, 4, 5);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-12', 2, 6, 6);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-15', 2, 7, 8);
 
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-10', 2, 2, 10);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-11', 2, 4, 5);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-12', 2, 6, 5);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-15', 2, 7, 6);
+
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-04-05', 2, 2, 9);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-04-06', 2, 4, 7);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-04-10', 2, 6, 6);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-04-11', 2, 7, 8);
 /*User 3*/
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-10', 3, 2, 3);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-11', 3, 4, 2);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-15', 3, 7, 4);
 
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-10', 3, 6, 5);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-12', 3, 2, 6);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-13', 3, 4, 6);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-16', 3, 6, 7);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-20', 3, 7, 5);
 
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-15', 3, 4, 8);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-16', 3, 6, 8);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-20', 3, 7, 9);
+
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-04-05', 3, 4, 10);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-04-08', 3, 6, 9);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-04-09', 3, 7, 7);
 /*User 4*/
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-15', 4, 2, 10);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-16', 4, 4, 9);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-18', 4, 6, 8);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-19', 4, 2, 10);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-01-20', 4, 7, 8);
 
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-10', 4, 4, 1);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-12', 4, 6, 2);
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-15', 4, 2, 4);
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-02-15', 4, 7, 3);
 
 INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-03-15', 4, 6, 10);
+
+INSERT INTO results(result_date, user_id, category_id, score) VALUES('2022-04-15', 4, 7, 7);
 

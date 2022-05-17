@@ -30,7 +30,8 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
 				.hasAnyRole(KanpekiConstants.SENSEI_ROLE, KanpekiConstants.GAKUSEI_ROLE)
 				.antMatchers(HttpMethod.POST, KanpekiConstants.CATEGORY_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
 				.antMatchers(HttpMethod.POST, KanpekiConstants.QUESTION_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
-				.antMatchers(HttpMethod.POST, KanpekiConstants.RESULT_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
+				.antMatchers(HttpMethod.POST, KanpekiConstants.RESULT_MAPPINGS)
+				.hasAnyRole(KanpekiConstants.GAKUSEI_ROLE, KanpekiConstants.SENSEI_ROLE)
 				.antMatchers(HttpMethod.POST, KanpekiConstants.WORD_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
 				.antMatchers(HttpMethod.POST, KanpekiConstants.USER_MAPPINGS).hasRole(KanpekiConstants.SENSEI_ROLE)
 				.antMatchers(HttpMethod.PUT, KanpekiConstants.CATEGORY_MAPPINGS, KanpekiConstants.QUESTION_MAPPINGS,
