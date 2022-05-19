@@ -14,8 +14,6 @@ public interface ResultServiceI {
 
 	public List<ResponseResultDTO> findAllResults();
 
-//	public List<Result> findByCategoryId(Long id);
-
 	public List<ResponseResultDTO> findResultsUser(Long userId);
 
 	public List<ResultPerCategoryData> findResultsUserPerCategory(Long userId);

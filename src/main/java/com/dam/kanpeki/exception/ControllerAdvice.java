@@ -63,6 +63,18 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	}
 
 	/**
+	 * Excepción cuando se persiste una pregunta con más de una respuesta correcta
+	 *
+	 */
+	@ExceptionHandler(QuestionOnlyOneCorrectAnswerException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ApiError> handleQuestionOnlyOneCorrectAnswerException(
+			QuestionOnlyOneCorrectAnswerException ex) {
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+	}
+
+	/**
 	 * Excepción la password es insegura (no cumple patrón de seguridad)
 	 *
 	 */

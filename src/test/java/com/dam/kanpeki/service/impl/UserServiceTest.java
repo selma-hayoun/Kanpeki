@@ -144,9 +144,10 @@ class UserServiceTest {
 		assertEquals(userService.findUsersCreatedAtBetweenDates(
 				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(startDate),
 				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(endDate)), listUserDummyResponse);
-		assertEquals(userService.findUsersCreatedAtBetweenDates(
-				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(startDate),
-				new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(endDate)).size(), 1);
+		assertEquals(1,
+				userService.findUsersCreatedAtBetweenDates(
+						new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(startDate),
+						new SimpleDateFormat(KanpekiTestsConstants.DATE_FORMAT).parse(endDate)).size());
 	}
 
 	@SuppressWarnings("unchecked")

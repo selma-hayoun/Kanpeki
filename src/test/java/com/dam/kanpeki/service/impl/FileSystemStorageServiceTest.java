@@ -64,6 +64,11 @@ class FileSystemStorageServiceTest {
 
 		FileInputStream input = new FileInputStream(dummyFile);
 
+		// Problema: la creación del objeto MockMultipartFile puede lanzar otro tipo de
+		// excepción
+		// Según la documentación propia
+		// Se ignora la advertencia de sonar dado que es la única forma de probar esta
+		// excepción
 		assertThrows(IllegalArgumentException.class, () -> {
 			fileSystemStorageService.saveFileRequest(new MockMultipartFile(null, input));
 		});

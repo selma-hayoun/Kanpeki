@@ -12,8 +12,6 @@ public interface QuestionServiceI {
 
 	public List<ResponseQuestionDTO> findByCategoryId(Long id);
 
-//	public List<Question> findByStatementContaining(String qSate);
-
 	public List<ResponseQuestionDTO> findQuestionsByMatcher(String qField);
 
 	public Optional<ResponseQuestionDTO> findById(Long id);

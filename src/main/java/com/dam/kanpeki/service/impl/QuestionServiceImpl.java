@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.exception.InvalidFKReferencesException;
+import com.dam.kanpeki.exception.QuestionOnlyOneCorrectAnswerException;
 import com.dam.kanpeki.model.Question;
+import com.dam.kanpeki.model.dto.AnswerDTO;
 import com.dam.kanpeki.model.dto.RequestQuestionDTO;
 import com.dam.kanpeki.model.dto.ResponseQuestionDTO;
 import com.dam.kanpeki.model.dto.mapper.QuestionAnswerDTOMapperStruct;
@@ -42,11 +44,6 @@ public class QuestionServiceImpl implements QuestionServiceI {
 		return mapper.toQuestionDTOList(qRepo.findByCategoryId(id).stream());
 	}
 
-//	@Override
-//	public List<Question> findByStatementContaining(String qSate) {
-//		return qRepo.findByStatementContaining(qSate);
-//	}
-
 	@Override
 	public Optional<ResponseQuestionDTO> findById(Long id) {
 		Optional<Question> opQuestion = qRepo.findById(id);
@@ -59,6 +56,10 @@ public class QuestionServiceImpl implements QuestionServiceI {
 
 	@Override
 	public ResponseQuestionDTO addQuestion(RequestQuestionDTO q) {
+		// Verificamos que solamente tiene asignada una respuesta como correcta
+		if (q.getAnswers().stream().filter(a -> a.getIsCorrect()).toList().size() > 1) {
+			throw new QuestionOnlyOneCorrectAnswerException();
+		}
 		// Verificamos si la categoría existe
 		try {
 			catService.findById(q.getCategoryId());
@@ -76,6 +77,10 @@ public class QuestionServiceImpl implements QuestionServiceI {
 
 	@Override
 	public ResponseQuestionDTO updateQuestion(RequestQuestionDTO q, Long id) {
+		// Verificamos que solamente tiene asignada una respuesta como correcta
+		if (q.getAnswers().stream().filter(AnswerDTO::getIsCorrect).toList().size() > 1) {
+			throw new QuestionOnlyOneCorrectAnswerException();
+		}
 
 		// Verificamos si la categoría existe
 		try {

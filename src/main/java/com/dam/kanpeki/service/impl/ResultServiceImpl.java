@@ -15,6 +15,7 @@ import com.dam.kanpeki.model.Result;
 import com.dam.kanpeki.model.ResultId;
 import com.dam.kanpeki.model.custom.ResultPerCategoryData;
 import com.dam.kanpeki.model.dto.RequestResultDTO;
+import com.dam.kanpeki.model.dto.ResponseCategoryDTO;
 import com.dam.kanpeki.model.dto.ResponseResultDTO;
 import com.dam.kanpeki.model.dto.mapper.ResultDTOMapperStruct;
 import com.dam.kanpeki.repository.ResultRepository;
@@ -39,11 +40,6 @@ public class ResultServiceImpl implements ResultServiceI {
 		return mapper.toResultDTOList(rRepo.findAll().stream());
 	}
 
-//	@Override
-//	public List<Result> findByCategoryId(Long id) {
-//		return rRepo.findByCategoryId(id);
-//	}
-
 	@Override
 	public List<ResultPerCategoryData> resultsPerCategory() {
 		return rRepo.resultsPerCategory();
@@ -56,11 +52,18 @@ public class ResultServiceImpl implements ResultServiceI {
 
 	@Override
 	public ResponseResultDTO addResult(RequestResultDTO r) {
+		ResponseCategoryDTO cat = null;
 		// Verificamos si el id de usuario y de categoría existen con los try-catch
 		try {
-			catService.findById(r.getCategoryId());
+			cat = catService.findById(r.getCategoryId()).get();
 		} catch (DataNotFoundException ex) {
 			throw new InvalidFKReferencesException(KanpekiConstants.INVALID_REFERENCES_RESULT_EX_CATEGORY_ID);
+		}
+
+		// Verficamos que sea una categoría de preguntas
+		if (Boolean.FALSE.equals(cat.getIsQuestion())) {
+			throw new InvalidFKReferencesException(
+					KanpekiConstants.INVALID_REFERENCES_RESULT_EX_CATEGORY_NOT_IS_QUESTION);
 		}
 
 		try {
@@ -86,14 +89,20 @@ public class ResultServiceImpl implements ResultServiceI {
 
 	@Override
 	public void updateResult(Result r) {
+		ResponseCategoryDTO cat = null;
 		// Verificamos si el id de usuario y de categoría existen
-
 		try {
-			catService.findById(r.getCategoryId());
+			cat = catService.findById(r.getCategoryId()).get();
 		} catch (DataNotFoundException ex) {
 			// Así tomamos el DataNotFoundException del findById de categoría y lo
 			// transformamos en nuestra excepción personalizada
 			throw new InvalidFKReferencesException(KanpekiConstants.INVALID_REFERENCES_RESULT_EX_CATEGORY_ID);
+		}
+
+		// Verficamos que sea una categoría de preguntas
+		if (Boolean.FALSE.equals(cat.getIsQuestion())) {
+			throw new InvalidFKReferencesException(
+					KanpekiConstants.INVALID_REFERENCES_RESULT_EX_CATEGORY_NOT_IS_QUESTION);
 		}
 
 		try {

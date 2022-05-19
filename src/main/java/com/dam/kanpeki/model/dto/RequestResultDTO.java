@@ -31,7 +31,7 @@ public class RequestResultDTO implements Serializable {
 	@Max(KanpekiConstants.MAX_AGE_VALUE)
 	private double score;
 
-	@ApiModelProperty(notes = KanpekiConstants.API_CATEGORY_ID_NOTES, example = KanpekiConstants.API_ID_EXAMPLE, required = true)
+	@ApiModelProperty(notes = KanpekiConstants.API_CATEGORY_ID_NOTES, example = KanpekiConstants.API_ID_ALT_EXAMPLE, required = true)
 	@NotNull(message = KanpekiConstants.CATEGORY_ID_NOT_NULL_MSG)
 	private Long categoryId;
 

@@ -7,8 +7,10 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +19,9 @@ import org.mockito.Mockito;
 
 import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.exception.InvalidFKReferencesException;
+import com.dam.kanpeki.exception.QuestionOnlyOneCorrectAnswerException;
 import com.dam.kanpeki.model.Question;
+import com.dam.kanpeki.model.dto.AnswerDTO;
 import com.dam.kanpeki.model.dto.RequestQuestionDTO;
 import com.dam.kanpeki.model.dto.ResponseCategoryDTO;
 import com.dam.kanpeki.model.dto.ResponseQuestionDTO;
@@ -124,9 +128,20 @@ class QuestionServiceTest {
 	@Test
 	@DisplayName("Test Should Pass When addQuestion is Given Correct RequestQuestionDTO Returns Correct Object")
 	void whenCallingAddQuestion_givenCorrectRequestQuestionDTO_thenShouldReturnCorrectObject() throws Exception {
+		Set<AnswerDTO> answers = new HashSet<>();
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_JAPANESE_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, true));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_ENGLISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_SPANISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_FURIGANA_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+
 		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO(
 				KanpekiTestsConstants.QUESTION_STATEMENT_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING,
-				KanpekiTestsConstants.ID_ALT, null);
+				KanpekiTestsConstants.ID_ALT, answers);
+
 		Question dummyQ1 = new Question();
 		dummyQ1.setStatement(dummyRequestQuestionDTO.getStatement());
 		dummyQ1.setHelp(dummyRequestQuestionDTO.getHelp());
@@ -157,9 +172,19 @@ class QuestionServiceTest {
 	@DisplayName("Test Should Pass When addQuestion is Given Incorrect RequestQuestionDTO Throws InvalidFKReferencesException")
 	void whenCallingAddQuestion_givenIncorrectRequestQuestionDTO_thenThrowInvalidFKReferencesException()
 			throws Exception {
+		Set<AnswerDTO> answers = new HashSet<>();
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_JAPANESE_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, true));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_ENGLISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_SPANISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_FURIGANA_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+
 		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO(
 				KanpekiTestsConstants.QUESTION_STATEMENT_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING,
-				KanpekiTestsConstants.ID_ALT, null);
+				KanpekiTestsConstants.ID_ALT, answers);
 		when(catService.findById(dummyRequestQuestionDTO.getCategoryId())).thenThrow(DataNotFoundException.class);
 
 		assertThrows(InvalidFKReferencesException.class, () -> {
@@ -168,12 +193,46 @@ class QuestionServiceTest {
 	}
 
 	@Test
+	@DisplayName("Test Should Pass When addQuestion is Given Incorrect RequestQuestionDTO Throws QuestionOnlyOneCorrectAnswerException")
+	void whenCallingAddQuestion_givenIncorrectRequestQuestionDTO_thenThrowQuestionOnlyOneCorrectAnswerException()
+			throws Exception {
+		Set<AnswerDTO> answers = new HashSet<>();
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_JAPANESE_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, true));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_ENGLISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, true));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_SPANISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_FURIGANA_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+
+		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO(
+				KanpekiTestsConstants.QUESTION_STATEMENT_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING,
+				KanpekiTestsConstants.ID_ALT, answers);
+
+		assertThrows(QuestionOnlyOneCorrectAnswerException.class, () -> {
+			questionService.addQuestion(dummyRequestQuestionDTO);
+		});
+	}
+
+	@Test
 	@DisplayName("Test Should Pass When updateQuestion is Given Correct RequestQuestionDTO and ID Returns Correct Object")
 	void whenCallingUpdateQuestion_givenCorrectRequestQuestionDTOAndId_thenShouldReturnCorrectObject()
 			throws Exception {
+		Set<AnswerDTO> answers = new HashSet<>();
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_JAPANESE_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, true));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_ENGLISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_SPANISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_FURIGANA_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+
 		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO(
 				KanpekiTestsConstants.QUESTION_STATEMENT_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING,
-				KanpekiTestsConstants.ID_ALT, null);
+				KanpekiTestsConstants.ID_ALT, answers);
+
 		Question dummyQ1 = new Question();
 		dummyQ1.setStatement(dummyRequestQuestionDTO.getStatement());
 		dummyQ1.setHelp(dummyRequestQuestionDTO.getHelp());
@@ -205,12 +264,45 @@ class QuestionServiceTest {
 	@DisplayName("Test Should Pass When updateQuestion is Given Incorrect RequestQuestionDTO Throws InvalidFKReferencesException")
 	void whenCallingUpdateQuestion_givenIncorrectRequestQuestionDTO_thenThrowInvalidFKReferencesException()
 			throws Exception {
+		Set<AnswerDTO> answers = new HashSet<>();
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_JAPANESE_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, true));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_ENGLISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_SPANISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_FURIGANA_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+
 		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO(
 				KanpekiTestsConstants.QUESTION_STATEMENT_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING,
-				KanpekiTestsConstants.ID_ALT, null);
+				KanpekiTestsConstants.ID_ALT, answers);
 		when(catService.findById(dummyRequestQuestionDTO.getCategoryId())).thenThrow(DataNotFoundException.class);
 
 		assertThrows(InvalidFKReferencesException.class, () -> {
+			questionService.updateQuestion(dummyRequestQuestionDTO, KanpekiTestsConstants.ID);
+		});
+	}
+
+	@Test
+	@DisplayName("Test Should Pass When updateQuestion is Given Incorrect RequestQuestionDTO Throws QuestionOnlyOneCorrectAnswerException")
+	void whenCallingUpdateQuestion_givenIncorrectRequestQuestionDTO_thenThrowQuestionOnlyOneCorrectAnswerException()
+			throws Exception {
+		Set<AnswerDTO> answers = new HashSet<>();
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_JAPANESE_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, true));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_ENGLISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, true));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_SPANISH_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+		answers.add(
+				new AnswerDTO(KanpekiTestsConstants.WORD_FURIGANA_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING, false));
+
+		RequestQuestionDTO dummyRequestQuestionDTO = new RequestQuestionDTO(
+				KanpekiTestsConstants.QUESTION_STATEMENT_EXAMPLE, KanpekiTestsConstants.EMPTY_STRING,
+				KanpekiTestsConstants.ID_ALT, answers);
+
+		assertThrows(QuestionOnlyOneCorrectAnswerException.class, () -> {
 			questionService.updateQuestion(dummyRequestQuestionDTO, KanpekiTestsConstants.ID);
 		});
 	}

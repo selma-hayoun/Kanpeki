@@ -91,13 +91,15 @@ public class KanpekiConstants {
 
 	public static final String API_ID_EXAMPLE = "1";
 
+	public static final String API_ID_ALT_EXAMPLE = "2";
+
 	public static final String API_QUESTION_STATEMENT_NOTES = "Question statement";
 
-	public static final String API_QUESTION_STATEMENT_EXAMPLE = "友だちはしんせつですが、いつも　_______ です。";
+	public static final String API_QUESTION_STATEMENT_EXAMPLE = "友だちはしんせつですが、いつも　         です。";
 
 	public static final String API_QUESTION_HELP_NOTES = "Furigana version if necessary";
 
-	public static final String API_QUESTION_HELP_EXAMPLE = "ともだちはしんせつですが、いつも　_______ です。";
+	public static final String API_QUESTION_HELP_EXAMPLE = "ともだちはしんせつですが、いつも　         です。";
 
 	public static final String API_QUESTION_ANWERS_NOTES = "Answers to the question";
 
@@ -284,6 +286,10 @@ public class KanpekiConstants {
 
 	public static final String INVALID_REFERENCES_RESULT_EX_CATEGORY_ID = "Category id provided does not exist";
 
+	public static final String INVALID_REFERENCES_RESULT_EX_CATEGORY_NOT_IS_QUESTION = "Category id provided is not a questions category";
+
+	public static final String QUESTION_ONE_CORRECT_ANSWER_EX_STRING = "A question only can have one correct answer";
+
 	/**
 	 * Exceptions messages: data validation
 	 */
@@ -313,7 +319,7 @@ public class KanpekiConstants {
 
 	public static final String CATEGORY_ID_NOT_NULL_MSG = "CategoryId may not be null";
 
-	public static final String QUESTION_ANSWERS_SIZE_MSG = "Must be four different options mandatory";
+	public static final String QUESTION_ANSWERS_SIZE_MSG = "Must be four different options mandatory. Also review that the answers are different between them";
 
 	public static final String USER_ID_NOT_NULL_MSG = "userId may not be null";
 

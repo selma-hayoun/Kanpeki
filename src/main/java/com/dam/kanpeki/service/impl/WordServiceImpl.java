@@ -131,14 +131,6 @@ public class WordServiceImpl implements WordServiceI {
 
 			mappedW.setUrlImage(storeService.saveFileRequest(file));// Seteamos la URL de la img suministrada
 
-//			// Revisamos si la palabra tenía o no img y si la suministrada es vacía, para
-//			// mantener la anterior TO-DO
-//			Optional<Word> wOriginal = wRepo.findById(id);
-//
-//			if (wOriginal.isPresent() && !wOriginal.get().getUrlImage().isEmpty() && mappedW.getUrlImage().isEmpty()) {
-//				mappedW.setUrlImage(wOriginal.get().getUrlImage());
-//			}
-
 			Word mappedWUpdated = wRepo.findById(id).map(newW -> {
 				newW.setJapanese(mappedW.getJapanese());
 				newW.setEnglish(mappedW.getEnglish());

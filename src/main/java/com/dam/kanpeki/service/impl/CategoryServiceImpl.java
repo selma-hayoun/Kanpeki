@@ -35,16 +35,6 @@ public class CategoryServiceImpl implements CategoryServiceI {
 		return mapper.toCategoryDTOList(catList.stream());
 	}
 
-//	@Override
-//	public List<Category> findByIsQuestionTrue() {
-//		return catRepo.findByIsQuestionTrue();
-//	}
-//
-//	@Override
-//	public List<Category> findByIsQuestionFalse() {
-//		return catRepo.findByIsQuestionFalse();
-//	}
-
 	@Override
 	public List<ResponseCategoryDTO> findCategoriesByMatcher(String wField) {
 		Category cat = new Category();

@@ -10,10 +10,6 @@ public interface CategoryServiceI {
 
 	public List<ResponseCategoryDTO> findAllCategories();
 
-//	public List<Category> findByIsQuestionTrue();
-//
-//	public List<Category> findByIsQuestionFalse();
-
 	public List<ResponseCategoryDTO> findCategoriesByMatcher(String wField);
 
 	public Optional<ResponseCategoryDTO> findById(Long id);

@@ -48,11 +48,6 @@ public class UserServiceImpl implements UserServiceI {
 	@Autowired
 	protected PasswordEncoder passEncoder;
 
-//	@Override
-//	public List<User> findAllUsers() {
-//		return uRepo.findAll();
-//	}
-
 	@Override
 	public List<ResponseUserDTO> findUsersOrderByDate() {
 
@@ -68,11 +63,6 @@ public class UserServiceImpl implements UserServiceI {
 	public List<ResponseUserDTO> findUsersBirthdayBetweenDates(Date startDate, Date endDate) {
 		return mapper.toUserDTOList(uRepo.findUsersBirthdayBetweenDates(startDate, endDate).stream());
 	}
-
-//	@Override
-//	public List<User> findByCity(String city) {
-//		return uRepo.findByCity(city);
-//	}
 
 	@Override
 	public List<ResponseUserDTO> findUsersByMatcher(String uField) {
