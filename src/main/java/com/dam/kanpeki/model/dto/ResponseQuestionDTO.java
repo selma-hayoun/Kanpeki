@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.dam.kanpeki.utils.KanpekiConstants;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,11 +30,11 @@ public class ResponseQuestionDTO implements Serializable {
 
 	@ApiModelProperty(notes = KanpekiConstants.API_QUESTION_STATEMENT_NOTES, example = KanpekiConstants.API_QUESTION_STATEMENT_EXAMPLE, required = true)
 	@NotBlank()
-	@Size(max = 40)
+	@Size(max = 250)
 	private String statement;
 
 	@ApiModelProperty(notes = KanpekiConstants.API_QUESTION_HELP_NOTES, example = KanpekiConstants.API_QUESTION_HELP_EXAMPLE)
-	@Size(max = 40)
+	@Size(max = 250)
 	private String help;
 
 	@ApiModelProperty(notes = KanpekiConstants.API_CATEGORY_ID_NOTES, example = KanpekiConstants.API_ID_EXAMPLE, required = true)

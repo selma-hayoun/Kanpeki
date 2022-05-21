@@ -295,9 +295,9 @@ public class KanpekiConstants {
 	 */
 	public static final String ANSWER_RESPONSE_NOT_BLANK_MSG = "Response may not be null or empty";
 
-	public static final String ANSWER_RESPONSE_SIZE_MSG = "Response must be between 1 and 40 characters long";
+	public static final String ANSWER_RESPONSE_SIZE_MSG = "Response must be between 1 and 250 characters long";
 
-	public static final String ANSWER_FURIGANA_SIZE_MSG = "Furigana help must be less than 40 characters long";
+	public static final String ANSWER_FURIGANA_SIZE_MSG = "Furigana help must be less than 250 characters long";
 
 	public static final String ANSWER_ISCORRECT_NOT_NULL_MSG = "IsCorrect may not be null";
 
@@ -313,9 +313,9 @@ public class KanpekiConstants {
 
 	public static final String QUESTION_STATEMENT_NOT_BLANK_MSG = "Statement may not be null or empty";
 
-	public static final String QUESTION_STATEMENT_SIZE_MSG = "Statement must be between 1 and 40 characters long";
+	public static final String QUESTION_STATEMENT_SIZE_MSG = "Statement must be between 1 and 250 characters long";
 
-	public static final String QUESTION_HELP_SIZE_MSG = "Furigana must be between 1 and 40 characters long";
+	public static final String QUESTION_HELP_SIZE_MSG = "Furigana must be between 1 and 250 characters long";
 
 	public static final String CATEGORY_ID_NOT_NULL_MSG = "CategoryId may not be null";
 

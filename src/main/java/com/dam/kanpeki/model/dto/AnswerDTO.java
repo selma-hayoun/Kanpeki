@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.dam.kanpeki.utils.KanpekiConstants;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,11 +24,11 @@ public class AnswerDTO implements Serializable {
 
 	@ApiModelProperty(notes = KanpekiConstants.API_ANSWER_RESPONSE_NOTES, example = KanpekiConstants.API_ANSWER_RESPONSE_EXAMPLE, required = true)
 	@NotBlank(message = KanpekiConstants.ANSWER_RESPONSE_NOT_BLANK_MSG)
-	@Size(max = 40, message = KanpekiConstants.ANSWER_RESPONSE_SIZE_MSG)
+	@Size(max = 250, message = KanpekiConstants.ANSWER_RESPONSE_SIZE_MSG)
 	private String response;
 
 	@ApiModelProperty(notes = KanpekiConstants.API_ANSWER_FURIGANA_NOTES, example = KanpekiConstants.API_ANSWER_FURIGANA_EXAMPLE)
-	@Size(max = 40, message = KanpekiConstants.ANSWER_FURIGANA_SIZE_MSG)
+	@Size(max = 250, message = KanpekiConstants.ANSWER_FURIGANA_SIZE_MSG)
 	private String furigana;
 
 	@ApiModelProperty(notes = KanpekiConstants.API_ANSWER_ISCORRECT_NOTES, example = KanpekiConstants.API_BOOLEAN_PROPERTY_EXAMPLE, required = true)

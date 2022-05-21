@@ -1,9 +1,10 @@
 package com.dam.kanpeki.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dam.kanpeki.exception.DataNotFoundException;
+import com.dam.kanpeki.model.dto.AnswerDTO;
 import com.dam.kanpeki.model.dto.RequestQuestionDTO;
 import com.dam.kanpeki.model.dto.ResponseQuestionDTO;
 import com.dam.kanpeki.service.QuestionServiceI;
@@ -141,14 +143,22 @@ public class QuestionAnswerController {
 	public ResponseEntity<List<ResponseQuestionDTO>> getShuffledQuestionsByCategory(
 			@RequestParam(name = "categoryId") @ApiParam(name = "categoryId", value = "Category id", example = "1") Long id) {
 		List<ResponseQuestionDTO> qList = qService.findByCategoryId(id);
-		Collections.shuffle(qList);
 
 		if (qList.isEmpty()) {
 			throw new DataNotFoundException(KanpekiConstants.DATA_NOT_FOUND_EX_QUESTIONS_BY_CATEGORY);
 		} else {
-			// Limita a 10 preguntas, se hace aquí para realizarlo tras el shuffle
-			return ResponseEntity
-					.ok(qList.stream().limit(KanpekiConstants.QUESTIONS_PER_TEST_LIMIT).collect(Collectors.toList()));
+			// Barajamos los datos
+			Collections.shuffle(qList);
+			// Se limitan al número establecido máximo en el test
+			List<ResponseQuestionDTO> qListLimited = qList.stream().limit(KanpekiConstants.QUESTIONS_PER_TEST_LIMIT)
+					.toList();
+			// Barajamos las respuestas
+			for (ResponseQuestionDTO q : qListLimited) {
+				List<AnswerDTO> shuffleList = new ArrayList<>(q.getAnswers());
+				Collections.shuffle(shuffleList);
+				q.setAnswers(new LinkedHashSet<>(shuffleList));
+			}
+			return ResponseEntity.ok(qListLimited);
 		}
 	}
 
