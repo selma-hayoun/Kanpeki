@@ -55,7 +55,8 @@ public class ResultServiceImpl implements ResultServiceI {
 		ResponseCategoryDTO cat = null;
 		// Verificamos si el id de usuario y de categoría existen con los try-catch
 		try {
-			cat = catService.findById(r.getCategoryId()).get();
+			cat = catService.findById(r.getCategoryId()).orElseThrow(
+					() -> new InvalidFKReferencesException(KanpekiConstants.INVALID_REFERENCES_RESULT_EX_CATEGORY_ID));
 		} catch (DataNotFoundException ex) {
 			throw new InvalidFKReferencesException(KanpekiConstants.INVALID_REFERENCES_RESULT_EX_CATEGORY_ID);
 		}
@@ -92,7 +93,8 @@ public class ResultServiceImpl implements ResultServiceI {
 		ResponseCategoryDTO cat = null;
 		// Verificamos si el id de usuario y de categoría existen
 		try {
-			cat = catService.findById(r.getCategoryId()).get();
+			cat = catService.findById(r.getCategoryId()).orElseThrow(
+					() -> new InvalidFKReferencesException(KanpekiConstants.INVALID_REFERENCES_RESULT_EX_CATEGORY_ID));
 		} catch (DataNotFoundException ex) {
 			// Así tomamos el DataNotFoundException del findById de categoría y lo
 			// transformamos en nuestra excepción personalizada
