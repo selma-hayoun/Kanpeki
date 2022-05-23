@@ -190,12 +190,21 @@ public class UserController {
 
 		if (opUser.isPresent()) {
 
-			if (file != null) {
+			ResponseUserDTO responseUserDTO = uService.updateUser(u, file, id);
+
+			if (responseUserDTO != null && file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
 				storeService.delete(opUser.get().getUrlImage());
 			}
 
-			return ResponseEntity.ok(uService.updateUser(u, file, id));
+			return ResponseEntity.ok(responseUserDTO);
+
+//			if (file != null) {
+//				// Eliminamos la imagen anterior del almacenamiento
+//				storeService.delete(opUser.get().getUrlImage());
+//			}
+//
+//			return ResponseEntity.ok(uService.updateUser(u, file, id));
 
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
@@ -231,14 +240,6 @@ public class UserController {
 			}
 
 			return ResponseEntity.ok(responseUserDTO);
-
-//			if (file != null) {
-//				
-//				// Eliminamos la imagen anterior del almacenamiento
-//				storeService.delete(opUser.get().getUrlImage());
-//			}
-//
-//			return ResponseEntity.ok(uService.updateUser(u, file, id));
 
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);

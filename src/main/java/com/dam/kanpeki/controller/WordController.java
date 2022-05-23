@@ -158,11 +158,22 @@ public class WordController {
 		Optional<ResponseWordDTO> opWord = wService.findById(id);
 
 		if (opWord.isPresent()) {
-			if (file != null) {
+
+			ResponseWordDTO responseWordDTO = wService.updateWord(w, file, id);
+
+			if (responseWordDTO != null && file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
 				storeService.delete(opWord.get().getUrlImage());
 			}
-			return ResponseEntity.ok(wService.updateWord(w, file, id));
+
+			return ResponseEntity.ok(responseWordDTO);
+
+//			if (file != null) {
+//				// Eliminamos la imagen anterior del almacenamiento
+//				storeService.delete(opWord.get().getUrlImage());
+//			}
+//			return ResponseEntity.ok(wService.updateWord(w, file, id));
+
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		}
@@ -189,11 +200,20 @@ public class WordController {
 
 		if (opWord.isPresent()) {
 
-			if (file != null) {
+			ResponseWordDTO responseWordDTO = wService.updateWord(w, file, id);
+
+			if (responseWordDTO != null && file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
 				storeService.delete(opWord.get().getUrlImage());
 			}
-			return ResponseEntity.ok(wService.updateWord(w, file, id));
+
+			return ResponseEntity.ok(responseWordDTO);
+
+//			if (file != null) {
+//				// Eliminamos la imagen anterior del almacenamiento
+//				storeService.delete(opWord.get().getUrlImage());
+//			}
+//			return ResponseEntity.ok(wService.updateWord(w, file, id));
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		}
