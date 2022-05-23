@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -151,7 +152,7 @@ public class QuestionAnswerController {
 			Collections.shuffle(qList);
 			// Se limitan al número establecido máximo en el test
 			List<ResponseQuestionDTO> qListLimited = qList.stream().limit(KanpekiConstants.QUESTIONS_PER_TEST_LIMIT)
-					.toList();
+					.collect(Collectors.toList());
 			// Barajamos las respuestas
 			for (ResponseQuestionDTO q : qListLimited) {
 				List<AnswerDTO> shuffleList = new ArrayList<>(q.getAnswers());

@@ -2,6 +2,7 @@ package com.dam.kanpeki.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -57,7 +58,7 @@ public class QuestionServiceImpl implements QuestionServiceI {
 	@Override
 	public ResponseQuestionDTO addQuestion(RequestQuestionDTO q) {
 		// Verificamos que solamente tiene asignada una respuesta como correcta
-		if (q.getAnswers().stream().filter(a -> a.getIsCorrect()).toList().size() > 1) {
+		if (q.getAnswers().stream().filter(a -> a.getIsCorrect()).collect(Collectors.toList()).size() > 1) {
 			throw new QuestionOnlyOneCorrectAnswerException();
 		}
 		// Verificamos si la categoría existe
@@ -78,7 +79,7 @@ public class QuestionServiceImpl implements QuestionServiceI {
 	@Override
 	public ResponseQuestionDTO updateQuestion(RequestQuestionDTO q, Long id) {
 		// Verificamos que solamente tiene asignada una respuesta como correcta
-		if (q.getAnswers().stream().filter(AnswerDTO::getIsCorrect).toList().size() > 1) {
+		if (q.getAnswers().stream().filter(AnswerDTO::getIsCorrect).collect(Collectors.toList()).size() > 1) {
 			throw new QuestionOnlyOneCorrectAnswerException();
 		}
 
