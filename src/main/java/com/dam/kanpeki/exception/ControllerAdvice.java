@@ -86,6 +86,17 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 	}
 
 	/**
+	 * Excepción cuando no se ha podido enviar el email
+	 *
+	 */
+	@ExceptionHandler(EmailServerException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public ResponseEntity<ApiError> handleEmailServerException(EmailServerException ex) {
+		ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError);
+	}
+
+	/**
 	 * Excepción cuando ya existe otro usuario registrado con ese nickname
 	 *
 	 */

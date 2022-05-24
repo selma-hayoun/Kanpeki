@@ -20,6 +20,7 @@ import com.dam.kanpeki.model.UserRole;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
 import com.dam.kanpeki.service.UserServiceI;
+import com.dam.kanpeki.service.impl.EmailService;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +35,9 @@ public class RegistrationController {
 
 	@Autowired
 	private UserServiceI uService;
+
+	@Autowired
+	private EmailService eService;
 
 	@ApiOperation(value = "addNewUser", notes = "Create a new user")
 	@ApiResponses(value = {
@@ -54,7 +58,14 @@ public class RegistrationController {
 		roles.add(UserRole.PENDING_APPROVAL);
 		u.setRoles(roles);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
+		ResponseUserDTO savedUser = uService.addUser(u, file);
+		if (savedUser != null) {
+			eService.sendRegistrationMail(u.getEmail());
+		}
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+
+//		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
 
 	}
 
@@ -78,7 +89,14 @@ public class RegistrationController {
 		roles.add(UserRole.PENDING_APPROVAL);
 		u.setRoles(roles);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
+		ResponseUserDTO savedUser = uService.addUser(u, file);
+		if (savedUser != null) {
+			eService.sendRegistrationMail(u.getEmail());
+		}
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+
+//		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
 
 	}
 

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -24,12 +25,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dam.kanpeki.exception.DataNotFoundException;
 import com.dam.kanpeki.exception.ParameterIncorrectFormatException;
 import com.dam.kanpeki.model.User;
+import com.dam.kanpeki.model.UserRole;
 import com.dam.kanpeki.model.dto.RequestUpdateUserDTO;
 import com.dam.kanpeki.model.dto.RequestUserDTO;
 import com.dam.kanpeki.model.dto.ResponseUserDTO;
 import com.dam.kanpeki.model.dto.mapper.UserDTOMapperStruct;
 import com.dam.kanpeki.service.FileSystemStorageServiceI;
 import com.dam.kanpeki.service.UserServiceI;
+import com.dam.kanpeki.service.impl.EmailService;
 import com.dam.kanpeki.utils.KanpekiConstants;
 
 import io.swagger.annotations.ApiOperation;
@@ -53,6 +56,9 @@ public class UserController {
 
 	@Autowired
 	private UserDTOMapperStruct mapper;
+
+	@Autowired
+	private EmailService eService;
 
 	@ApiOperation(value = "getUsers", notes = "Get all users from our database")
 	@ApiResponses(value = {
@@ -197,6 +203,18 @@ public class UserController {
 				storeService.delete(opUser.get().getUrlImage());
 			}
 
+			// Si se cambia el tipo de usuario desde PENDING_APPROVAL a USER, mandamos email
+			if (!opUser.get().getRoles().stream().filter(role -> role.equals(UserRole.PENDING_APPROVAL))
+					.collect(Collectors.toList()).isEmpty()
+					&& !u.getRoles().stream().filter(role -> role.equals(UserRole.USER)).collect(Collectors.toList())
+							.isEmpty()) {
+				// Si alguno de los roles anteriores es PENDING_APPROVAL y alguno de los nuevos
+				// es USER
+
+				eService.sendActivationMail(responseUserDTO);
+
+			}
+
 			return ResponseEntity.ok(responseUserDTO);
 
 //			if (file != null) {
@@ -237,6 +255,18 @@ public class UserController {
 			if (responseUserDTO != null && file != null) {
 				// Eliminamos la imagen anterior del almacenamiento
 				storeService.delete(opUser.get().getUrlImage());
+			}
+
+			// Si se cambia el tipo de usuario desde PENDING_APPROVAL a USER, mandamos email
+			if (!opUser.get().getRoles().stream().filter(role -> role.equals(UserRole.PENDING_APPROVAL))
+					.collect(Collectors.toList()).isEmpty()
+					&& !u.getRoles().stream().filter(role -> role.equals(UserRole.USER)).collect(Collectors.toList())
+							.isEmpty()) {
+				// Si alguno de los roles anteriores es PENDING_APPROVAL y alguno de los nuevos
+				// es USER
+
+				eService.sendActivationMail(responseUserDTO);
+
 			}
 
 			return ResponseEntity.ok(responseUserDTO);

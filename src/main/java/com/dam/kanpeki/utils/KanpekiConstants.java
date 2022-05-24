@@ -30,6 +30,10 @@ public class KanpekiConstants {
 
 	public static final String TABLE_RESULTS_NAME = " Results ";
 
+	public static final String EMAIL = "kanpeki.japanese@gmail.com";
+
+	public static final String API_ENCODING = "utf-8";
+
 	/**
 	 * Mappings
 	 */
@@ -289,6 +293,8 @@ public class KanpekiConstants {
 	public static final String INVALID_REFERENCES_RESULT_EX_CATEGORY_NOT_IS_QUESTION = "Category id provided is not a questions category";
 
 	public static final String QUESTION_ONE_CORRECT_ANSWER_EX_STRING = "A question only can have one correct answer";
+
+	public static final String EMAIL_SERVICE_EX = "Email Service Error: There have been problems sending the informative email.";
 
 	/**
 	 * Exceptions messages: data validation
