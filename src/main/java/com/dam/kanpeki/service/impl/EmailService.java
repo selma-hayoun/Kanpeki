@@ -54,8 +54,12 @@ public class EmailService {
 
 			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, KanpekiConstants.API_ENCODING);
-			String htmlMsg = "<h3>こんにちは!</h3>" + "<p>Su cuenta será validada en breve (24-72 horas).</p>"
-					+ "<p>Cualquier problema contacte con: kanpeki.japanese@gmail.com</p>" + "<b>またね!</b>";
+			String htmlMsg = "<h3 style=\"color:#FF4769\">こんにちは!</h3>"
+					+ "<p style=\"color:#B74390\">Su cuenta será validada en breve (24-72 horas).</p>"
+					+ "<p style=\"color:#B74390\">Cualquier problema contacte con: kanpeki.japanese@gmail.com</p>"
+					+ "<h3 style=\"color:#FF4769\"><b>またね!</b></h3>" + "<br/><br/>"
+					+ "<p style=\"color:#B74390\">-- -- --</p>" + "<p style=\"color:#FF4769\"><b>Equipo Kanpeki</b></p>"
+					+ "<p style=\"color:#FF4769\">www.kanpeki.es</p>";
 			// mimeMessage.setContent(htmlMsg, "text/html");//Otra forma de configurarlo
 			helper.setText(htmlMsg, true);
 			helper.setTo(toEmail);
@@ -89,9 +93,14 @@ public class EmailService {
 
 			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, KanpekiConstants.API_ENCODING);
-			String htmlMsg = "<h3>こんにちは!</h3>"
-					+ "<p>Ya puedes acceder a los recursos de estudio y hacer tu primer test. <b>がんばれ!</b></p>"
-					+ "<p>Cualquier problema contacte con: kanpeki.japanese@gmail.com</p>" + "<b>またね!</b>";
+			String htmlMsg = "<h3 style=\"color:#FF4769\">こんにちは!</h3>"
+					+ "<p style=\"color:#B74390\">Ya puedes acceder a los recursos de estudio y hacer tu primer test. <b>がんばれ!</b></p>"
+					+ "<button style=\"color:#FF4769\" type=\"button\">"
+					+ "<a style=\"text-decoration: none; color:#FF4769\" href='https://www.kanpeki.es'>Kanpeki Website</a></button>"
+					+ "<p style=\"color:#B74390\">Cualquier problema contacte con: kanpeki.japanese@gmail.com</p>"
+					+ "<h3 style=\"color:#FF4769\"><b>またね!</b></h3>" + "<br/><br/>"
+					+ "<p style=\"color:#B74390\">-- -- --</p>" + "<p style=\"color:#FF4769\"><b>Equipo Kanpeki</b></p>"
+					+ "<p style=\"color:#FF4769\">www.kanpeki.es</p>";
 			helper.setText(htmlMsg, true);
 			helper.setTo(u.getEmail());
 			helper.setSubject(subject);

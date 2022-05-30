@@ -119,10 +119,10 @@ INSERT INTO questions(id, statement, help, category_id) VALUES(20, 'やまださ
 
 /*Table answers*/
 /*Question 1*/
-INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(1, 'ひとり', '', 1, 1);
-INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(2, 'ひたり', '', 0, 1);
-INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(3, 'ふとり', '', 0, 1);
-INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(4, 'ふたり', '', 0, 1);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(1, '一人 - ひとり', '', 1, 1);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(2, '一人 - ひたり', '', 0, 1);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(3, '一人 - ふとり', '', 0, 1);
+INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(4, '一人 - ふたり', '', 0, 1);
 /*Question 2*/
 INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(5, 'おとさん', '', 0, 2);
 INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(6, 'おどさん', '', 0, 2);
@@ -303,6 +303,8 @@ INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, l
 INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(3, '', '1990-10-28', 'Madrid', '2020-04-01', 'bbbbb@gmail.com', 'Lucas Martinez Cuenca', '2022-04-01', 'Sakura', '$2a$10$Ddwvpaay7TzGtsjsEx5SauLWndOLQSxnUpqDSmrG.cyjYMaqFBeVK');
 /*TEST3 - C4c4hu3t3** */
 INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(4, '', '2001-05-01', 'Salamanca', '2020-04-01', 'ccccc@gmail.com', 'Paloma De la Mata Lunero', '2022-04-01', 'Hokkaido', '$2a$10$gvtnJsGaBcBa8MjwcmIvAO.602xPRbv6qADZ2XfYUvljREL6M25im');
+/*TEST4 - M1gu3lM0l4!! */
+INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(5, '', '2022-05-28', 'Córdoba', '2022-05-28', 'mikethunderavenger@gmail.com', 'Killer', '2022-05-28', 'Kong', '$2a$10$vyiw9RF/zvsLxX38EmdNC.Oj0KDkJxrfWYYg9dfubRgjs2c9nZe8K');
 
 /*Table User_roles*/
 INSERT INTO user_roles(user_id, roles) VALUES(1, 'ADMIN');
@@ -311,6 +313,7 @@ INSERT INTO user_roles(user_id, roles) VALUES(1, 'ADMIN');
 INSERT INTO user_roles(user_id, roles) VALUES(2, 'USER');
 INSERT INTO user_roles(user_id, roles) VALUES(3, 'USER');
 INSERT INTO user_roles(user_id, roles) VALUES(4, 'USER');
+INSERT INTO user_roles(user_id, roles) VALUES(5, 'USER');
 
 /*Table results*/
 /*User 2*/
