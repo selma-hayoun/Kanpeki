@@ -65,8 +65,6 @@ public class RegistrationController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 
-//		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
-
 	}
 
 	@ApiOperation(value = "addNewUser", notes = "Create a new user")
@@ -95,8 +93,6 @@ public class RegistrationController {
 		}
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
-
-//		return ResponseEntity.status(HttpStatus.CREATED).body(uService.addUser(u, file));
 
 	}
 

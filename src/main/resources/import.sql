@@ -299,8 +299,8 @@ INSERT INTO answers(id, response, furigana, is_correct, question_id) VALUES(140,
 INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(1, '', '2022-04-01', 'Kyoto', '2022-04-01', 'selma.hayoun.caballero@gmail.com', 'admin', '2022-04-01', 'admin', '$2a$10$QxHQlcNgqf4.94D/7Vratuw1q/GeKBQAVKn3rmEGt3Pw652MJzkC6');
 /*TEST1 - C4c4hu3t3$$ */
 INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(2, '', '1989-12-31', 'Córdoba', '2000-01-01', 'aaaaa@gmail.com', 'Marisol Ruiz Cabrales', '2022-04-01', 'KanjiAditc', '$2a$10$T5/lAd9vNZlYNIXcRhp.Zu6DbOVAg06o7lymdfCvAnx2aTzAqXC1S');
-/*TEST2 - C4c4hu3t3&& */
-INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(3, '', '1990-10-28', 'Madrid', '2020-04-01', 'bbbbb@gmail.com', 'Lucas Martinez Cuenca', '2022-04-01', 'Sakura', '$2a$10$Ddwvpaay7TzGtsjsEx5SauLWndOLQSxnUpqDSmrG.cyjYMaqFBeVK');
+/*TEST2 - M1gu3lM0l4!! */
+INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(3, '', '1990-10-28', 'Madrid', '2020-04-01', 'bbbbb@gmail.com', 'Lucas Martinez Cuenca', '2022-04-01', 'Sakura', '$2a$10$vyiw9RF/zvsLxX38EmdNC.Oj0KDkJxrfWYYg9dfubRgjs2c9nZe8K');
 /*TEST3 - C4c4hu3t3** */
 INSERT INTO users(id, url_image, birthday, city, created_at, email, full_name, last_password_change_at, nickname, password) VALUES(4, '', '2001-05-01', 'Salamanca', '2020-04-01', 'ccccc@gmail.com', 'Paloma De la Mata Lunero', '2022-04-01', 'Hokkaido', '$2a$10$gvtnJsGaBcBa8MjwcmIvAO.602xPRbv6qADZ2XfYUvljREL6M25im');
 /*TEST4 - M1gu3lM0l4!! */

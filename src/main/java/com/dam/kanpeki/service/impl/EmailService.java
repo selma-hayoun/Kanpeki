@@ -22,7 +22,6 @@ public class EmailService {
 	}
 
 	public void sendMail(String toEmail, String subject, String message) {
-
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 
 		mailMessage.setTo(toEmail);
@@ -37,21 +36,7 @@ public class EmailService {
 	public void sendRegistrationMail(String toEmail) {
 		String subject = "¡Bienvenido a Kanpeki!";
 
-//		String message = "/nこんにちは!" + "/nSu cuenta será validada en breve (24-72 horas)."
-//				+ "/nCualquier problema contacte con: kanpeki.japanese@gmail.com" + "/n/nまたね!";
-
-//		SimpleMailMessage mailMessage = new SimpleMailMessage();
-//
-//		mailMessage.setTo(toEmail);
-//		mailMessage.setSubject(subject);
-//		mailMessage.setText(message);
-//
-//		mailMessage.setFrom(KanpekiConstants.EMAIL);
-//
-//		javaMailSender.send(mailMessage);
-
 		try {
-
 			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, KanpekiConstants.API_ENCODING);
 			String htmlMsg = "<h3 style=\"color:#FF4769\">こんにちは!</h3>"
@@ -76,21 +61,7 @@ public class EmailService {
 	public void sendActivationMail(ResponseUserDTO u) {
 		String subject = "¡Su cuenta ha sido activada!";
 
-//		String message = "/nこんにちは!" + "/nYa puedes acceder a los recursos de estudio y hacer tu primer test. がんばれ!"
-//				+ "/nCualquier problema contacte con: kanpeki.japanese@gmail.com" + "/n/nまたね!";
-//
-//		SimpleMailMessage mailMessage = new SimpleMailMessage();
-//
-//		mailMessage.setTo(u.getEmail());
-//		mailMessage.setSubject(subject);
-//		mailMessage.setText(message);
-//
-//		mailMessage.setFrom(KanpekiConstants.EMAIL);
-//
-//		javaMailSender.send(mailMessage);
-
 		try {
-
 			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, KanpekiConstants.API_ENCODING);
 			String htmlMsg = "<h3 style=\"color:#FF4769\">こんにちは!</h3>"

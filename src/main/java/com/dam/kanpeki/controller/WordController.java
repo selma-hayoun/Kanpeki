@@ -168,12 +168,6 @@ public class WordController {
 
 			return ResponseEntity.ok(responseWordDTO);
 
-//			if (file != null) {
-//				// Eliminamos la imagen anterior del almacenamiento
-//				storeService.delete(opWord.get().getUrlImage());
-//			}
-//			return ResponseEntity.ok(wService.updateWord(w, file, id));
-
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		}
@@ -188,9 +182,7 @@ public class WordController {
 			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
-	@RequestMapping(value = "/word/v2/{id}", produces = { "application/json" },
-//			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE },
-			method = RequestMethod.PUT)
+	@RequestMapping(value = "/word/v2/{id}", produces = { "application/json" }, method = RequestMethod.PUT)
 	public ResponseEntity<ResponseWordDTO> updateWordV2(
 			@Valid @Parameter(description = "Word attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestWordDTO w,
 			@Parameter(description = "Word image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file,
@@ -208,12 +200,6 @@ public class WordController {
 			}
 
 			return ResponseEntity.ok(responseWordDTO);
-
-//			if (file != null) {
-//				// Eliminamos la imagen anterior del almacenamiento
-//				storeService.delete(opWord.get().getUrlImage());
-//			}
-//			return ResponseEntity.ok(wService.updateWord(w, file, id));
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
 		}

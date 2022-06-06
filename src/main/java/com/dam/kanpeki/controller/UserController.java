@@ -214,15 +214,7 @@ public class UserController {
 				eService.sendActivationMail(responseUserDTO);
 
 			}
-
 			return ResponseEntity.ok(responseUserDTO);
-
-//			if (file != null) {
-//				// Eliminamos la imagen anterior del almacenamiento
-//				storeService.delete(opUser.get().getUrlImage());
-//			}
-//
-//			return ResponseEntity.ok(uService.updateUser(u, file, id));
 
 		} else {
 			throw new DataNotFoundException(KanpekiConstants.EMPTY_STRING);
@@ -238,9 +230,7 @@ public class UserController {
 			@ApiResponse(code = 403, message = KanpekiConstants.CONTROLLER_MSG_403),
 			@ApiResponse(code = 404, message = KanpekiConstants.CONTROLLER_MSG_404),
 			@ApiResponse(code = 500, message = KanpekiConstants.CONTROLLER_MSG_500) })
-	@RequestMapping(value = "/user/v2/{id}",
-//	consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE }, 
-			produces = { "application/json" }, method = RequestMethod.PUT)
+	@RequestMapping(value = "/user/v2/{id}", produces = { "application/json" }, method = RequestMethod.PUT)
 	public ResponseEntity<ResponseUserDTO> updateUserV2(
 			@Valid @Parameter(description = "User attributes", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @ModelAttribute RequestUpdateUserDTO u,
 			@Parameter(description = "User image file", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @RequestPart(value = "file", required = false) MultipartFile file,
